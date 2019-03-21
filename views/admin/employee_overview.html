@@ -1,0 +1,97 @@
+<!-- <div ng-include src="'views/admin/employee.html'"></div> -->
+<div ng-include src="'views/admin/admin.html'"></div>
+<div id="page-wrapper" style="min-height: 670px;" ng-controller="EmployeeOverviewCtrl" data-ng-init="init()">
+    <div class="row">
+        <!-- Start Header -->
+        <!-- <div ng-include src="'views/admin/overview_header.html'"></div> -->
+        <!-- End Header -->
+        <div class="row">
+            <div class="col-lg-12" style="padding-bottom: 40px">
+                <div class="col-lg-12">
+                    <div class="panel panel-announcement">
+                    </div>
+                </div>
+                <div class="col-lg-6" ng-show="showOverviewCard">
+                    <div ng-include src="'views/admin/home_project_overview.html'"></div>
+
+                    <div class="row" ng-if="(teamModel.userapprovalrequired+teamModel.userrequireschanges) > 0 ? true: false">
+                        <div class="col-lg-12">
+                            <div class="card-apr bshadow-dark">
+                                <div class="icon white"><i class="fa fa-user"></i></div>
+                                <div class="content">
+                                    <span class="disp-block mr-b-10">
+                                        <strong class="text link pad-tb-5" ng-if="(teamModel.userapprovalrequired > 0 ? true: false)" ng-click="redirectToProject('approval_required')">Requires Approval: {{teamModel.userapprovalrequired}} Project{{teamModel.userapprovalrequired > 1 ? 's':''}}</strong>
+                                    </span>
+                                    <span class="disp-block mr-t-5">
+                                        <strong class="text link pad-tb-5" ng-if="(teamModel.userrequireschanges > 0 ? true: false)" ng-click="redirectToProject('draft')"> Changes Required: {{teamModel.userrequireschanges}} Project{{teamModel.userrequireschanges > 1 ? 's':''}}</strong>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--<div class="row" ng-if="(teamModel.userrequireschanges > 0 ? true: false)">
+                        <div class="col-lg-12">
+                            <div class="card-apr bshadow-dark">
+                                <div class="icon"><i class="fa fa fa-bell-o"></i></div>
+                                <div class="content">
+                                    <strong class="text">{{teamModel.userrequireschanges}} project{{teamModel.userrequireschanges > 1 ? 's':''}} requires your changes.</strong>
+                                    <div class="links">
+                                        <span class="link text-badge blue" ng-click="redirectToProject('draft')">Projects</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>-->
+
+                </div>
+                <!--                 <div class="col-lg-8" style="display:none">
+                    <div class="col-lg-12">
+                        <div class="card blue">
+                            <div class="title">Approval Required</div>
+                            <div class="content">1</div>
+                        </div>
+                        <div class="card red">
+                            <div class="title">In Field</div>
+                            <div class="content">2</div>
+                        </div>
+                        <div class="card green">
+                            <div class="title">Completed</div>
+                            <div class="content">8</div>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="col-lg-6" ng-if="displayActivity">
+                    <div class="panel panel-primary animated fadeIn">
+                        <div class="panel-heading mr-b-5">
+                            <h4 class="panel-title">Recent Activity</h4>
+                        </div>
+                        <div class="panel-body horizontal-padding" style="padding: 0px;">
+                            <div class="row clearfix pad-tb-5" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="activity in employeeActivities" >
+                                <div class="col-lg-12">
+                                    <div class="row clearfix">
+                                        <div class="" style="width: 9%; display: inline-block;float: left;">
+                                            <div class="circle xx-small h-center" ng-class="activity.colorClass">{{activity.initials}}</div>
+                                        </div>
+                                        <div class="" style="width: 84%; float:left; padding-top:6px">
+                                            <div class="slideInRight animated" style="color:#333">
+                                                <div class="pull-left">{{activity.activitydescription}}</div>
+                                                <div class="pull-right" style="color:#337ab7;font-style:italic">{{activity.formattedDate}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!--.timeline-->
+                            <div class="text-center" style="margin-bottom:10px">
+                                <button class="btn btn-primary" ng-click="showActivityPage()">More Info</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,119 @@
+@import "../variables";
+@import "mixins";
+
+.action-bar{
+  margin-left: 232px !important;
+  margin-right: 28px !important;
+  background: rgba(254,254, 250, 0.9);//#FEFEFA;
+  box-shadow: 1px 2px 10px 5px #777;
+  min-height: 30px !important;
+  line-height: 30px;
+  border: 0px !important;
+  .container{
+    margin: 0px;
+    padding: 0px;
+    width: 100% !important;
+    .row{
+      .col-left{
+        padding: 0px !important;
+        width: 75% !important;
+        float: left;
+      }
+      .col-right{
+        width: 20% !important;
+        float: right;
+        text-align: right;
+      }
+    }
+  }
+  &.full-wd{
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    width: 100% !important;
+  }
+
+  .action-box{
+    margin: 0px;
+    padding: 0px 10px !important;
+    border: 0px;
+    line-height: 30px !important;
+    text-align: center;
+    font-size: $font-size-base;
+    color: #555;
+    min-height: 30px;
+    float: left;
+    //margin: 0px 2px !important;
+    cursor: pointer;
+    letter-spacing: 1px;
+    font-weight: 400;
+    i{
+      margin-right: 3px;
+    }
+    &:hover{
+      font-weight: 500;
+      background: #FFFFFF;
+      transition: 0.5s;
+      &.shadow{
+        box-shadow: 0px 1px 5px 1px #999999;
+        transition: 0.5s;
+      }
+    }
+    &.cgreen{
+      background: darken(#93C572, 5%);
+      color: #EFEFEF;
+      transition: 0.5s;
+      &:hover, &:focus, &:active{
+        background: darken(#93C572, 10%);
+
+        color: #FFFFFF;
+        transition: 0.5s;
+        &.shadow{
+          box-shadow: 0px 1px 5px 1px #93C572;
+        }
+      }
+    }
+    &.cred{
+      background: lighten(#FF5349, 4%);
+      color: #EFEFEF;
+      transition: 0.5s;
+      &:hover, &:focus, &:active{
+        background: darken(#FF5349, 3%);
+        color: #FFFFFF;
+        transition: 0.5s;
+        &.shadow{
+          box-shadow: 0px 1px 5px 1px #FF5349;
+        }
+      }
+    }
+    &.cblue{
+      background: lighten(#205081, 5%);
+      color: #EFEFEF;
+      transition: 0.5s;
+      &:hover, &:focus, &:active{
+        background: darken(#205081, 5%);
+
+        color: #FFFFFF;
+        transition: 0.5s;
+        &.shadow{
+          box-shadow: 0px 1px 5px 1px #255d95;
+        }
+      }
+    }
+    &.cgray{
+      background: #555555;
+      color: #EFEFEF;
+      transition: 0.5s;
+      &:hover, &:focus, &:active{
+        background: darken(#555555, 5%);
+        color: #FFFFFF;
+        transition: 0.5s;
+        &.shadow{
+          box-shadow: 0px 1px 5px 1px #555555;
+        }
+      }
+    }
+    &.brdr{
+      border-right: 1px solid #ddd !important;
+    }
+  }
+}

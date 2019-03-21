@@ -1,0 +1,68 @@
+<div class="row">
+    <!-- The hardcoded overview begin -->
+    <!--<div class="container">-->
+    <div>
+        <!-- show if the team date cannot be fetched -->
+        <div class="col-lg-12">{{teamDataErrorMsg}}</div>
+        <!-- show the team data -->
+        <div class="col-lg-12">
+            <div class="panel panel-primary animated fadeIn" ng-click="changeLocationPathAndSetTeamname()">
+                <div class="panel-heading">
+                    <div class="panel-title">{{teamName}}</div>
+                </div>
+                <div class="panel-body">
+                    <div class="row col-md-12">
+                        <div class="col-md-6">
+                            <!-- <div style="position:relative;color:#6a6c6f;font-size:16px">
+                            <span>Balance</span>
+                            <span>{{teamModel.balance}}</span>
+                        </div> -->
+                            <donut-chart data="myData"></donut-chart>
+                        </div>
+                        <div class="col-md-6">
+                            <div>
+                                <div style="margin-bottom:10px;padding-bottom:5px;border-bottom:thin solid #999">
+                                    <span style="font-weight:bold">Projects:</span>
+                                    <span style="font-weight:bold" class="pull-right">{{teamModel.totalnumprojects}}</span>
+                                </div>
+                                <div class="" style="margin-bottom:10px">
+                                    <span class="badge badge-blue badge-empty" style="margin-right:5px"></span>
+                                    <span class="">DRAFTS</span>
+                                    <span class="pull-right">{{teamModel.draft}}</span>
+                                </div>
+                                <div class="" style="margin-bottom:10px">
+                                    <span class="badge badge-orange badge-empty" style="margin-right:5px"></span>
+                                    <span class="">APPROVAL REQUIRED</span>
+                                    <span class="pull-right">{{teamModel.approvalrequired}}</span>
+                                </div>
+                                <div class="" style="margin-bottom:10px">
+                                    <span class="badge badge-yellow badge-empty" style="margin-right:5px"></span>
+                                    <span class="">IN REVIEW</span>
+                                    <span class="pull-right">{{teamModel.approved}}</span>
+                                </div>
+                                <div class="" style="margin-bottom:10px">
+                                    <span class="badge badge-pink badge-empty" style="margin-right:5px"></span>
+                                    <span class="">REQUIRES CHANGES</span>
+                                    <span class="pull-right">{{teamModel.requireschanges}}</span>
+                                </div>
+                                <div class="" style="margin-bottom:10px">
+                                    <span class="badge badge-purple badge-empty" style="margin-right:5px"></span>
+                                    <span class="">LAUNCHED</span>
+                                    <span class="pull-right">{{teamModel.inprogress}}</span>
+                                </div>
+                                <div class="">
+                                    <span class="badge badge-palegreen badge-empty" style="margin-right:5px"></span>
+                                    <span class="">COMPLETED</span>
+                                    <span class="pull-right">{{teamModel.completed}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-offset-3 col-md-6" ng-show="isAdmin">
+                <button class="btn btn-default btn-block" ng-click="showTeamsOptionsModal()" style="text-transform:none !important;padding-top:6px !important;padding-bottom:6px !important">Select Another Team</button>
+            </div>
+        </div>
+    </div>
+</div>

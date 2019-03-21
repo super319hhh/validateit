@@ -1,0 +1,141 @@
+@import "../variables";
+@import "mixins";
+
+#community-wrap, #another-community{
+  position: relative;
+
+  #block-wrap{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    background: rgba(255,255,255,0.6);
+    z-index: 999;
+    &.show{
+      display: block;
+    }
+    &.hide{
+      display: none;
+    }
+  }
+
+  .panel{
+    &.panel-primary-collapsible{
+      margin-left: 0px;
+
+      .panel-heading{
+        height: 30px;
+        font-size: 13px;
+        padding: 0px 15px;
+        line-height: 30px;
+        background: #ddd;
+        color: #888 !important;
+        font-weight: 400;
+      }
+
+      .summary{
+        background: #f0f0f0;
+        padding: 5px 0px;
+        @include border-radius(0px, 0px, 2px, 2px);
+        div{
+          float: left;
+          width: 25%;
+          &:last-child{
+            float: right;
+          }
+          span{
+            display: inline-block;
+            font-weight: 400;
+            padding-left: 15px;
+            &:first-child{
+              font-weight: 500;
+              display: block;
+              color: #888;
+            }
+            &:last-child{
+              color: #888 !important;
+              font-weight: 300;
+            }
+          }
+          &:last-child{
+            //text-align: right;
+          }
+        }
+      }
+
+      .country-wrap{
+        .country{
+          &-flag {
+            vertical-align: bottom;
+          }
+          &-input{
+            display: inline-block;
+            height: 26px;
+            margin-left: 4px;
+            margin-top: 5px;
+            line-height: 23px;
+            vertical-align: top;
+          }
+        }
+      }
+      .community{
+        &-label{
+          display: block;
+        }
+        &-desc{
+          margin-top: 5px;
+          label{
+            display: block;
+          }
+        }
+      }
+      .age-range-wrap{
+        /*padding-left: 0px;
+        padding-right: 0px;*/
+        margin-bottom: 0px;
+        .disabled{
+          cursor: not-allowed;
+          opacity: 0.8;
+        }
+        .age-range-label{
+          varticle-align: top;
+          display: inline-block;
+          line-height: 21px;
+        }
+      }
+      .respondent-wrap{
+        margin-bottom: 0px;
+        label{
+          display: table;
+        }
+      }
+      .gender-wrap{
+        label{
+          vertical-align: top;
+        }
+        .gender-label{
+          display: inline-block;
+          line-height: 21px;
+        }
+      }
+
+      .alert{
+        &.alert {
+          &-success {
+            padding: 10px 15px;
+            margin: 0 auto 10px auto;
+            border-radius: 0px;
+          }
+          &-danger{
+            padding: 10px 15px;
+            margin: 0 auto 10px auto;
+            border-radius: 0px;
+          }
+        }
+      }
+
+    }
+  }
+
+}

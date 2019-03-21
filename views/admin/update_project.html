@@ -1,0 +1,444 @@
+
+<div class="row" id="updateWizard" ng-controller="ProjectEdit" ng-init="init()">
+    <div class="row" ng-show="showProjectUpdateForm">
+
+        <div class="wizard mr-lr-15" ng-style="wizardWd" ng-class="projectNote.details.class">
+            <div class="wizard-inner">
+                <button class="btn btn-primary arrow to-left small" ng-click="backToProjectDetails(projectID)" style="position: absolute;top: -33px;right: 0px;">Back To Draft</button>
+                <div class="row">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" ng-class="{'disabled': config.disabledButtons[0] ,'active':!config.disabledButtons[0]}">
+                            <a data-toggle="tab" aria-controls="step1" role="tab" title="Step 1">
+                                <span class="round-tab-35">
+                                    <i class="glyphicon glyphicon-folder-open"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li role="presentation" ng-class="{'disabled': config.disabledButtons[1],'active':!config.disabledButtons[1]}">
+                            <a data-toggle="tab" aria-controls="step3" role="tab" title="Step 3">
+                                <span class="round-tab-35">
+                                    <i class="glyphicon glyphicon-picture"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li role="presentation" ng-class="{'disabled': config.disabledButtons[2],'active':!config.disabledButtons[2]}">
+                            <a data-toggle="tab" aria-controls="complete" role="tab" title="Complete">
+                                <span class="round-tab-35">
+                                    <i class="glyphicon glyphicon-ok"></i>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>  <!-- End wizard-inner -->
+            <form role="form" ng-show="config.sh.updateProjectForm" style="position: relative;" novalidate>
+                <button class="btn btn-primary arrow to-left small" ng-click="backToProjectDetails(projectID)" style="position: absolute;bottom: -35px;right: 0px;">Back To Draft</button>
+
+                <div class="tab-content">
+                    <div class="tab-pane" ng-class="{'active':!config.disabledButtons[0]}" role="tabpanel" id="step1">
+                        <div class="col-lg-6" ng-class="config.appearance.first">
+                            <h3>Step 1: Project Information</h3>
+                        </div>
+                        <div class="col-lg-6 txt-al-r" ng-class="config.appearance.first">
+                            <button class="btn btn-primary" style="cursor: pointer;" ng-click="projectNoteSlider()">
+                                <i class="fa fa-comment" style="vertical-align: top;padding-top: 2px;"></i> Add Note
+                            </button>
+                            <div class="row txt-al-l" style="border: 3px solid #999;border-radius: 5px;padding: 5px 0px; margin-bottom: 10px; margin-top: 5px;">
+                                <div class="col-lg-6">
+                                    <div class="row"><div class="col-lg-9 pad-0">Number of Questions:</div><div class="col-lg-3 txt-al-r pad-0" style="font-size: 16px;color: #337ab7;">{{project.questions}}</div></div>
+                                    <div class="row"><div class="col-lg-9 pad-0">Total Respondents:</div><div class="col-lg-3 txt-al-r pad-0" style="font-size: 16px;color: #337ab7;">{{project.totalRespondents}}</div></div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="row"><div class="col-lg-9 pad-0">Estimated Cost:</div><div class="col-lg-3 txt-al-r pad-0" style="font-size: 16px;color: #337ab7;">${{project.cost}}</div></div>
+                                    <div class="row"><div class="col-lg-9 pad-0">Estimated Time:</div><div class="col-lg-3 txt-al-r pad-0" style="font-size: 16px;color: #337ab7;">0 days</div></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-8" ng-class="config.appearance.first">
+                                <div class="form-group form-group-sm mr-b-10" ng-class="{ 'has-error' : fieldError.projectName}">
+                                    <label>Project Name:</label>
+                                    <input type="input" class="form-control" id="text" ng-model="project.projectName" ng-blur="onChangeProjectName()" value="{{project.projectName}}" autofocus>
+                                    <div ng-show="emptyProjectNameErrorFlag">
+                                        <h5 class="login-error">Please enter a valid Project Name.</h5></div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4" ng-class="config.appearance.first">
+                                <div class="col-lg-12 form-group form-group-sm pad-l-0  mr-b-10" ng-class="{ 'has-error' : fieldError.questions}">
+                                    <label>Number of Questions:</label>
+                                    <select name="qSelect" class="form-control" ng-model="project.questions" ng-options="option for option in questions" ng-change="questionSelectorChanged()">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 pad-lr-15" ng-class="config.appearance.first">
+                                <div class="form-group form-group-sm mr-b-10" ng-class="{ 'has-error' : fieldError.projectDescription}">
+                                    <label>Project Description:</label>
+                                    <textarea name="project-description" class="form-control" rows="1" ng-model="project.projectDescription" ng-blur="onChangeProjectDescription()">{{project.projectDescription}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-11">
+                                <label><span style="vertical-align:middle">Community: </span><i class="fa fa-question-circle" style="font-size:1.5em;vertical-align:middle" tooltip="Description to be added." tooltip-animation="true" tooltip-placement="right"></i></label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12" style="">
+                                <div style="padding-left: 15px;border: 1px solid #999;margin: 0px 15px 15px 15px;padding: 15px 5px 15px 10px;border-radius: 2px;padding-left: 15px; border: 1px solid #999; background: #FBFBFB;">
+                                    <!-- Directive -->
+                                    <community-box></community-box>
+
+                                    <div class="row mr-b-15" ng-show="showCommunityForm">
+                                        <new-community-form></new-community-form>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5">
+                                            <button type="button" class="btn btn-primary btn-sm" ng-show="addMoreCommunity.showBtn" ng-class="addMoreCommunity.disableBtn" ng-disabled="addMoreCommunity.disableBtn" ng-click="addAnoterCommunity()">Add More</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <ul class="list-inline pull-right" style="margin-right: 10px;">
+                                <li>
+                                    <button type="button" class="btn btn-primary next-step" ng-show="newProjectProgress.saveContinueBtn.visible" ng-class="newProjectProgress.saveContinueBtn.disabled" ng-disabled="newProjectProgress.saveContinueBtn.disabled" ng-click="nextStep()">Next</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>  <!-- End of Step 1 -->
+
+                    <div class="tab-pane" ng-class="{'active':!config.disabledButtons[1]}" role="tabpanel" id="step2">
+                        <h3>Step 2: Upload Questionnaire Document and Image</h3>
+
+                        <div class="row">
+                            <div class="col-lg-12" ng-show="project.uploadDocumentFlag">
+                                <div class="col-lg-4">
+                                    <input type="file" ngf-select="" ng-model="qdocFile" name="file" required="" id="qFile" class="ng-pristine ng-invalid ng-invalid-required">
+                                </div>
+                                <div class="col-lg-5" ng-if="uploadOption.qDocument.showQuestionnaire">
+                                    <label>Questionnaire Tag:&nbsp;(Optional)&nbsp;<i class="fa fa-question-circle" style="font-size:1.5em;vertical-align:middle" tooltip="Description to be added." tooltip-animation="true" tooltip-placement="right"></i><span style="font-weight: normal;"></span></label>
+                                    <textarea name="questionnaire-note" class="form-control" rows="2" ng-model="uploadOption.qDocument.questionnaire" style="margin-top: 5px;" placeholder="Note"></textarea>
+                                </div>
+                                <div class="col-lg-2">
+                                    <button type="button" class="btn btn-primary" ng-class="uploadOption.qDocument.buttonClass" ng-click="submit()">submit</button>
+                                </div>
+                                <div class="col-lg-5" ng-if="docUploadFlags.error">
+                                    <div class="alert alert-danger fade in">{{docUploadags.message}}</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12" style="margin-left:20px;margin-right:20px">
+                                <div class="row">
+                                    <div class="col-lg-6 pad-l-0">
+                                        <div class="row" ng-repeat="qdoc in project.uploadedDocs">
+                                            <div class="col-lg-3 pad-l-0">
+                                                <div class="custom_thumb_image_wrap clearfix">
+                                                    <div class="box-thumb">
+                                                        <div class="content">
+                                                            <div ng-click="removeUploadedDoc($index)" class="close-icon">&times;</div>
+                                                            <i class="fa fa-file-word-o"></i>
+                                                        </div>
+                                                        <div class="label text-ellipsis">
+                                                            <a href="{{qdoc.link}}" target="_blank"><i class="fa fa-download"></i><span>{{qdoc.name}}</span></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-8">
+                                                <div class="form-group form-group-sm mr-b-10" ng-class="{ 'has-error' : qdoc.emptyNote}">
+                                                    <label>Questionnaire Tag:</label>
+                                                    <textarea name="questionnaire-note" class="form-control" rows="2" ng-model="project.uploadedDocs[$index].note" ng-blur="onChangeQdocDescription($index)" style="margin-top: 5px;" placeholder="Note"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Upload Images -->
+                        <div class="row" style="margin-top: 30px;">
+                            <h3>Upload Image/Video (Optional)</h3>
+                            <div class="col-lg-12">
+                                <input type="file" ngf-select="" ng-model="imageFile" name="imageFile" required="" class="ng-pristine ng-invalid ng-invalid-required">
+                                <button type="button" class="btn btn-primary" ng-class="uploadOption.image.buttonClass" ng-click="submitImage()">submit</button>
+                                <div class="custom_thumb_image_wrap clearfix">
+                                    <div class="box-thumb" ng-repeat="uploadedImage in project.uploadedImages">
+                                        <div class="content">
+                                            <div ng-click="removeUploadedImage($index, uploadedImage)" class="close-icon">&times;</div>
+                                            <img ng-src="{{uploadedImage.link}}" ng-if="uploadedImage" alt="{{uploadedImage.name}}" />
+                                        </div>
+                                        <div class="label text-ellipsis">
+                                            <a href="{{uploadedImage.link}}" target="_blank"><i class="fa fa-download"></i><span>{{uploadedImage.name}}</span></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="col-lg-12" ng-show="imageUploadFlags.error">
+                                        <div class="alert alert-danger fade in">{{imageUploadFlags.message}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- </div> -->
+                            <!-- End Image Upload -->
+                        </div>
+                        <div class="row">
+                            <ul class="list-inline pull-right" style="margin-right: 10px;">
+                                <li>
+                                    <button type="button" class="btn btn-default prev-step" ng-show="newProjectProgress.previousBtn.visible" ng-click="prevStep()">Previous</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="btn btn-primary next-step" ng-show="newProjectProgress.saveContinueBtn.visible" ng-class="newProjectProgress.saveContinueBtn.disabled" ng-disabled="newProjectProgress.saveContinueBtn.disabled" ng-click="nextStep()">Next</button>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>  <!-- End of Step 2 -->
+
+                    <div class="tab-pane" ng-class="{'active':!config.disabledButtons[2]}" role="tabpanel" id="complete">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <h3>Confirmation</h3>
+                            </div>
+                            <div class="col-lg-8 txt-al-r" ng-show="manager.display">
+                                <label>Approver :</label>&nbsp;
+                                <label class="link-color">{{manager.name}}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-11">
+                                <p>Please confirm the following information.</p>
+                            </div>
+                        </div>
+                        <div class="row mr-b-15" id="confirmation" style="padding: 10px 0px 10px 0px; border: 2px solid #a7a7a7; border-radius: 4px;">
+                            <div class="row">
+                                <div class="col-lg-7">
+                                    <label class="disp-block">Project Name:</label>
+                                    {{project.projectName}}
+                                </div>
+                                <div class="col-lg-5">
+                                    <label class="disp-block">Project Description:</label>
+                                    {{project.projectDescription}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <label class="disp-block">Total Respondents:</label>
+                                    {{project.totalRespondents}}
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="disp-block">Project Cost:</label>
+                                    {{project.cost}}
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="disp-block">Number of Question:</label>
+                                    {{project.questions}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 mr-l-15" style="">
+                                    <label>Communities:</label>
+                                </div>
+                                <div class="col-lg-12" style=" width:97%; padding-left: 15px;border: 1px solid #999;margin: 0px 15px 15px 15px;padding: 15px 5px 15px 10px;border-radius: 2px;padding-left: 15px; border: 1px solid #999; background: #FBFBFB;">
+                                    <!-- [Start] Add Communities -->
+                                    <div class="row mr-b-15" ng-repeat="community in project.communityDetails" ng-init="rowIndex = $index">
+                                        <div class="panel panel-primary-collapsible" style="margin-left: 0px;">
+                                            <div class="panel-heading panel-heading-collapsible panel-heading-collapsible-style color-default" style="height: 30px;font-size: 15px;line-height: 10px;">
+                                                {{community.selected.community.name}}
+                                            </div>
+                                            <div class="summary clearfix">
+                                                <div><span>Country</span>: {{community.selected.countries_text}}</div>
+                                                <div><span>Age Range</span>: {{community.selected.age_text}}</div>
+                                                <div><span>Respondents</span>: {{community.selected.respondents}}</div>
+                                                <div><span>Gender</span>: {{community.selected.gender_text}}</div>
+                                            </div>
+                                            <div class="progress-line clearfix">
+                                                <div class="fill" ng-class="community.progress.country"></div>
+                                                <div class="fill" ng-class="community.progress.age"></div>
+                                                <div class="fill" ng-class="community.progress.respondents"></div>
+                                                <div class="fill" ng-class="community.progress.gender"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- [End] Add Communities -->
+                                </div>
+                            </div>
+                            <div class="row mr-b-10">
+                                <div class="col-lg-5">
+                                    <div class="row" ng-repeat="uploadedDoc in project.uploadedDocs">
+                                        <div class="col-lg-12">
+                                            <label ng-if="$index == 0">Uploaded Document:</label>
+                                            <div class="custom_thumb_image_wrap pad-l-0 clearfix">
+                                                <div class="box-thumb">
+                                                    <div class="content">
+                                                        <i class="fa fa-file-word-o"></i>
+                                                    </div>
+                                                    <div class="label text-ellipsis">
+                                                        <a href="{{uploadedDoc.link}}" target="_blank"><i class="fa fa-download"></i><span>{{uploadedDoc.name}}</span></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mr-t-10" ng-if="uploadedDoc.note != ''">
+                                                <label ng-if="$index == 0">Questionnaire Tag:</label>
+                                                <div>{{uploadedDoc.note}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-7">
+                                    <label>Uploaded Image:</label>
+                                    <div class="custom_thumb_image_wrap pad-l-0 clearfix">
+                                        <div class="box-thumb" ng-repeat="uploadedImage in project.uploadedImages">
+                                            <div class="content">
+                                                <img ng-src="{{uploadedImage.link}}" alt="{{uploadedImage.name}}" />
+                                            </div>
+                                            <div class="label text-ellipsis">
+                                                <a href="{{uploadedImage.link}}" target="_blank"><i class="fa fa-download"></i><span>{{uploadedImage.name}}</span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 form-group form-group-sm mr-b-10 mr-l-15" style="width: 97%;">
+                                    <label>Project Note: <i class="fa fa-question-circle" style="font-size:1.5em;vertical-align:middle" tooltip="Description to be added." tooltip-animation="true" tooltip-placement="right"></i></label>
+                                    <textarea name="projectNote" class="form-control" placeholder="Project Note" rows="2" ng-model="project.notes"></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 mr-l-15" style="width: 97%;">
+                                    <label>Terms of Service:</label>
+                                    <h5>
+                                        <input type="checkbox" name="aggree" ng-model="project.agreedTerms" ng-change="agreedTerms()" style="vertical-align: text-top;" /> &nbsp;
+                                        I authorize ValidateIt to deduct the Cost of Project from my Current Account Balance and confirm that I have reviewed by inputs and acknowledge their accuracy.
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <ul class="list-inline pull-right" style="margin-right: 10px;">
+                                <li>
+                                    <button type="button" class="btn btn-default prev-step" ng-show="newProjectProgress.previousBtn.visible" ng-click="prevStep()">Previous</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="btn btn-primary btn-info-full next-step" ng-show="newProjectProgress.submitProjectBtn.visible" ng-class="newProjectProgress.submitProjectBtn.disabled" ng-disabled="newProjectProgress.submitProjectBtn.disabled" ng-click="saveProject()">Submit</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>  <!-- End of Step 3 -->
+
+                </div> <!-- End Tab Content -->
+            </form> <!-- End form -->
+
+        <!--<div class="row">
+            <div class="col-lg-8">
+                <div class="form-group form-group-sm mr-b-10" ng-class="{ 'has-error' : fieldError.projectName}">
+                    <label>Project Name:</label>
+                    <input type="input" class="form-control" id="text" ng-model="newProject.projectName" ng-blur="onChangeProjectName()" value="{{newProject.projectName}}" autofocus>
+
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="col-lg-12 form-group form-group-sm pad-l-0  mr-b-10"  ng-class="{ 'has-error' : fieldError.questions}">
+                    <label>Number of Questions:</label>
+                    <select name="qSelect" class="form-control"
+                            ng-model="newProject.questions"
+                            ng-options="option for option in questions" ng-change="questionSelectorChanged()">
+                    </select>
+                </div>
+            </div>
+        </div>-->
+        <!--<div class="row">
+            <div class="col-lg-8">
+                <div class="form-group form-group-sm mr-b-10" ng-class="{ 'has-error' : fieldError.projectName}">
+                    <label>Project Name:</label>
+                    <input type="input" class="form-control" id="text" ng-model="newProject.projectName" ng-blur="onChangeProjectName()" value="{{newProject.projectName}}" autofocus>
+                    <div ng-show="emptyProjectNameErrorFlag"> <h5 class="login-error">Please enter a valid Project Name.</h5></div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="col-lg-12 form-group form-group-sm pad-l-0  mr-b-10"  ng-class="{ 'has-error' : fieldError.questions}">
+                    <label>Number of Questions:</label>
+                    <select name="qSelect" class="form-control"
+                            ng-model="newProject.questions"
+                            ng-options="option for option in questions" ng-change="questionSelectorChanged()">
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 pad-lr-15">
+                <div class="form-group form-group-sm mr-b-10" ng-class="{ 'has-error' : fieldError.projectDescription}">
+                    <label>Project Description:</label>
+                    <textarea name="project-description" class="form-control" rows="1" ng-model="newProject.projectDescription" ng-blur="onChangeProjectDescription()">{{newProject.projectDescription}}</textarea>
+                </div>
+            </div>
+        </div>-->
+
+
+        </div> <!-- End Wizard -->
+        <div class="row slider-wrap" style="top: 137px;" ng-style="noteWd"  ng-show="projectNote.visibility" ng-class="projectNote.sliderClass">
+            <!--<div class="col-lg-3 handle pad-l-0" style="" ng-class="projectNote.handleClass" ng-click="projectNoteSlider()">
+                Project Note
+            </div>-->
+            <div class="col-lg-12 content">
+                <div class="row">
+                    <!--<form role="form" ng-keyup="$event.keyCode == 13 ? addNewNote() : null" ng-submit="addNewNote()">-->
+                    <div class="col-lg-12">
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="newNote" placeholder="New Note">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" ng-click="addNewNote()" ng-keydown="$event.which === 13 && addNewNote()" >Add</button>
+                                </span>
+                        </div>
+                    </div>
+                    <!--</form>-->
+                </div>
+                <div class="lists" id="lists" ng-style="resizeProjectNoteOnUpdate()" resize>
+                    <div class="row project-note" ng-repeat="note in projectNote.list">
+                        <div class="col-lg-2 pad-r-0">
+                            <div class="circle x-small {{note.colorClass}}">{{note.text}}</div>
+                        </div>
+                        <div class="col-lg-10 details">
+                            <div class="row">
+                                <div class="col-lg-7 pad-l-0 user">{{note.name}}</div>
+                                <div class="col-lg-5 pad-lr-0 time"><i class="fa fa-clock-o"></i> {{note.date}}</div>
+                                <div class="col-lg-12 note">{{note.note}}</div>
+                            </div>
+                        </div>
+                        <div class="delete" ng-click="prepareToDeleteNote(note.id)"><i class="fa fa-times"></i></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- popup modal for deleting community in new project begin -->
+<!--<div>
+    <modal visible="modal.show">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="  color:#ffffff">&times;</span>
+                    </button>
+                    <div class="modal-title">{{modal.title}}</div>
+                </div>
+                <div class="model-body">
+                    <div class="model-text">{{modal.text}}</div>
+                    <button type="submit" ng-show="modal.buttons.delete.show" ng-click="modalAction(modal.buttons.delete.fnc, modal.buttons.delete.params)" ng-model="modal.buttons.delete.params" class="btn btn-primary">{{modal.buttons.delete.text}}</button>
+                    <button type="submit" ng-show="modal.buttons.cancel.show" ng-click="modalAction(modal.buttons.cancel.fnc)" class="btn btn-default">{{modal.buttons.cancel.text}}</button>
+                    <button type="submit" ng-show="modal.buttons.custom.show" ng-click="modalAction(modal.buttons.custom.fnc, modal.buttons.custom.params)" ng-model="modal.buttons.custom.params" class="btn btn-primary">{{modal.buttons.custom.text}}</button>
+                </div>
+            </div>
+        </div>
+    </modal>
+</div>-->
+<!-- popup modal for deleting community in new project end -->

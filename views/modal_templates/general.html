@@ -1,0 +1,16 @@
+<div id="custom-modal">
+    <div id="overlay">
+        <div class="custom_modal_header text-center">
+            <span class="titleText font-large" ng-bind-html="data.modalTitle"></span>
+            <button type="button" class="close" ng-click="close()">
+                <span class="fontColor">&times;</span>
+            </button>
+        </div>
+        <div class="custom_modal_body">
+            <div class="modal-text"  ng-class="data.modalTextClass" ng-bind-html="data.modalText"></div>
+            <button class="btn cust-btn" ng-class="buttons.custom.class" ng-if="buttons.custom.show" ng-click="customBtnOnClick()">{{buttons.custom.buttonText}}</button>
+            <button class="btn cancel-btn" ng-class="buttons.cancel.class" ng-if="buttons.cancel.show" ng-click="closeModal()">{{buttons.cancel.buttonText}}</button>
+        </div>
+    </div>
+    <div id="custom_fade"></div>
+</div>

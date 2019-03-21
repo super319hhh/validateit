@@ -1,0 +1,213 @@
+@import "../variables";
+@import "mixins";
+
+.custom_thumb_image_wrap{
+  padding-left: 15px;
+  .summary-box{
+    height: 150px;
+    width: 150px;
+  }
+  .file_name{
+    position: absolute;
+    bottom: 10px;
+    text-align: center;
+    display: block;
+    left: 18px;
+    bottom: 14px;
+    width: 80%;
+  }
+  .box {
+    &-thumb{
+      width: 100px;
+      float: left;
+      @include border-radius(3px, 3px, 3px, 3px);
+      margin-right: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #DDDDDD;
+      &:hover{
+        border: 1px solid #999;
+        cursor: pointer;
+        transition: 0.5s;
+      }
+      .content{
+        height: 100px;
+        width: 100%;
+        position: relative;
+        background: #f4f4f4;
+        @include border-radius(3px, 3px, 3px, 3px);
+        .close-icon{
+          right: 3px;
+          width: 15px;
+          height: 15px;
+          font-size: 14px;
+          padding-top: 2px;
+          &:hover{
+            background-color: #AAAAAA;
+          }
+        }
+        img{
+          position: absolute;
+          margin: auto;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          width: 100%;
+          max-height: 100px;
+        }
+        i{
+          font-size: 4em;
+          padding-top: 22px;
+          padding-left: 24px;
+          color: #286090;
+        }
+      }
+      .label{
+        width: 100%;
+        display: block;
+        color: #333333;
+        padding-top: 5px;
+        a{
+          width: 100%;
+          i{
+            margin-right: 3px;
+            color: #286090;
+          }
+          span{
+            color: #286090;
+          }
+          &:hover{
+            span{
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+
+  }
+    .thumbnail_container {
+      position: relative;
+      width: 100%;
+      padding-bottom: 100%;
+      margin-bottom: 35px;
+
+      .thumbnail {
+        position: absolute;
+        width: 100%;
+        height: 100px;
+        background-color: transparent;
+        &:hover {
+          border: 1px solid #555555;
+        }
+        img {
+          position: absolute;
+          top: 10px;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          margin: auto;
+        }
+      }
+    }
+
+}
+
+/**/
+.thumg-doc-wrap{
+  margin-right: 15px !important;
+  padding: 0px !important;
+
+  .thumg-doc-content{
+    position: relative;
+    padding: 20px 20px 20px 20px !important;
+    min-width: 120px !important;
+    text-align: center !important;
+    background: #f4f4f4;
+    color: #286090;
+    border: 1px solid #DDD !important;
+    transition: border 0.2s ease-in-out;
+    @include border-radius(3px, 3px, 3px, 3px);
+    &:hover{
+      border: 1px solid #444 !important;
+    }
+    .close-icon{
+      background-color: #888;
+      display: block;
+      top: 3px;
+      right: 3px;
+    }
+  }
+  .label-text{
+    display: block;
+    margin-top: 5px;
+    padding: 0px 10px;
+    font-size: $font-size-base;
+    color: $text-color;
+    text-align: center;
+  }
+
+}
+
+/*  ------------------- */
+.text{
+  &-wrap{
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+  &-ellipsis{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    line-height: 16px;     /* fallback */
+    max-height: 32px;      /* fallback */
+    -webkit-line-clamp: 1; /* number of lines to show */
+    -webkit-box-orient: vertical;
+    &.l2{
+      max-height: 100px !important;
+      -webkit-line-clamp: 2 !important;
+    }
+    &.l3{
+      max-height: 100px !important;
+      -webkit-line-clamp: 3 !important;
+    }
+    &.l4{
+      max-height: 100px !important;
+      -webkit-line-clamp: 4 !important;
+    }
+    &.l10{
+      max-height: 110px;
+      -webkit-line-clamp: 10 !important;
+    }
+  }
+}
+
+
+.close-icon{
+  position: absolute;
+  top: 3px;
+  right: 19px;
+  height: 20px;
+  background-color: #BBB;
+  padding: 5px 4px 2px;
+  color: #000;
+  opacity: .2;
+  text-align: center;
+  font-size: 22px;
+  line-height: 10px;
+  border-radius: 50%;
+  z-index: 999;
+  cursor: pointer;
+  &:hover{
+    opacity: 1;
+    background-color: #DDD;
+    color: #ff0000;
+  }
+}

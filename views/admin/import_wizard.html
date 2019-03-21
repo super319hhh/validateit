@@ -1,0 +1,429 @@
+<div id="page-wrapper" ng-controller="ImportDataCtrl" style="min-height: 670px;">
+  <!-- <div class="page-header">
+    <h2>New Project</h2>
+  </div> -->
+  <div style="height: 1000px;">
+    <div class="wizard-inner">
+      <!-- <div class="connecting-line"></div> -->
+      <ul class="nav nav-tabs" style="visibility:hidden" role="tablist">
+        <li role="presentation" ng-class="{'disabled': disabledButtons[0] ,'active':!disabledButtons[0]}">
+          <!-- class="active" -->
+          <a data-toggle="tab" aria-controls="step1" role="tab" title="Step 1">
+            <!-- <span class="round-tab">
+              <i class="fa fa-database"></i>
+            </span> -->
+          </a>
+        </li>
+
+        <li role="presentation" ng-class="{'disabled': disabledButtons[1] ,'active':!disabledButtons[1]}">
+          <!-- class="disabled"  -->
+          <a data-toggle="tab" aria-controls="step2" role="tab" title="Step 2">
+            <!-- <span class="round-tab">
+              <i class="glyphicon glyphicon-pencil"></i>
+            </span> -->
+          </a>
+        </li>
+        <li role="presentation" ng-class="{'disabled': disabledButtons[2],'active':!disabledButtons[2]}">
+          <a data-toggle="tab" aria-controls="step3" role="tab" title="Step 3">
+            <!-- <span class="round-tab">
+              <i class="glyphicon glyphicon-picture"></i>
+            </span> -->
+          </a>
+        </li>
+
+        <li role="presentation" ng-class="{'disabled': disabledButtons[3],'active':!disabledButtons[3]}">
+          <a data-toggle="tab" aria-controls="complete" role="tab" title="Complete">
+            <!-- <span class="round-tab">
+              <i class="glyphicon glyphicon-ok"></i>
+            </span> -->
+          </a>
+        </li>
+      </ul>
+    </div>
+    <form role="form">
+      <div class="tab-content">
+        <div class="tab-pane" ng-class="{'active':!disabledButtons[0]}" role="tabpanel" id="step1">
+          <div>
+            <ul class="list-inline pull-right">
+              <li>
+                <button type="button" class="btn btn-primary next-step" ng-click="nextStep()">Next</button>
+              </li>
+            </ul>
+          </div>
+          <div class="input-group" style="margin-bottom:30px">
+            <h3>Step 1: Connect to Data Sources</h3>
+          </div>
+          <div col="col-lg-12">
+            <div class="col-lg-6 form-group" style="margin-bottom:-5px">
+              <div class="panel panel-default">
+                <div class="panel-heading" style="background-color:#286090;margin-bottom:0px"><h5 style="color:white">Authentication</h5></div>
+                <div class="panel-body">
+                  <div  style="border: 2px; border-color:black">
+                    <div class="form-group">
+                      <div class="form-group">
+                        <label for="email">Server:</label>
+                        <input type="email" class="form-control" id="email" ng-model="dbServer" >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="radio">
+                    <ul>
+                      <span><label><input type="radio" name="optradio">Use Windows Authentication</label></span>
+                    </ul>
+                  </div>
+                  <div class="radio">
+                    <ul>
+                      <span><label><input type="radio" name="optradio" checked="">Use a specific username/password</label></span>
+                    </ul>
+                  </div>
+                  <input type="email" placeholder="User Name" class="form-control" id="username" ng-model="dbUserName" >
+                  <input type="password" placeholder="Password" class="form-control" id="password" ng-model="dbPassword" >
+                  <button type="button" style="margin-top:20px" class="btn btn-primary next-step" ng-click="connectToServer()">Connect</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 form-group" ng-hide="showDBTablesFlag">
+              <div class="panel panel-default">
+                <div class="panel-heading" style="background-color:#286090;margin-bottom:0px"><h5 style="color:white">Tables</h5></div>
+                <div class="panel-body">
+                  <select multiple class="form-control">
+                    <option>Ecommerce Transactions</option>
+                    <option>Geography</option>
+                    <option>Web banking</option>
+                    <option>Money transfers</option>
+                    <option>POS transactions</option>
+                    <option>ATM transactions</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 form-group " ng-hide="showDBTablesFlag">
+              <div class="panel panel-default">
+                <div class="panel-heading" style="background-color:#286090"><h5 style="color:white">Filter/Query</h5></div>
+                <div class="panel-body">
+                  <!--<div class="col-lg-6">
+                     <div class="col-lg-3">
+                      <span><label><input type="checkbox"> Limit Records to</label></span>
+                    </div>
+                    <div class="col-lg-3">
+                      <input type="email" class="form-control"  >
+                    </div>
+                  </div>-->
+                  <div class="col-lg-12">
+                    <div class="col-lg-12">
+                      <div class="col-lg-4">
+                        <input type="text" name="fname" placeholder="From Date"><br>
+                      </div>
+                      <div class="col-lg-4">
+                        <h5 style="text-align:center;">to</h5>
+                      </div>
+                      <div class="col-lg-4">
+                        <input type="text" name="fname" placeholder="To Date"><br>
+                      </div>
+                    </div>
+                    <div class="col-lg-12" style="padding-left:10px">
+                    <!-- <label for="email">Run Custom Query:</label> -->
+                    <textarea name="Text1" cols="40" rows="5" placeholder="SELECT from transactions where date > '2014/01/01' "></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" ng-class="{'active':!disabledButtons[1]}" role="tabpanel" id="step2">
+          <ul class="list-inline pull-right">
+            <button ng-click="addNewUser()" class="btn btn-primary padded-btn"><span class="glyphicon glyphicon-export" style="padding-right:5px"></span>Export</button>
+            <button ng-click="addNewUser()" class="btn btn-primary padded-btn"><span class="glyphicon glyphicon-import" style="padding-right:5px"></span>Import</button>
+            <!-- <button ng-click="addNewUser()" class="btn btn-primary padded-btn"><span class="glyphicon glyphicon-filter" style="padding-right:5px"></span>Filter</button> -->
+            <button ng-click="addNewUser()" class="btn btn-primary padded-btn"><span class="glyphicon glyphicon-sort-by-alphabet" style="padding-right:5px"></span>Sort</button>
+            <button ng-click="addNewUser()" class="btn btn-primary padded-btn"><span class="glyphicon glyphicon-edit" style="padding-right:5px"></span>Edit</button>
+            <button ng-click="addSheet()" class="btn btn-primary padded-btn"><span class="glyphicon glyphicon-plus" style="padding-right:5px"></span>Add</button>
+            <button ng-click="combineSheet()" class="btn btn-primary padded-btn"><span class="glyphicon glyphicon-adjust" style="padding-right:5px"></span>Combine</button>
+            <button ng-click="filterSheet()" class="btn btn-primary padded-btn"><span class="glyphicon glyphicon-adjust" style="padding-right:5px"></span>Select</button>
+          </ul>
+          <div ng-show="showFilterFlag">
+            <div class="col-lg-12 filter_menu">
+              <div class="col-lg-12">
+                <div class="col-lg-5">
+                  <select class="form-control input-small">
+                    <option>Payment Type</option>
+                    <option>Price</option>
+                    <option>Product</option>
+                    <option>Name</option>
+                    <option>City</option>
+                    <option>State</option>
+                  </select>
+                </div>
+                <div class="col-lg-2">
+                  <select  class="form-control">
+                    <option>equals</option>
+                    <option>greater than</option>
+                    <option>less than</option>
+                  </select>
+                </div>
+                <div class="col-lg-5">
+                  <select  class="form-control">
+                    <option>Visa</option>
+                    <option>MasterCard</option>
+                    <option>AMEX</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-12" style="text-align: center;padding-top: 10px;padding-bottom:10px">
+                <div style="text-align: center" id="radioBtn" ng-repeat="filter in filterOptions" class="btn-group">
+                  <a class="btn btn-primary btn-sm" ng-class="{'active': filter.active}"
+                     ng-click="respondentsBtnClick($index)" data-toggle="happy" data-title="Y">{{filter.number}}</a>
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="col-lg-5">
+                  <select class="form-control input-small">
+                    <option>Country</option>
+                    <option>Price</option>
+                    <option>Payment Type</option>
+                    <option>Name</option>
+                    <option>City</option>
+                    <option>State</option>
+                  </select>
+                </div>
+                <div class="col-lg-2">
+                  <select  class="form-control">
+                    <option>equals</option>
+                    <option>greater than</option>
+                    <option>less than</option>
+                  </select>
+                </div>
+                <div class="col-lg-5">
+                  <select  class="form-control">
+                    <option>United States</option>
+                    <option>United Kingdom</option>
+                    <option>Australia</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-12" style="text-align: center;padding-top: 10px;padding-bottom:10px">
+                <div style="text-align: center" id="radioBtn" ng-repeat="filter in filterOptions" class="btn-group">
+                  <a class="btn btn-primary btn-sm" ng-class="{'active': filter.active}"
+                     ng-click="respondentsBtnClick($index)" data-toggle="happy" data-title="Y">{{filter.number}}</a>
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="col-lg-5">
+                  <select class="form-control input-small">
+                    <option>State</option>
+                    <option>Price</option>
+                    <option>Payment Type</option>
+                    <option>Name</option>
+                    <option>City</option>
+                    <option>State</option>
+                  </select>
+                </div>
+                <div class="col-lg-2">
+                  <select  class="form-control">
+                    <option>equals</option>
+                    <option>greater than</option>
+                    <option>less than</option>
+                  </select>
+                </div>
+                <div class="col-lg-5">
+                  <select  class="form-control">
+                    <option>CA</option>
+                    <option>NV</option>
+                    <option>AZ</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <button ng-click="addQuestion('Product1','Visa', 'United States', 'CA')" class="btn btn-primary padded-btn"><span class="glyphicon glyphicon-add" style="padding-right:5px"></span>GO</button>
+
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="col-lg-12 meta_data_menu">
+              <h4 style="padding-left:10px;color:white">Business Metadata</h4>
+              <h4 style="padding-left:10px;color:white;font-style: italic;" ng-bind="metaDataDescription"></h4>
+              </div>
+            </div>
+          <!--<h3>Data</h3> -->
+          <div id="importData" class="excelTabs">
+            <tabset>
+              <tab style="margin-left:15px" heading="ECommerce">
+                <div class="col-lg-12">
+                  <div class="col-lg-9">
+
+                    <hot-table
+                      settings="settings"
+                      context-menu="true"
+                      row-headers="rowHeaders"
+                      col-headers="colHeaders"
+                      on-after-selection="onAfterSelection"
+                      on-after-on-cell-mouse-down="afterOnCellMouseDown"
+                      datarows="items"
+                      height="650"
+                      multiSelect="true"
+                      stretchH="all">
+
+                      <hot-column data="date" title="'Date'"></hot-column>
+                      <hot-column data="noTransactions" title="'# Transactions'"></hot-column>
+                      <hot-column data="product" title="'Product'" type="grayedOut" read-only></hot-column>
+                      <hot-column data="price" title="'Price'" type="grayedOut" read-only></hot-column>
+                      <hot-column data="payment_type" title="'Payment Type'"></hot-column>
+                      <hot-column data="name" title="'Name'" type="'numeric'" width="80" format="'$ 0,0.00'"></hot-column>
+                      <hot-column data="city" title="'City'" type="'numeric'"></hot-column>
+                      <hot-column data="state" title="'State'" type="'numeric'" ></hot-column>
+                      <hot-column data="country" title="'Country'" type="'numeric'" ></hot-column>
+                      <hot-column data="accountCreated" title="'Created Date'" type="'numeric'" ></hot-column>
+                      <hot-column data="lastLogin" title="'Last Login'" type="'numeric'" ></hot-column>
+                      <hot-column data="latitude" title="'Latitude'" type="'numeric'" ></hot-column>
+                      <hot-column data="longitude" title="'Longitude'" type="'numeric'" ></hot-column>
+                    </hot-table>
+                  </div>
+                  <div style="background-color:#343434;height:1000px;opacity: 0.5;" class="col-lg-3">
+                    <div ng-show="showAddQuestionFlag">
+                      <h3 style="color:white">Add: Select unique variable for Survey Data</h3>
+                      <h5 style="color:white">Add unique variables to survey questions:</h5>
+                      <input type="text" name="fname" placeholder="Enter Survey Question"><br>
+                      <button ng-click="changePath('views/admin/team_question_templates.html')" class="btn btn-primary padded-btn">
+                        <span class="glyphicon glyphicon-add" style="padding-right:5px"></span>Add</button>
+                    </div>
+                    <div ng-show="showFilterColumnFlag">
+                      <h3 style="color:white">Payment Type</h3>
+                      <select multiple class="form-control">
+                        <option>Mastercard</option>
+                        <option>Visa</option>
+                        <option>Diners</option>
+                        <option>Amex</option>
+                      </select>
+                      <button ng-click="addNewUser()" class="btn btn-primary padded-btn"><span class="glyphicon glyphicon-filter" style="padding-right:5px"></span>Filter</button>
+                      <h3 style="color:white">Price</h3>
+                      <input  class="form-control" placeholder="less than" >
+                      <input  class="form-control" id="email" placeholder="greater than">
+                      <button ng-click="addNewUser()" class="btn btn-primary padded-btn"><span class="glyphicon glyphicon-filter" style="padding-right:5px"></span>Filter</button>
+                    </div>
+                    <div ng-show="showCombineFlag">
+                      <h3 style="color:white">Survey Data</h3>
+                      <h5 style="color:white">Select one of the survey data sheets:</h5>
+                      <select multiple class="form-control">
+                        <option>High Frequency Users</option>
+                        <option>General Insurance</option>
+                        <option>Critical Insurance Test</option>
+                        <option>Insurance Policy</option>
+                        <option>High NetWorth Online</option>
+                        <option>Mortgage Policy</option>
+                      </select>
+                      <button ng-click="addSurveyData()" class="btn btn-primary padded-btn"><span class="glyphicon glyphicon-add" style="padding-right:5px"></span>Add</button>
+                    </div>
+                  </div>
+                </div>
+              </tab>
+              <tab ng-show="showSurveyTabFlag" ng-click="onSurveyDataTabClick()" heading="High Freq..">
+                <div class="col-lg-12">
+                  <div class="col-lg-9">
+                    <hot-table
+                      settings="settings"
+                      row-headers="rowHeaders"
+                      col-headers="colHeaders"
+                      datarows="surveyItems"
+                      height="650">
+                      <hot-column data="id" title="'User ID'"></hot-column>
+                      <hot-column data="time" title="'Time(UTC)'" type="grayedOut" read-only></hot-column>
+                      <hot-column data="gender" title="'Gender'" type="grayedOut" read-only></hot-column>
+                      <hot-column data="age" title="'Age'"></hot-column>
+                      <hot-column data="geography" title="'City'" type="'numeric'" width="80" format="'$ 0,0.00'"></hot-column>
+                      <hot-column data="urbanDensity" title="'Urban Density'" type="'numeric'"></hot-column>
+                      <hot-column data="income" title="'Income'" type="'numeric'" ></hot-column>
+                      <hot-column data="paymentType" title="'Payment Type'"></hot-column>
+                    </hot-table>
+                  </div>
+                  <div style="background-color:#343434;height:1000px;opacity: 0.5;" class="col-lg-3">
+                    <div ng-show="showFilterColumnFlag">
+                      <h3 style="color:white">Payment Type</h3>
+                      <select multiple class="form-control">
+                        <option>Mastercard</option>
+                        <option>Visa</option>
+                        <option>Diners</option>
+                        <option>Amex</option>
+                      </select>
+                      <button ng-click="addNewUser()" class="btn btn-primary padded-btn"><span class="glyphicon glyphicon-filter" style="padding-right:5px"></span>Filter</button>
+                      <h3 style="color:white">Price</h3>
+                      <input  class="form-control" placeholder="less than" >
+                      <input  class="form-control" id="email" placeholder="greater than">
+                      <button ng-click="addNewUser()" class="btn btn-primary padded-btn"><span class="glyphicon glyphicon-filter" style="padding-right:5px"></span>Filter</button>
+                    </div>
+                    <div ng-show="showCombineFlag">
+                      <h3 style="color:white">Survey Data</h3>
+                      <h5 style="color:white">Select one of the survey data sheets:</h5>
+                      <select multiple class="form-control">
+                        <option>High Frequency Users</option>
+                        <option>Critical Insurance Test</option>
+                        <option>Insurance Policy</option>
+                        <option>High NetWorth Online</option>
+                        <option>Mortgage Policy</option>
+                      </select>
+                      <button ng-click="addSurveyData()" class="btn btn-primary padded-btn"><span class="glyphicon glyphicon-add" style="padding-right:5px"></span>Add</button>
+                    </div>
+                    <div ng-show="showAddFlag">
+                      <h3 style="color:white">Combine/Merge Data</h3>
+                      <h5 style="color:white">Select Sheets</h5>
+                      <select multiple class="form-control">
+                        <option>High Frequency users</option>
+                        <option>ecommerce transactions</option>
+                      </select>
+
+                      <h5 style="color:white">Select Unique Field</h5>
+                      <select multiple class="form-control">
+                        <option>city</option>
+                        <option>type</option>
+                        <option>gender</option>
+                        <option>age</option>
+                        <option>geography</option>
+                        <option>paymentType</option>
+                      </select>
+                      <button ng-click="combineSurveyData()" class="btn btn-primary padded-btn"><span class="glyphicon glyphicon-add" style="padding-right:5px"></span>Combine</button>
+                    </div>
+                  </div>
+                </div>
+              </tab>
+              <tab ng-show="showCombinedTabFlag" ng-click="combinedSurveyDataClick()" heading="combined">
+                <div class="col-lg-12">
+                  <div class="col-lg-9">
+                    <hot-table
+                      settings="settings"
+                      context-menu="false"
+                      row-headers="rowHeaders"
+                      col-headers="colHeaders"
+                      on-after-selection="onAfterSelection"
+                      on-after-context-menu-execute="afterContextMenuExecute"
+                      datarows="combinedItems"
+                      height="650"
+                      multiSelect="true">
+                      <hot-column data="date" title="'Date'"></hot-column>
+                      <hot-column data="product" title="'Product'" type="grayedOut" read-only></hot-column>
+                      <hot-column data="price" title="'Price'" type="grayedOut" read-only></hot-column>
+                      <hot-column data="payment_type" title="'Payment Type'"></hot-column>
+                      <hot-column data="name" title="'Name'" type="'numeric'" width="80" format="'$ 0,0.00'"></hot-column>
+                      <hot-column data="city" title="'City'" type="'numeric'"></hot-column>
+                      <hot-column data="state" title="'State'" type="'numeric'" ></hot-column>
+                      <hot-column data="country" title="'Country'" type="'numeric'" ></hot-column>
+                      <hot-column data="accountCreated" title="'Created Date'" type="'numeric'" ></hot-column>
+                      <hot-column data="lastLogin" title="'Last Login'" type="'numeric'" ></hot-column>
+                      <hot-column data="latitude" title="'Latitude'" type="'numeric'" ></hot-column>
+                      <hot-column data="gender" title="'Gender'" type="grayedOut" read-only></hot-column>
+                      <hot-column data="age" title="'Age'"></hot-column>
+                      <hot-column data="geography" title="'City'" type="'numeric'" width="80" format="'$ 0,0.00'"></hot-column>
+                      <hot-column data="urbanDensity" title="'Urban Density'" type="'numeric'"></hot-column>
+                      <hot-column data="income" title="'Income'" type="'numeric'" ></hot-column>
+                      <hot-column data="paymentType" title="'Payment Type'"></hot-column>
+                    </hot-table>
+                  </div>
+                </div>
+              </tab>
+            </tabset>
+            </div>
+          </div>
+        </div>
+    </form>
+  </div>
+</div>

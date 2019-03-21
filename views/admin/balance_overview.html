@@ -1,0 +1,101 @@
+<div ng-include src="'views/admin/admin.html'"></div>
+<div id="page-wrapper" style="min-height: 670px;" ng-controller="billingCtrl" ng-init="init()">
+    <breadcrumb></breadcrumb>
+    <div class="row">
+        <div class="col-lg-6"></div>
+        <div class="col-lg-6">
+            <div class="txt-al-r pad-r-15">
+                <button ng-click="addCredits()" class="btn btn-primary padded-btn mr-0"><span class="glyphicon glyphicon-plus" style="padding-right:5px;"></span>ADD CREDITS</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <!-- Breadcrumb Nav and Add Button begin -->
+        <!--<div class="row breadcrumb-wrap">
+            <div class="col-lg-9">
+                <ul id="breadcrumbs-one">
+                    <li ng-repeat="list in breadcrumb.lists">
+                        <span ng-class="{'current': $last}" ng-click="breadcrumbLink(list.onClickFnc, $index)">
+                            <i class="glyphicon glyphicon-home" ng-if="$index === 0"></i>
+                            {{list.name}}
+                        </span>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-3">
+                <div class="txt-al-r">
+                    <button ng-click="addCredits()" class="btn btn-primary padded-btn mr-0"><span class="glyphicon glyphicon-plus" style="padding-right:5px;"></span>ADD CREDITS</button>
+                </div>
+            </div>
+        </div>-->
+        <!-- Breadcrumb Nav and Add Button end -->
+        <div class="alert alert-danger mr-lr-15 text-center" ng-show="showErrorMsg">
+            {{dataFetchMsg}}
+        </div>
+        <div id="billingChart" class="row" ng-hide="noRecords">
+            <div class="col-lg-12">
+                <!-- Bar chart of C3js -->
+                <!-- <bar-chart data="myData" ng-style="chartWidth"></bar-chart> -->
+                <!-- Bar chart of angular-google-chart -->
+                <!-- <div google-chart chart="chartObject" style="height: 400px"></div> --><!-- 
+                <am-chart id="myFirstChart" options="amChartOptions" height="300px" width="100%"></am-chart> -->
+                <div id="chartdiv" class="card-wh" style="margin:15px;height:500px;font-size:11px"></div>   
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <!-- date picker begin -->
+            <div class="row">
+                <div class="col-lg-3 col-md-5 col-sm-5" style="display:inline-block;float:none;vertical-align:bottom;">
+                    <div class="input-group">
+                        <!-- <label for="fromDate">From:</label> -->
+                        <label for="fromDate">From</label>
+                        <input type="text" id="fromDate" class="form-control" datepicker-popup ng-model="fromDate" is-open="status.fromDateOpened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" style="vertical-align:bottom" />
+                        <span class="input-group-btn" style="vertical-align:bottom">
+                            <button type="button" class="btn btn-default" ng-click="openFromDate($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-5 col-sm-5" style="display:inline-block;float:none;vertical-align:bottom">
+                    <div class="input-group">
+                        <label for="toDate">To</label>
+                        <input type="text" id="toDate" class="form-control" datepicker-popup ng-model="toDate" is-open="status.toDateOpened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" style="vertical-align:bottom" />
+                        <span class="input-group-btn" style="vertical-align:bottom">
+                <button type="button" class="btn btn-default" ng-click="openToDate($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2" style="display:inline-block;float:none;vertical-align:bottom;margin-bottom:10px">
+                    <button type="button" class="btn btn-primary" ng-click="fetchBillingHistoryByDates()">Filter</button>
+                </div>
+            </div>
+            <!-- date picker end -->
+            <div class="panel panel-primary-collapsible">
+                <!-- <div class="panel-heading panel-heading-collapsible panel-heading-collapsible-style color-default" data-content="Users" data-example-id="condensed-table"> -->
+                <table class="table table-hover bordered-table">
+                    <thead>
+                        <tr>
+                            <th>Project</th>
+                            <th>Approved</th>
+                            <th>User</th>
+                            <th>Debit/Credit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="noRecords">
+                            <td colspan="4" ng-class="{'no-records': noRecords}">{{noRecordsText}}</td>
+                        </tr>
+                        <tr ng-repeat="item in Data" ng-class-odd="'odd'" ng-class-even="'even'">
+                            <td style="line-height:32px">{{item.projectname}}</td>
+                            <td>{{item.transactiondate | date:'MMM dd, yyyy'}}</td>
+                            <td>{{item.username.firstname}} {{item.username.lastname}}</td>
+                            <td><i ng-show={{item.isdebit}} class="fa fa-caret-up fa-fw pad-r-5" style="color:green"></i>
+                                <i ng-show=!{{item.isdebit}} class="fa fa-caret-down fa-fw pad-r-5" style="color:red"></i>$ {{item.projectcost | number}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

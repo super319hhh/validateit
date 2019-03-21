@@ -1,0 +1,648 @@
+<div class="row" id="projectWizard" ng-controller="ProjectWizard" ng-init="init()" style="margin-top: 37px;">
+    <div class="row" ng-show="wizard.project.display" style="position: relative;">
+        <button class="btn btn-primary arrow to-left small" ng-if="config.backBtn.display" ng-click="onBack()" style="position: absolute;top: -30px;right: 15px;">{{config.backBtn.text}}</button>
+        <button class="btn btn-primary arrow to-left small" ng-if="config.backBtn.display" ng-click="onBack(config.backBtn.onClickFunc)" style="position: absolute;bottom: -15px;right: 15px; z-index: 1;">{{config.backBtn.text}}</button>
+        <div class="" ng-class="config.wizardClass">
+            <div class="wizard mr-lr-0 pad-lr-0">
+                <div class="wizard-inner">
+                    <!-- progress bar begin -->
+                    <div id="new_project_progressBar" class="row pad-t-15">
+                        <div class="col-sm-4 text-center pad-lr-0">
+                            <div class="icon_circle text-center" ng-class="{'disabled': config.disabledButtons[0],'active':!config.disabledButtons[0]}"><span>1</span></i>
+                            </div>
+                            <div ng-class="{'icon_botton_arrow': !config.disabledButtons[0]}"></div>
+                            <div class="icon_bottom_line" ng-class="{'icon_bottom_line_focus': !config.disabledButtons[0]}"></div>
+                        </div>
+                        <div class="col-sm-4 text-center pad-lr-0">
+                            <div class="icon_circle text-center" ng-class="{'disabled': config.disabledButtons[1],'active':!config.disabledButtons[1]}"><span>2</span></div>
+                            <div ng-class="{'icon_botton_arrow': !config.disabledButtons[1]}"></div>
+                            <div class="icon_bottom_line" ng-class="{'icon_bottom_line_focus': !config.disabledButtons[1]}"></div>
+                        </div>
+                        <div class="col-sm-4 text-center pad-lr-0">
+                            <div class="icon_circle text-center" ng-class="{'disabled': config.disabledButtons[2],'active':!config.disabledButtons[2]}"><i class="fa fa-check fa-2x"></i></div>
+                            <div ng-class="{'icon_botton_arrow': !config.disabledButtons[2]}"></div>
+                            <div class="icon_bottom_line" ng-class="{'icon_bottom_line_focus': !config.disabledButtons[2]}"></div>
+                        </div>
+                    </div>
+                    <!-- progress bar end -->
+                </div>
+                <!-- End wizard-inner -->
+                <form role="form" ng-show="config.sh.displayForm" style="position: relative;margin-bottom: 15px;" novalidate>
+                    <div class="tab-content">
+                        <div class="tab-pane" ng-class="{'active':!config.disabledButtons[0]}" role="tabpanel" id="step1">
+                            <div class="col-lg-6" ng-class="config.appearance.first">
+                                <h3 class="vh3 txt-blue">Step 1: Project Information</h3>
+                            </div>
+                            <div class="col-lg-3 pad-r-0">
+                                <div class="card two-col small clearfix" ng-class="config.appearance.first">
+                                    <div class="lcol gray">
+                                        <i class="fa fa-users" style="padding-bottom:3px"></i>
+                                        <div>Total Respondents</div>
+                                    </div>
+                                    <div class="rcol gray">{{project.totalRespondents}}</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 pad-r-0">
+                                <div class="card two-col small clearfix" ng-class="config.appearance.first">
+                                    <div class="lcol gray">
+                                        <i class="fa fa-usd" style="padding-bottom:3px"></i>
+                                        <div>Estimated Cost</div>
+                                    </div>
+                                    <div class="rcol gray">{{project.cost}}</div>
+                                </div>
+                            </div>
+                            <!--<div class="col-lg-6 txt-al-r" ng-class="config.appearance.first">
+                                <div class="row txt-al-l" style="border: 3px solid #999;border-radius: 5px;padding: 5px 0px; margin-bottom: 10px; margin-top: 5px;">
+                                    <div class="col-lg-6">
+                                        <div class="row">
+                                            <div class="col-lg-9 pad-0">Total Respondents:</div>
+                                            <div class="col-lg-3 txt-al-r pad-0" style="font-size: 16px;color: #337ab7;">{{project.totalRespondents}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="row">
+                                            <div class="col-lg-9 pad-0">Estimated Cost:</div>
+                                            <div class="col-lg-3 txt-al-r pad-0" style="font-size: 16px;color: #337ab7;">${{project.cost}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>-->
+                            <div class="row">
+                                <div class="col-lg-8" ng-class="config.appearance.first">
+                                    <div class="form-group form-group-sm mr-b-10" ng-class="{ 'has-error' : fieldError.projectName}">
+                                        <label class="required-field">Project Name:</label>
+                                        <i class="fa fa-question question-icon" tooltip="Give your project a unique name." tooltip-animation="true" tooltip-placement="right"></i>
+                                        <input type="input" class="form-control" id="text" placeholder="project name" ng-model="project.projectName" ng-blur="onChangeProjectName()" ng-keypress="onChangeProjectName()" ng-change="projectNameChanged()" value="{{project.projectName}}" autofocus>
+                                        <div ng-show="emptyProjectNameErrorFlag">
+                                            <h5 class="login-error">Please enter a valid Project Name.</h5></div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4" ng-class="config.appearance.first">
+                                    <div class="col-lg-12 form-group form-group-sm pad-l-0  mr-b-10" ng-class="{ 'has-error' : fieldError.questions}">
+                                        <label class="required-field">Number of Questions:</label>
+                                        <i class="fa fa-question question-icon" tooltip="Select 1 or up to 10 questions for your project." tooltip-animation="true" tooltip-placement="top"></i>
+                                        <select name="qSelect" class="form-control" ng-model="project.questions" ng-options="option for option in questions" ng-click="questionSelectorClicked()" ng-change="questionSelectorChanged()">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 pad-lr-15" ng-class="config.appearance.first">
+                                    <div class="form-group form-group-sm mr-b-10" ng-class="{ 'has-error' : fieldError.projectDescription}">
+                                        <label class="required-field">Project Description:</label>
+                                        <i class="fa fa-question question-icon" tooltip="Enter a description for your project." tooltip-animation="true" tooltip-placement="right"></i>
+                                        <input name="project-description" class="form-control" placeholder="project description" ng-model="project.projectDescription" ng-blur="onChangeProjectDescription()" ng-change="onChangeProjectDescription()" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="community-wrap">
+                                <div id="block-wrap" style="display: inline-block;"></div>
+                                <div class="row">
+                                    <div class="col-lg-11">
+                                        <label><span style="vertical-align:middle" class="required-field">Community:</span></label>
+                                        <!--<i class="fa fa-question question-icon" tooltip="Description to be added." tooltip-animation="true" tooltip-placement="right"></i>-->
+                                    </div>
+                                </div>
+                                <div class="col-lg-12" style="">
+                                    <div style="padding-left: 15px;border: 1px solid #999;margin: 0px 15px 15px 15px;padding: 15px 5px 15px 10px;border-radius: 2px;padding-left: 15px; border: 1px solid #999; background: #FBFBFB;">
+                                        <!-- Directive -->
+                                        <community-box></community-box>
+                                        <div class="row mr-b-15" id="another-community" ng-show="config.sh.showCommunityForm">
+                                            <new-community-form></new-community-form>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-5">
+                                                <button type="button" class="btn btn-primary btn-sm" ng-show="config.sh.addMoreCommunity.showBtn" ng-class="config.sh.addMoreCommunity.disableBtn" ng-disabled="config.sh.addMoreCommunity.disableBtn" ng-click="addAnoterCommunity()">Add More</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <ul class="list-inline pull-right" style="margin-right: 10px;">
+                                    <li>
+                                        <button type="button" class="btn btn-primary next-step" ng-show="newProjectProgress.saveContinueBtn.visible" ng-class="newProjectProgress.saveContinueBtn.disabled" ng-disabled="newProjectProgress.saveContinueBtn.disabled" ng-click="nextStep()">Next</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- End of Step 1 -->
+                        <!-- <div class="tab-pane" ng-class="{'active':!config.disabledButtons[1]}" role="tabpanel" id="step2"> -->
+                        <div class="tab-pane pad-l-15" ng-class="{'active':!config.disabledButtons[1]}" role="tabpanel" id="step2">
+                            <div style="position:relative">
+                                <div class="row">
+                                    <h3 class="vh3 txt-blue">Step 2: Upload Questionnaire Document and Image</h3>
+                                </div>
+                                <!--<div class="mr-t-15">
+                                    <h4 class="vh4"><span class="required-field  v-txt-u">Upload Questionnaire Document</span><i class="fa fa-question question-icon mr-l-10" style="line-height:24px"  tooltip-class="wd-xx" tooltip="Upload a questionnaire document for your project. The document can be a perfectly written questionnaire, rough questionnaire copy or simply a business case. Every document is reviewed, and revised if needed by a Validator. Supported document types: .doc .docx .pdf .txt .docm .dotm .odt .ott. odm .text .rtf . rtx" tooltip-animation="true" tooltip-placement="right"></i></h4>
+                                </div>-->
+                                <!-- Document Uploader -->
+                                <div class="row">
+                                    <div class="card-wh project mr-b-15" style="position: relative;">
+                                        <div class="title sz-big blue fw-500 shaded row mr-b-0 clearfix">
+                                            <div class="col-f fl-l pad-tb-10">
+                                                <h4 class="vh4 pad-tb-0 mr-tb-0"><span class="required-field v-txt-u">Upload Questionnaire Document</span><i class="fa fa-question question-icon mr-l-10" style="line-height:24px" tooltip-class="wd-xx" tooltip="Upload a questionnaire document for your project. The document can be a perfectly written questionnaire, rough questionnaire copy or simply a business case. Every document is reviewed, and revised if needed by a Validator. Supported document types: .doc .docx .pdf .txt .docm .dotm .odt .ott. odm .text .rtf . rtx" tooltip-animation="true" tooltip-placement="right"></i></h4>
+                                            </div>
+                                        </div>
+                                        <div class="content row text-gray">
+                                            <div id="loading_newProjectStep2Doc"></div>
+                                            <!-- upload form -->
+                                            <div class="row pad-lr-15" ng-show="project.uploadDocumentFlag">
+                                                <div class="col-xs-12 col-sm-12 pad-l-0" ng-class="{'col-md-8 col-lg-7': (wizard.project.projectNote.visibility==false), 'col-md-12 col-lg-12 pad-r-15': (wizard.project.projectNote.visibility==true)}">
+                                                    <div class="col-lg-12">
+                                                        <label class="mr-b-5 v-txt-u">Document</label>
+                                                    </div>
+                                                    <div class="file-input">
+                                                        <div class="input-group">
+                                                            <div class="form-control file-caption">
+                                                                <div class="file-caption-name" id="file-caption-name" title="{{docName}}" ng-show="docName"><span class="glyphicon glyphicon-file"></span>{{docName}}</div>
+                                                            </div>
+
+                                                            <div class="input-group-btn">
+                                                                <button type="button" tabindex="500" title="Clear selected files" class="btn btn-default fileinput-remove fileinput-remove-button" ng-show="qdocFile" ng-click="resetQDocAttachment()">
+                                                                    <i class="glyphicon glyphicon-trash"></i>
+                                                                    <span class="hidden-xs hidden-sm">Remove</span>
+                                                                </button>
+                                                                <!--<button type="button" tabindex="500" title="Abort ongoing upload" class="btn btn-default hide fileinput-cancel fileinput-cancel-button">
+                                                                    <i class="glyphicon glyphicon-ban-circle"></i>
+                                                                    <span class="hidden-xs">Cancel</span>
+                                                                </button>-->
+                                                                <button type="submit" tabindex="500" title="Upload questionnaire document" class="btn {{uploadOption.qDocument.uploadBtnClass}} fileinput-upload fileinput-upload-button" ng-if="qdocFile" ng-class="{'disabled': uploadOption.qDocument.buttonDisabled }" ng-disabled="uploadOption.qDocument.buttonDisabled" ng-click="submit()">
+                                                                    <i class="glyphicon glyphicon-upload"></i>
+                                                                    <span class="hidden-xs hidden-sm">Upload</span>
+                                                                </button>
+                                                                <div tabindex="500" class="btn {{uploadOption.qDocument.browseBtnClass}} btn-file">
+                                                                    <i class="glyphicon glyphicon-folder-open"></i>&nbsp;
+                                                                    <span class="hidden-xs hidden-sm">Browse …</span>
+                                                                    <input type="file"  ngf-select ngf-change="qDocFileChanged($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event, 'reportdoc')" ngf-max-size="10MB" id="qFile" class="file ng-pristine ng-invalid ng-invalid-required" data-show-preview="false">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="project.uploadDocumentFlag" ng-if="uploadOption.qDocument.error">
+                                                        <div class="alert alert-danger fade in mr-t-15">{{uploadOption.qDocument.message}}</div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 " ng-class="{'col-md-4 col-lg-5': (wizard.project.projectNote.visibility==false), 'col-md-12 col-lg-12 pad-l-0': (wizard.project.projectNote.visibility==true)}" ng-if="uploadOption.qDocument.showQuestionnaire">
+                                                    <div class="form-group">
+                                                        <label>Questionnnaire Tag:&nbsp;(Optional)&nbsp;<i class="fa fa-question question-icon" style="font-size:1.5em;vertical-align:middle" tooltip-class="wd-x" tooltip="Add tags to quickly identify your questionnaire document in search." tooltip-animation="true" tooltip-placement="top"></i><span style="font-weight: normal;"></span></label>
+                                                        <input type="text" class="form-control" id="questionnnaireTag" ng-model="uploadOption.qDocument.questionnaire" placeholder="Add questionnnaire tags">
+                                                    </div>
+                                                </div>
+                                            </div>  <!-- End upload form -->
+
+                                            <div class="row pad-l-15" ng-if="(project.uploadedDocs.length>0 ? true:false)">
+                                                <div class="row" ng-repeat="qdoc in project.uploadedDocs">
+                                                    <div class="col-xs-12 col-sm-12 pad-l-0" ng-class="{'col-md-6 col-lg-6': (wizard.project.projectNote.visibility==false), 'col-md-12 col-lg-12 pad-r-15': (wizard.project.projectNote.visibility==true)}">
+                                                        <div class="col-lg-12">
+                                                            <label class="mr-b-5 v-txt-u">Document</label>
+                                                        </div>
+                                                        <div class="custom_thumb_image_wrap clearfix">
+                                                            <a href="{{qdoc.link}}"><i class="fa fa-file-excel-o fa-2x" style="margin-right:15px;vertical-align:middle"></i><span>{{qdoc.name}}</span></a>
+                                                            <div class="mr-tb-10">
+                                                                <button class="btn btn-danger" ng-click="prepareToRemoveUploadedDoc($index, qdoc)">Delete</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-12 " ng-class="{'col-md-6 col-lg-6': (wizard.project.projectNote.visibility==false), 'col-md-12 col-lg-12 pad-r-15': (wizard.project.projectNote.visibility==true)}">
+                                                        <div class="form-group form-group-sm mr-b-10" ng-class="{ 'has-error' : qdoc.emptyNote}">
+                                                            <label>Questionnaire Tag:<i class="fa fa-question question-icon mr-l-10" style="font-size:1.5em;vertical-align:middle" tooltip-class="wd-x" tooltip="Add tags to quickly identify your questionnaire document in search." tooltip-animation="true" tooltip-placement="right"></i></label>
+                                                            <textarea name="questionnaire-note" class="form-control" rows="2" ng-model="project.uploadedDocs[$index].note" ng-blur="onChangeQdocDescription($index)" style="margin-top: 5px;" placeholder="Note"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> <!-- End Card -->
+                                </div>
+                                <!-- End Document Uploader -->
+                                <!-- Old Document Uploader -->
+                                <!--<div class="row mr-b-15" ng-show="project.uploadDocumentFlag">
+                                    <div id="loading_newProjectStep2Doc"></div>
+                                    <div class="col-lg-5 inline-block pad-l-0">
+                                        <span class="doc_upload_hint">maximum size: 10MB</span>
+                                        <input type="file" ngf-select="" ng-model="qdocFile" name="file" id="qFile" class="ng-pristine ng-invalid ng-invalid-required">
+                                        <div class="mr-t-10" ng-show="docName">{{docName}}</div>
+                                    </div>
+                                    <div class="col-lg-7 inline-block" ng-if="uploadOption.qDocument.showQuestionnaire">
+                                        <label>Questionnaire Tag:&nbsp;(Optional)&nbsp;<i class="fa fa-question question-icon" tooltip-class="wd-x" tooltip="Add tags to quickly identify your questionnaire document in search." tooltip-animation="true" tooltip-placement="right"></i><span style="font-weight: normal;"></span></label>
+                                        <textarea name="questionnaire-note" class="form-control" rows="2" ng-model="uploadOption.qDocument.questionnaire" style="margin-top: 5px;" placeholder="Note"></textarea>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div ng-show="project.uploadDocumentFlag">
+                                        !--                                         <button type="button" class="btn btn-primary" ng-show="project.uploadDocumentFlag" ng-class="uploadOption.qDocument.buttonClass" ng-click="submit()">submit</button> --
+                                        <button type="button" class="btn btn-primary" ng-disabled="uploadOption.qDocument.buttonDisabled" ng-click="submit()">submit</button>
+                                        <button type="button" class="btn btn-danger" ng-show="qdocFile" ng-click="qdocFile = null;">Remove</button>
+                                    </div>
+                                    <div class="col-lg-12" ng-if="uploadOption.qDocument.error">
+                                        <div class="alert alert-danger fade in mr-t-15">{{uploadOption.qDocument.message}}</div>
+                                    </div>
+                                </div>
+                                <div class="row mr-t-15" ng-if="(project.uploadedDocs.length>0 ? true : false)">
+                                    <div class="row col-md-12 col-lg-12 pad-l-0">
+                                        <div class="row" ng-repeat="qdoc in project.uploadedDocs">
+                                            <div class="col-lg-3 pad-l-0">
+                                                <div class="custom_thumb_image_wrap clearfix">
+                                                    <a href="{{qdoc.link}}"><i class="fa fa-file-excel-o fa-2x" style="margin-right:15px;vertical-align:middle"></i><span>{{qdoc.name}}</span></a>
+                                                    <div class="mr-tb-10">
+                                                        <button class="btn btn-danger" ng-click="prepareToRemoveUploadedDoc($index, qdoc)">Delete</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-9">
+                                                <div class="form-group form-group-sm mr-b-10" ng-class="{ 'has-error' : qdoc.emptyNote}">
+                                                    <label>Questionnaire Tag:<i class="fa fa-question question-icon mr-l-10" tooltip-class="wd-x" tooltip="Add tags to quickly identify your questionnaire document in search."tooltip-animation="true" tooltip-placement="right"></i></label>
+                                                    <textarea name="questionnaire-note" class="form-control" rows="2" ng-model="project.uploadedDocs[$index].note" ng-blur="onChangeQdocDescription($index)" style="margin-top: 5px;" placeholder="Note"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>-->
+                            </div>
+                            <!-- Upload Images -->
+                            <!--<div style="margin-top:30px;position:relative">
+                                <div id="loading_newProjectStep2Img"></div>
+                                <div>
+                                    <h4 class="vh4"><span class="v-txt-u">Upload Image (Optional)</span><i class="fa fa-question question-icon mr-l-10" style="line-height:24px" tooltip-class="wd-xx" tooltip="Upload an image for your project. Images should be 300px by 250px in size. Larger images will be shrunk to that size. Supported image types: . jpeg .png .gif. Animated .gifs will not be used." tooltip-animation="true" tooltip-placement="right"></i></h4>
+                                </div>
+                                <div>
+                                    <span class="image_upload_hint">maximum size of each image: 10MB</span>
+                                    <input type="file" ngf-select="" ng-model="imageFile" name="imageFile" class="ng-pristine ng-invalid ng-invalid-required">
+                                    <div class="mr-t-10" ng-show="imageName">{{imageName}}</div>
+                                </div>
+                                <div class="mr-t-15">
+                                    !-- <button type="button" class="btn btn-primary" ng-class="uploadOption.image.buttonClass" ng-click="submitImage()">submit</button> --
+                                    <button type="button" class="btn btn-primary" ng-disabled="uploadOption.image.buttonDisabled" ng-click="submitImage()">submit</button>
+                                    <button type="button" class="btn btn-danger" ng-show="imageFile" ng-click="imageFile = null">Remove</button>
+                                </div>
+                                <div ng-show="imageUploadFlags.error" class="mr-t-15">
+                                    <div class="alert alert-danger fade in">{{imageUploadFlags.message}}</div>
+                                </div>
+                                <div class="custom_thumb_image_wrap clearfix mr-t-15">
+                                    <div class="box-thumb text-center" ng-repeat="uploadedImage in project.uploadedImages">
+                                        <div class="content">
+                                            !-- <div ng-click="removeUploadedImage($index, uploadedImage)" class="close-icon">&times;</div> --
+                                            <img ng-src="{{uploadedImage.link}}" ng-if="uploadedImage" alt="{{uploadedImage.name}}" />
+                                        </div>
+                                        <div class="label text-ellipsis">
+                                            <a href="{{uploadedImage.link}}" target="_blank"><i class="fa fa-download"></i><span>{{uploadedImage.name}}</span></a>
+                                        </div>
+                                        <div class="mr-tb-10">
+                                            <button class="btn btn-danger" ng-click="prepareToRemoveUploadedImage($index, uploadedImage)">Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>-->
+                            <!-- </div> -->
+                            <div class="row mr-t-15">
+                                <div class="card-wh project mr-b-15" style="position: relative;">
+                                    <div class="title sz-big blue fw-500 shaded row mr-b-0 clearfix">
+                                        <div class="col-f fl-l pad-tb-10">
+                                            <h4 class="vh4 pad-tb-0 mr-tb-0"><span class="required-field v-txt-u">Upload Image (Optional)</span><i class="fa fa-question question-icon mr-l-10" style="line-height:24px" tooltip-class="wd-xx" tooltip="Upload an image for your project. Images should be 300px by 250px in size. Larger images will be shrunk to that size. Supported image types: . jpeg .png .gif. Animated .gifs will not be used." tooltip-animation="true" tooltip-placement="right"></i></h4>
+                                        </div>
+                                    </div>
+                                    <div class="content row text-gray">
+                                        <div id="loading_newProjectStep2Img"></div>
+                                        <!-- upload form -->
+                                        <div class="row pad-lr-15">
+                                            <div class="col-xs-12 col-sm-12 pad-l-0" ng-class="{'col-md-8 col-lg-7': (wizard.project.projectNote.visibility==false), 'col-md-12 col-lg-12': (wizard.project.projectNote.visibility==true)}">
+                                                <div class="col-lg-12">
+                                                    <label class="mr-b-5 v-txt-u">Image</label>
+                                                </div>
+                                                <div class="file-input">
+                                                    <div class="input-group">
+                                                        <div class="form-control file-caption">
+                                                            <div class="file-caption-name" title="{{imageName}}" ng-show="imageName"><span class="glyphicon glyphicon-file"></span>{{imageName}}</div>
+                                                        </div>
+
+                                                        <div class="input-group-btn">
+                                                            <button type="button" title="Clear selected files" class="btn btn-default fileinput-remove fileinput-remove-button" ng-if="uploadOption.image.removeBtn" ng-click="resetImageAttachment()">
+                                                                <i class="glyphicon glyphicon-trash"></i>
+                                                                <span class="hidden-xs hidden-sm">Remove</span>
+                                                            </button>
+                                                            <button type="submit" title="Upload images" class="btn {{uploadOption.image.uploadBtnClass}} fileinput-upload fileinput-upload-button" ng-show="imageName" ng-class="{'disabled': uploadOption.image.buttonDisabled}" ng-disabled="uploadOption.image.buttonDisabled" ng-click="submitImage()">
+                                                                <i class="glyphicon glyphicon-upload"></i>
+                                                                <span class="hidden-xs hidden-sm">Upload</span>
+                                                            </button>
+                                                            <div class="btn {{uploadOption.image.browseBtnClass}} btn-file">
+                                                                <i class="glyphicon glyphicon-folder-open"></i>&nbsp;
+                                                                <span class="hidden-xs hidden-sm">Browse …</span>
+                                                                <input type="file" name="imageFile" ngf-select ng-model="imageFile" ngf-change="imageFileChanged($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event, 'reportDoc')" ngf-max-size="10MB" class="file ng-pristine ng-invalid ng-invalid-required" data-show-preview="false">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="imageUploadFlags.error">
+                                                    <div class="alert alert-danger fade in mr-t-15">{{imageUploadFlags.message}}</div>
+                                                </div>
+                                            </div>
+                                        </div>  <!-- End upload form -->
+
+                                        <div class="row pad-l-15" ng-if="(project.uploadedImages.length>0 ? true:false)">
+                                            <div class="custom_thumb_image_wrap clearfix mr-t-15">
+                                                <div class="box-thumb text-center" ng-repeat="uploadedImage in project.uploadedImages">
+                                                    <div class="content">
+                                                        <!-- <div ng-click="removeUploadedImage($index, uploadedImage)" class="close-icon">&times;</div> -->
+                                                        <img ng-src="{{uploadedImage.link}}" ng-if="uploadedImage" alt="{{uploadedImage.name}}" />
+                                                    </div>
+                                                    <div class="label text-ellipsis">
+                                                        <a href="{{uploadedImage.link}}" target="_blank"><i class="fa fa-download"></i><span>{{uploadedImage.name}}</span></a>
+                                                    </div>
+                                                    <div class="mr-tb-10">
+                                                        <button class="btn btn-danger" ng-click="prepareToRemoveUploadedImage($index, uploadedImage)">Delete</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div> <!-- End Card -->
+                            </div>
+                            <!-- End Image Upload -->
+
+
+                            <div class="row">
+                                <ul class="list-inline pull-right" style="margin-right: 10px;">
+                                    <li>
+                                        <button type="button" class="btn btn-default prev-step" ng-show="newProjectProgress.previousBtn.visible" ng-click="prevStep()">Previous</button>
+                                    </li>
+                                    <li>
+                                        <button type="button" class="btn btn-primary next-step" ng-show="newProjectProgress.saveContinueBtn.visible" ng-class="newProjectProgress.saveContinueBtn.disabled" ng-disabled="newProjectProgress.saveContinueBtn.disabled" ng-click="nextStep()">Next</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- End of Step 2 -->
+                        <div class="tab-pane" ng-class="{'active':!config.disabledButtons[2]}" role="tabpanel" id="complete">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <h3 class="vh3 txt-blue">Confirmation</h3>
+                                </div>
+                                <div class="col-lg-8 txt-al-r" ng-show="manager.display">
+                                    <label>Approver :</label>&nbsp;
+                                    <label class="link-color">{{manager.name}}</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-11">
+                                    <p>Please confirm the following information.</p>
+                                </div>
+                            </div>
+                            <div class="row mr-b-15" id="confirmation" style="padding: 10px 0px 10px 0px; border: 2px solid #a7a7a7; border-radius: 4px;background: #F3F3F4;">
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <div class="card-wh project mr-b-15">
+                                            <div class="title sz-big blue fw-500 shaded row mr-b-0 clearfix">
+                                                <div class="col-l fl-l pad-tb-10">{{project.projectName}}</div>
+                                            </div>
+                                            <div class="subtitle row pad-lr-15 text-gray-light"><span>{{project.projectDescription}}</span></div>
+                                            <div class="content row text-gray">
+                                                <div class="row mr-b-5 pad-tb-10" style="border-top: 1px solid #eee;border-bottom: 1px solid #eee;">
+                                                    <div class="col-lg-5">
+                                                        <div class="clearfix" style="display: table;">
+                                                            <div style="display: table-cell;vertical-align: middle; width: 40%;background: #777;color: #fff;height: 60px;text-align: center;border-top-left-radius: 4px;border-bottom-left-radius: 4px;">
+                                                                <div><i class="fa fa-question fa-2x" style="padding-bottom:3px"></i></div>
+                                                                <div>Questions</div>
+                                                            </div>
+                                                            <div style="display: table-cell;vertical-align: middle;width: 60%;background: #999;color: #fff;height: 60px;text-align: center;font-size: 30px;font-weight: 400;letter-spacing: 2px;border-top-right-radius: 4px;border-bottom-right-radius: 4px;">{{project.questions}}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-5">
+                                                        <div class="clearfix" style="display: table;">
+                                                            <div style="display: table-cell;vertical-align: middle; width: 40%;background: #2B7F3E;color: #fff;height: 60px;text-align: center;border-top-left-radius: 4px;border-bottom-left-radius: 4px;">
+                                                                <i class="fa fa-users fa-2x" style="padding-bottom:3px"></i>
+                                                                <div>Respondents</div>
+                                                            </div>
+                                                            <div style="display: table-cell;vertical-align: middle;width: 60%;background: rgb(89, 181, 110);color: #fff;height: 60px;text-align: center;font-size: 30px;font-weight: 400;letter-spacing: 2px;border-top-right-radius: 4px;border-bottom-right-radius: 4px;">{{project.totalRespondents}}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="row font-large fw-400 v-txt-u" style="margin-bottom: 5px; padding-bottom: 5px;border-bottom: 1px solid #eee; font-size: 13px !important;">Documents</div>
+                                                        <div class="row">
+                                                            <div class="mr-b-10">
+                                                                <div class="row mr-b-5" ng-if="(project.uploadedDocs.length > 0) ? true: false">
+                                                                    <div class="col-lg-11 pad-l-0 text-gray v-txt-u">Questionnarie</div>
+                                                                </div>
+                                                                <div class="row" ng-repeat="uploadedDoc in project.uploadedDocs">
+                                                                    <div class="col-lg-12 text-gray-light">
+                                                                        <a href="{{uploadedDoc.link}}" target="_blank">
+                                                                            <i class="fa fa-file-text-o fa-2x" style="margin-right:15px;vertical-align:middle"></i>
+                                                                            <span>{{uploadedDoc.name}}</span>
+                                                                        </a>
+                                                                        <div class="text-gray-light text-ellipsis l2" ng-if="(uploadedDoc.note.length > 0 ) ? true: false" style="padding-left:40px">{{uploadedDoc.note}}</div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row mr-t-10 mr-b-5" ng-if="(project.uploadedImages.length > 0) ? true: false">
+                                                                    <div class="col-lg-11 pad-l-0 text-gray v-txt-u">Images</div>
+                                                                </div>
+                                                                <div class="row" style="margin-bottom: 3px;" ng-repeat="image in project.uploadedImages" ng-if="(project.uploadedImages.length > 0) ? true: false">
+                                                                    <div class="col-lg-12">
+                                                                        <a href="{{image.link}}" class="text-ellipsis">
+                                                                            <i class="fa fa-file-image-o fa-2x" style="margin-right:15px;vertical-align:middle"></i>
+                                                                            <span>{{image.name}}</span>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-wh project mr-t-15">
+                                            <div class="row title gray shaded">Communities</div>
+                                            <div class="row content">
+                                                <div class="row mr-b-15 pad-lr-15">
+                                                    <div class="box-project-details community fl-l " ng-repeat="community in project.communityDetails">
+                                                        <div class="content shadow  pad-0">
+                                                            <div class="row mr-b-10 title"><span class="label pad-l-0">{{community.selected.community.name}}</span></div>
+                                                            <div class="wrapper">
+                                                                <div class="row items clearfix">
+                                                                    <div style="width: 25px; float: left; font-size: 24px; margin-right: 10px;"> <i class="fa fa-globe"></i></div>
+                                                                    <div class="fl-l" style="margin-top: 8px;"><span>Country</span>: <span>{{community.selected.countries_text}}</span></div>
+                                                                </div>
+                                                                <div class="row items clearfix">
+                                                                    <div style="width: 25px; float: left; font-size: 24px; margin-right: 10px;"><i class="fa fa-bar-chart"></i></div>
+                                                                    <div class="fl-l" style="margin-top: 8px;"><span>Age Range</span>: <span>{{community.selected.age_text}}</span></div>
+                                                                </div>
+                                                                <div class="row items clearfix">
+                                                                    <div style="width: 25px; float: left; font-size: 24px; margin-right: 10px;"><i class="fa fa-users"></i></div>
+                                                                    <div class="fl-l" style="margin-top: 8px;"><span>Respondents</span>: <span>{{community.selected.respondents.number}}</span></div>
+                                                                </div>
+                                                                <div class="row items clearfix">
+                                                                    <div style="width: 25px; float: left; font-size: 24px; margin-right: 10px;"><i class="fa fa-venus-mars"></i></div>
+                                                                    <div class="fl-l" style="margin-top: 8px;"><span>Gender</span>: <span>{{community.selected.gender_text}}</span></div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="card-wh project mr-b-15">
+                                            <div class="row title gray shaded mr-b-0">
+                                                Project Cost
+                                            </div>
+                                            <div class="row content pad-lr-15 text-gray">
+                                                <i class="fa fa-usd fa-3x" style="vertical-align: top; font-size: 19px;"></i>
+                                                <span style="font-size: 22px;font-weight: 500;display: inline-block;margin-top: -8px;">{{project.cost}}</span>
+                                            </div>
+                                        </div>
+                                        <!--<div class="card-wh project mr-t-15">
+                                            <div class="row title gray shaded mr-b-0">
+                                                Project Note
+                                            </div>
+                                            <div class="row content pad-lr-15 text-gray">
+                                                <textarea name="projectNote" class="form-control" placeholder="Add Project Note" rows="2" ng-model="project.notes"></textarea>
+                                            </div>
+                                        </div>-->
+                                    </div>
+                                </div>
+                                <!-- -->
+                                <div class="row card-wh project mr-tb-10 mr-lr-15">
+                                    <div class="row title gray shaded"><span class="required-field">Terms of Service:</span></div>
+                                    <div class="row content text-gray pad-lr-15">
+                                        <input type="checkbox" name="aggree" ng-model="project.agreedTerms" ng-change="agreedTerms()" style="vertical-align: text-top;" /> &nbsp; I authorize ValidateIt to deduct the Project Cost (displayed above) from my current account balance. I confirm that I have reviewed my inputs and acknowledge their accuracy.</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <ul class="list-inline pull-right" style="margin-right: 10px;">
+                                    <li>
+                                        <button type="button" class="btn btn-default prev-step" ng-show="newProjectProgress.previousBtn.visible" ng-click="prevStep()">Previous</button>
+                                    </li>
+                                    <li>
+                                        <button type="button" class="btn btn-primary btn-info-full next-step" ng-show="newProjectProgress.submitProjectBtn.visible" ng-class="newProjectProgress.submitProjectBtn.disabled" ng-disabled="newProjectProgress.submitProjectBtn.disabled" ng-click="saveProject()" analytics-on="click" analytics-category="Projects" analytics-event="Update Prject (Step 3)">Submit</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- End of Step 3 -->
+                    </div>
+                    <!-- End Tab Content -->
+                </form>
+                <!-- End form -->
+            </div>
+            <!-- End Wizard -->
+        </div>
+        <div class="col-lg-4">
+            <div class="pad-r-0" ng-show="wizard.project.projectNote.visibility">
+                <div class="card-project-note project mr-b-15">
+                    <div class="title mr-b-0"><i class="fa fa-comments"></i>Project Notes<span class="note-count">{{projectNote.list.length}}</span></div>
+                    <div class="content scroll-y no-track mr-t-0 mr-b-0 pad-lr-0" style="padding-left: 0px !important;margin-right: 0px !important;padding-right: 0px !important;">
+                        <div class="no-note" ng-if="projectNote.list.length==0 ? true:false">There is no note in this project.</div>
+                        <div class="lists" id="lists">
+                            <div class="row note clearfix" ng-repeat="note in projectNote.list" style="position: relative;">
+                                <div class="time" style="position: absolute;top: 11px;right: 0px;min-width: 90px;"><i class="fa fa-clock-o" style="margin-right:3px"></i>{{note.date}}</div>
+                                <div class="loading" style="display: none;">
+                                    <div class="loading-icon"></div>
+                                </div>
+                                <!-- loading_Background -->
+                                <div style="width: 46px;float: left;margin-left: 15px;">
+                                    <div class="circle x-small {{note.colorClass}}">{{note.text}}</div>
+                                </div>
+                                <div class="details" style="float: left;width: 78%;">
+                                    <div class="row">
+                                        <div class="col-lg-9 user">{{note.name}}</div>
+                                        <!--<div class="col-lg-3 time"><i class="fa fa-clock-o" style="margin-right:3px"></i>{{note.date}}</div>-->
+                                        <div class="col-lg-12 ntext">{{note.note}}</div>
+                                    </div>
+                                </div>
+                                <!--<div class="col-lg-2 pad-r-0" style="vertical-align: top;float: left;width: 56px;">
+                                    <div class="circle x-small {{note.colorClass}}">{{note.text}}</div>
+                                </div>
+                                <div class="col-lg-10 details" style="padding-right: 0px;float: left;width: 80%;">
+                                    <div class="row">
+                                        <div class="col-lg-9 user">{{note.name}}</div>
+                                        <div class="col-lg-3 time"><i class="fa fa-clock-o" style="margin-right:3px"></i>{{note.date}}</div>
+                                        <div class="col-lg-12 ntext">{{note.note}}</div>
+                                    </div>
+                                </div>-->
+                                <div class="delete" ng-click="prepareToDeleteNote(note.id)"><i class="fa fa-times"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="inputbox">
+                        <div class="input-group mr-b-0">
+                            <input type="text" class="form-control" ng-model="config.newNote" placeholder="New Note">
+                            <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" ng-click="addNewNote()" ng-keydown="$event.which === 13 && addNewNote()" analytics-on="click" analytics-category="Projects" analytics-event="Add New Project Note">Add</button>
+                                </span>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="col-lg-12 content">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="input-group">
+                                <input type="text" class="form-control" ng-model="config.newNote" placeholder="New Note">
+                                <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" ng-click="addNewNote()" ng-keydown="$event.which === 13 && addNewNote()" >Add</button>
+                                    </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lists" id="lists" ng-style="resizeProjectNoteOnUpdate()" resize>
+                        <div class="row project-note" ng-repeat="note in wizard.project.projectNote.list">
+                            <div class="col-lg-2 pad-r-0">
+                                <div class="circle x-small {{note.colorClass}}">{{note.text}}</div>
+                            </div>
+                            <div class="col-lg-10 details">
+                                <div class="row">
+                                    <div class="col-lg-7 pad-l-0 user">{{note.name}}</div>
+                                    <div class="col-lg-5 pad-lr-0 time"><i class="fa fa-clock-o"></i> {{note.date}}</div>
+                                    <div class="col-lg-12 note">{{note.note}}</div>
+                                </div>
+                            </div>
+                            <div class="delete" ng-click="prepareToDeleteNote(note.id)"><i class="fa fa-times"></i></div>
+                        </div>
+                    </div>
+                </div>-->
+            </div>
+        </div>
+    </div>
+    <div id="overlay" style="position: absolute; width: 100%; height: 100%; overflow: hidden; background: #ffffff;top: 0px;left: 0px;background-color: rgba(200,200,200,0.5);z-index: 9999;" ng-if="config.overlay.display" ng-style="windowOverlayBody()" resize>
+        <div class="ovl-wrap" style="width: 40%; margin: 10% auto;background: rgba(255, 255, 255, 0.8);border-radius: 5px;box-shadow: 0px 1px 16px 4px #555;padding: 20px 0px 40px 0px;">
+            <div class="row" id="title" style="text-transform: uppercase;letter-spacing: 1px;border-bottom: 1px solid #ccc;padding: 0px 20px 10px 20px;font-weight: 800;font-size: 16px;">{{config.overlay.title}}</div>
+            <div class="row" id="content" style="text-align: center;min-height: 200px;display: flex;justify-content: center;align-items: center;">
+                <div class="col-lg-4" ng-if="config.overlay.spinner">
+                    <div class="uil-spin-css" style="-webkit-transform:scale(0.65)">
+                        <div>
+                            <div></div>
+                        </div>
+                        <div>
+                            <div></div>
+                        </div>
+                        <div>
+                            <div></div>
+                        </div>
+                        <div>
+                            <div></div>
+                        </div>
+                        <div>
+                            <div></div>
+                        </div>
+                        <div>
+                            <div></div>
+                        </div>
+                        <div>
+                            <div></div>
+                        </div>
+                        <div>
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8" style="text-align: center; line-height: 16px;">{{config.overlay.content}}</div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- popup modal for deleting community in new project begin -->

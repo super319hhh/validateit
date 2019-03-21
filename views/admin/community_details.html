@@ -1,0 +1,117 @@
+<!-- Selected Community Details Begin -->
+<div class="row" ng-show="showCommunityDetailsFlag">
+    <div class="col-lg-offset-0 col-lg-12 mr-t-15">
+        <div class="panel panel-primary-collapsible">
+            <div class="panel-heading panel-heading-collapsible panel-heading-collapsible-style color-default" style="text-transform: uppercase;font-weight: 700;letter-spacing: 1px;">
+                {{selectedCommunityData.communityname}}
+            </div>
+            <div id="communityTable" class="mr-lr-15" style="border-top: 2px solid #FFF;border-top: 2px solid #FFF; padding-bottom: 5px;">
+                <table class="table table-hover bordered-table">
+                    <thead>
+                    <tr>
+                        <th class="field-label col-lg-4">Description</th>
+                        <th class="field-label col-lg-2">Age Range</th>
+                        <!--<th class="field-label col-lg-2">Gender</th>-->
+                        <th class="field-label col-lg-2">Country</th>
+                        <!--<th class="field-label col-lg-2">Members</th>-->
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="field-label col-lg-4">{{selectedCommunityData.communitydescription}}</td>
+                        <td class="field-label col-lg-2">
+                            <span ng-show="selectedCommunityData.ageselection['age_18_24']">18~24<br></span>
+                            <span ng-show="selectedCommunityData.ageselection['age_25_34']">25~34<br></span>
+                            <span ng-show="selectedCommunityData.ageselection['age_35_44']">35~44<br></span>
+                            <span ng-show="selectedCommunityData.ageselection['age_45_54']">45~54<br></span>
+                            <span ng-show="selectedCommunityData.ageselection['age_55_64']">55~64<br></span>
+                            <span ng-show="selectedCommunityData.ageselection['age_65_plus']">65+<br></span>
+                            <span ng-show="selectedCommunityData.ageselection['age_all']">all</span>
+                        </td>
+                        <!--<td class="field-label col-lg-2">
+                            <div>
+                                <span class="fa fa-male fa-2x" style="padding: 0 3px"></span>
+                                <span style="padding: 0 3px">{{selectedCommunityData.gender['male']}}</span>
+                                <span class="fa fa-female fa-2x" style="padding: 0 3px"></span>
+                                <span style="padding: 0 3px">{{selectedCommunityData.gender['female']}}</span>
+                            </div>
+                        </td>-->
+                        <td class="f32 field-label col-lg-2">
+                            <div>
+                                <span ng-show="selectedCommunityData.isUS" class="flag us"></span>
+                                <span ng-show="selectedCommunityData.isCanada" class="flag ca"></span>
+                            </div>
+                        </td>
+                        <!--<td class="field-label col-lg-2">{{selectedCommunityData.respondents}}</td>-->
+                        <!-- <td><i class="fa fa-pencil fa-fw"></i><i class="fa fa-trash-o fa-fw"></i></td> -->
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- sub communities of selected community begin -->
+            <div ng-show="selectedSubCommunitiesNotEmpty" class="row" class="col-lg-12">
+                <div class="form-group col-lg-12">
+                    <label style="padding-left:15px"><strong style="font-size:20px">Sub Communities</strong></label>
+                    <div class="panel-group col-lg-12">
+                        <div style="padding-left: 15px;border: 1px solid #999;margin: 0px 15px 0 15px;padding: 15px 5px 0 10px;border-radius: 2px;padding-left: 15px; border: 1px solid #999; background: #FBFBFB;">
+                            <div ng-repeat="selectedSubCommunity in selectedSubCommunities">
+                                <div class="panel-heading panel-heading-collapsible panel-heading-collapsible-style" style="line-height;30px;background-color:#3a3a3a;font-size:16px;padding:5px 15px">{{selectedSubCommunity.subcommunityname}}
+                                    <!--                     <i class="fa fa-chevron-down fa-fw" style="float:right;" data-toggle="collapse" data-target="#communitiesTable"></i>
+                <i class="fa fa-chevron-right fa-fw" style="float:right;"></i> -->
+                                </div>
+                                <div id="subcommunityTable">
+                                    <table class="table table-hover bordered-table" style="table-layout:fixed;">
+                                        <thead>
+                                        <tr>
+                                            <th class="field-label col-lg-4">Description</th>
+                                            <th class="field-label col-lg-2">Age Range</th>
+                                            <th class="field-label col-lg-2">Gender</th>
+                                            <th class="field-label col-lg-2">Country</th>
+                                            <th class="field-label col-lg-2">Members</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td class="field-label col-lg-4">{{selectedSubCommunity.subcommunitydescription}}</td>
+                                            <td class="field-label col-lg-2">
+                                                <span ng-show="selectedSubCommunity.ageselection['age_18_24']">18~24<br></span>
+                                                <span ng-show="selectedSubCommunity.ageselection['age_25_34']">25~34<br></span>
+                                                <span ng-show="selectedSubCommunity.ageselection['age_35_44']">35~44<br></span>
+                                                <span ng-show="selectedSubCommunity.ageselection['age_45_54']">45~54<br></span>
+                                                <span ng-show="selectedSubCommunity.ageselection['age_55_64']">55~64<br></span>
+                                                <span ng-show="selectedSubCommunity.ageselection['age_65_plus']">65+<br></span>
+                                                <span ng-show="selectedSubCommunity.ageselection['age_all']">all</span>
+                                            </td>
+                                            <td class="field-label col-lg-2">
+                                                <div>
+                                                    <span class="fa fa-male fa-2x" style="padding: 0 3px"></span>
+                                                    <span style="padding: 0 3px">{{selectedSubCommunity.gender['male']}}</span>
+                                                    <span class="fa fa-female fa-2x" style="padding: 0 3px"></span>
+                                                    <span style="padding: 0 3px">{{selectedSubCommunity.gender['female']}}</span>
+                                                </div>
+                                            </td>
+                                            <td class="f32 field-label col-lg-2">
+                                                <div>
+                                                    <span ng-show="selectedSubCommunity.isUS" class="flag us"></span>
+                                                    <span ng-show="selectedSubCommunity.isCanada" class="flag ca"></span>
+                                                </div>
+                                            </td>
+                                            <td class="field-label col-lg-2">{{selectedSubCommunity.respondents}}</td>
+                                            <!-- <td><i class="fa fa-pencil fa-fw"></i><i class="fa fa-trash-o fa-fw"></i></td> -->
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- sub communities of selected community end -->
+        </div>
+        <div class="row" style="text-align:center;margin-top:20px">
+            <button type="button" class="btn btn-primary" ng-click="showCommunities()">Back</button>
+        </div>
+    </div>
+</div>
+<!-- Selected Community Details End -->

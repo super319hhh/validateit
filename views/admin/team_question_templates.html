@@ -1,0 +1,51 @@
+<div id="page-wrapper" style="min-height: 670px;" ng-controller="QuestionTemplateCtrl">
+  <div class="col-lg-12">
+    <div class="page-header">
+      <h3>Question Templates</h3>
+      <button ng-click="addNewUser()" class="btn btn-primary padded-btn"><span class="glyphicon glyphicon-plus"
+                                                                               style="padding-right:5px"></span>NEW
+        TEMPLATE
+      </button>
+    </div>
+  </div>
+  <div class="col-lg-12"  style="margin-left:20px;margin-right:20px">
+    <div class="row">
+      <div class=" panel panel-primary-collapsible col-lg-12">
+        <div class="panel panel-default">
+          <div class="panel-heading" style="background-color:#286090;margin-bottom:0px"><h4 style="color:white">Select Templates</h4></div>
+          <div class="panel-body">
+            <div id="selectTemplate" style="padding:10px">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div style="max-height: 140px;overflow-y: scroll;">
+                    <div ng-repeat="template in questionTemplates">
+                      <div ng-class="{'summary-box-active': template.selected}" ng-click="templateClicked(template.code)"
+                           ng-mouseenter="questionTemplateHover(template.code)" ng-mouseleave="questionTemplateLeave()"
+                           class="col-lg-1 col-md-1 col-sm-1 col-xs-1 summary-box" style="height:120px;width:100px;text-align: center">
+                        <h1>{{template.code}}</h1>
+                        <small>{{template.name}}</small>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div style="width:2px; height:100%;color:gray"></div>
+          </div>
+          <div class="col-lg-12">
+            <h4 style="font-style: italic;">{{templateDescription}}</h4>
+          </div>
+          <div class="col-lg-12">
+            <div class="panel panel-primary-collapsible">
+              <div id="editTemplate">
+                <summernote height="400" ng-model="questionTemplateText"></summernote>
+              </div>
+              <div class="form-group" style="align:right;padding-left:20px;padding-bottom:20px">
+                <button ng-click="submitNewUserBtn()" type="submit" class="btn btn-success">Save</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

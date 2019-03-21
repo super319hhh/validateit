@@ -1,0 +1,145 @@
+@import "../variables";
+
+@keyframes fadeInRightBig {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(600px, 0, 0);
+    transform: translate3d(600px, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+@keyframes fadeOutRightBig {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    -webkit-transform: translate3d(600px, 0, 0);
+    transform: translate3d(600px, 0, 0);
+  }
+}
+
+.slider-wrap{
+  position: fixed;
+  width: 29%;
+  right: -29%;
+  z-index: 999;
+
+  .lists .project-note .loading_Background {
+    height:100%;
+    width:100%;
+    position:absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    top:0;
+    background: rgba(0,0,0,0.8) url('../images/loading_transparent.gif') no-repeat center;
+  }
+
+  &.slideInFromRight{
+    transition: 0.7s;
+    right: 0%;
+    .project-note{
+      opacity: 1;
+      transition: 3s !important;
+    }
+  }
+  &.slideOutToRight{
+    transition: 1s;
+    right: -29%;
+    .project-note{
+      opacity: 0;
+      transition: 3s !important;
+    }
+  }
+  .handle{
+    position: absolute;
+    z-index: 99;
+    width: 26%;
+    left: -106px;
+    top: -40px;
+    padding: 10px !important;
+    background-color: rgba(51, 122, 183, 0.7);
+    background: rgba(51, 122, 183, 0.7);
+    color: #FFFFFF;
+    &.expanded{
+      left: 0px;
+      transition: 1s;
+    }
+    &.closed{
+      left: -106px;
+      transition: 1s;
+    }
+
+  }
+  .content{
+    //background: #EFEFEF;
+    //border: 1px solid darken(#EFEFEF,5%);
+    border-radius: 3px !important;
+    padding: 0px 10px 10px 10px !important;
+    bottom: 0px;
+
+    .lists{
+     // height: 400px;
+      //overflow-y: scroll !important;
+
+      .project-note{
+        position: relative;
+        background: #FFFFFF;
+        margin-bottom: 5px;
+        padding-top: 7px;
+        padding-bottom: 7px;
+        border-radius: 4px;
+        .details{
+
+          .user{
+            font-size: $font-size-base;
+            letter-spacing: 1px;
+            color: darken($base-color,5%);
+            font-weight: 700;
+          }
+          .note{
+            font-size: $font-size-small;
+            color: $gray;//#a1a1a1;
+            font-weight: normal !important;
+          }
+          .time{
+            font-size: $font-size-small;
+            color: $gray-light;//#999999;
+          }
+        }
+
+        .delete{
+          position: absolute;
+          right: 4px;
+          top: 0px;
+          color: lighten($gray, 10%);
+          &:hover{
+            color: $gray-dark;
+            cursor: pointer;
+          }
+        }
+
+      }
+    }
+
+  }
+}
+
+.project-details-wrap, #projectWizard .wizard{
+  &.shrink{
+    transition: 1s;
+    width: 67%;
+  }
+  &.normal{
+    transition: 0.7s;
+    width: 100%;
+  }
+}

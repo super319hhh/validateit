@@ -1,0 +1,156 @@
+<div id="page-wrapper" ng-controller="ProjectDetailCtrl" style="min-height: 670px;">
+  <div class="col-lg-12">
+    <div class="page-header">
+      <h3>Young couples Creative Test</h3>
+      <!-- <button ng-click="newProject()" class="btn btn-primary padded-btn"><span class="glyphicon glyphicon-plus" style="padding-right:5px"></span>NEW PROJECT</button> -->
+    </div>
+    <div class="col-lg-12">
+      <div class="col-lg-6" style="background-color:white">
+        <form id="productForm" method="post" class="form-horizontal">
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Gender</label>
+              <div class="col-xs-8 selectContainer">
+                <select class="form-control" name="size">
+                  <option value="s">All</option>
+                  <option value="s">Male (M)</option>
+                  <option value="m">Female (F)</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Urban Density</label>
+              <div class="col-xs-8 selectContainer">
+                <select class="form-control" name="size">
+                  <option value="">All</option>
+                  <option value="">Suburban</option>
+                  <option value="s">Urban </option>
+                  <option value="m">Rural </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Geography</label>
+              <div class="col-xs-8 selectContainer">
+                <select class="form-control" name="size">
+                  <option value="on">All</option>
+                  <option value="on">ONTARIO-ON</option>
+                  <option value="pa">PRAIRIES-AB</option>
+                  <option value="ps">PRAIRIES-SK</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Income</label>
+              <div class="col-xs-8 selectContainer">
+                <select class="form-control" name="size">
+                  <option value="">All</option>
+                  <option value="">0-24999</option>
+                  <option value="s">25000-49999</option>
+                  <option value="m">50000-74999 </option>
+                  <option value="m">75000-99999 </option>
+                  <option value="m">100000-149999 </option>
+                  <option>I prefer not to say</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-lg-6 col-xs-offset-3">
+              <button  ng-click="filterData()" class="btn btn-default">Filter</button>
+              <button type="" class="btn btn-default"><a href="docs/Creative_Test.xls" target="_self"></a>Excel</button>
+              <button type="" class="btn btn-default">Tableau</button>
+            </div>
+          </div>
+        </form>
+        <hot-table
+          settings="settings"
+          row-headers="rowHeaders"
+          col-headers="colHeaders"
+          datarows="items"
+          height="650"
+          >
+          <!-- height="300"
+          width="700" -->
+          <hot-column data="id" title="'User ID'"></hot-column>
+          <hot-column data="time" title="'Time(UTC)'" type="grayedOut" read-only></hot-column>
+          <hot-column data="gender" title="'Gender'" type="grayedOut" read-only></hot-column>
+          <hot-column data="age" title="'Age'"></hot-column>
+          <hot-column data="geography" title="'Geography'" type="'numeric'" width="80" format="'$ 0,0.00'"></hot-column>
+          <hot-column data="urbanDensity" title="'Urban Density'" type="'numeric'"></hot-column>
+          <hot-column data="income" title="'Income'" type="'numeric'" ></hot-column>
+        </hot-table>
+      </div>
+
+      <div class="col-lg-6">
+      <div class="col-lg-3">
+        <h4>Do you plan on moving to a new residence in the next 12 months?</h4>
+        <donut-chart data="newResidenceData"></donut-chart>
+      </div>
+      <div class="col-lg-3 col-lg-offset-4">
+        <h4>What is your primary institution for everyday banking?</h4>
+        <donut-chart data="bankData"></donut-chart>
+      </div>
+    </div>
+      <div class="col-lg-6">
+        <div class="col-lg-3">
+          <h4>Which banking institution do you currently have a credit card with?</h4>
+          <donut-chart data="creditCardData"></donut-chart>
+        </div>
+        <div class="col-lg-3 col-lg-offset-4">
+          <h4>How likely would you switch to a new banking institution?</h4>
+          <donut-chart data="switchData"></donut-chart>
+        </div>
+      </div>
+    <div class="col-lg-6" style="padding-left:20px">
+    </div>
+    <!--
+    <div class="col-lg-12" style="background-color:white;margin-left:20px">
+      <div class="row">
+        <div class="btn-group btn-breadcrumb">
+          <a class="btn btn-primary"><i class="glyphicon glyphicon-home"></i></a>
+          <a class="btn btn-info">Projects</a>
+          <a class="btn btn-warning">Details</a>
+
+          <h2>RRSP Policy</h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12" style="background-color:white">
+        <div class="col-lg-3">
+          <h3>Target Community: General Population in Ontario </h3>
+        </div>
+        <div class="col-lg-3">
+          <h3> Status:</h3>
+
+        </div>
+        <div class="col-lg-3">
+          <h3>Submitted By: Josip Petrusa</h3>
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+      <div>
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation"><a href="#Question" aria-controls="Question" role="tab" data-toggle="tab">Question</a></li>
+          <li role="presentation"><a href="#Report" aria-controls="Report" role="tab" data-toggle="tab">Report</a></li>
+        </ul>
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane" id="Report">
+            <div class="wrapper" ng-controller="AdminCtrl">
+              <button ng-click="prevPage()">&lt;</button>
+              <button ng-click="nextPage()">&gt;</button>
+              <br>
+              <span>{{currentPage}}/{{totalPages}}</span>
+              <br>
+              <pdfviewer src="docs/Creative_Test.pdf" on-page-load='pageLoaded(page,total)' id="viewer"></pdfviewer>
+            </div>
+          </div>
+          <div role="tabpanel" class="tab-pane" id="Question">...</div>
+        </div>
+      </div>
+    </div> -->
+  </div>
+</div>

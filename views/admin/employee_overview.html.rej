@@ -1,0 +1,40 @@
+diff a/app/views/admin/employee_overview.html b/app/views/admin/employee_overview.html	(rejected hunks)
+@@ -11,31 +11,32 @@
+                     <div class="panel panel-announcement">
+                     </div>
+                 </div>
+-                <div class="col-lg-6">
++                <!-- There are a list of teams if login as a administrator -->
++                <div class="col-lg-6" ng-repeat="team in teamsList">
+                     <div ng-include src="'views/admin/home_project_overview.html'"></div>
+ 
+-                    <div class="row" ng-if="(teamModal.userapprovalrequired+teamModal.userrequireschanges) > 0 ? true: false">
++                    <div class="row" ng-if="(team.teamModel.userapprovalrequired+team.teamModel.userrequireschanges) > 0 ? true: false">
+                         <div class="col-lg-12">
+                             <div class="card-apr bshadow-dark">
+                                 <div class="icon white"><i class="fa fa-user"></i></div>
+                                 <div class="content">
+                                     <span class="disp-block mr-b-10">
+-                                        <strong class="text link pad-tb-5" ng-if="(teamModal.userapprovalrequired > 0 ? true: false)" ng-click="redirectToProject('approval_required')">Requires Approval: {{teamModal.userapprovalrequired}} Project{{teamModal.userapprovalrequired > 1 ? 's':''}}</strong>
++                                        <strong class="text link pad-tb-5" ng-if="(team.teamModel.userapprovalrequired > 0 ? true: false)" ng-click="redirectToProject('approval_required')">Requires Approval: {{team.teamModel.userapprovalrequired}} Project{{team.teamModel.userapprovalrequired > 1 ? 's':''}}</strong>
+                                     </span>
+                                     <span class="disp-block mr-t-5">
+-                                        <strong class="text link pad-tb-5" ng-if="(teamModal.userrequireschanges > 0 ? true: false)" ng-click="redirectToProject('draft')"> Changes Required: {{teamModal.userrequireschanges}} Project{{teamModal.userrequireschanges > 1 ? 's':''}}</strong>
++                                        <strong class="text link pad-tb-5" ng-if="(team.teamModel.userrequireschanges > 0 ? true: false)" ng-click="redirectToProject('draft')"> Changes Required: {{team.teamModel.userrequireschanges}} Project{{team.teamModel.userrequireschanges > 1 ? 's':''}}</strong>
+                                     </span>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+ 
+-                    <!--<div class="row" ng-if="(teamModal.userrequireschanges > 0 ? true: false)">
++                    <!--<div class="row" ng-if="(teamModel.userrequireschanges > 0 ? true: false)">
+                         <div class="col-lg-12">
+                             <div class="card-apr bshadow-dark">
+                                 <div class="icon"><i class="fa fa fa-bell-o"></i></div>
+                                 <div class="content">
+-                                    <strong class="text">{{teamModal.userrequireschanges}} project{{teamModal.userrequireschanges > 1 ? 's':''}} requires your changes.</strong>
++                                    <strong class="text">{{teamModel.userrequireschanges}} project{{teamModel.userrequireschanges > 1 ? 's':''}} requires your changes.</strong>
+                                     <div class="links">
+                                         <span class="link text-badge blue" ng-click="redirectToProject('draft')">Projects</span>
+                                     </div>

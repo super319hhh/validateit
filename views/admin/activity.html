@@ -1,0 +1,113 @@
+<div ng-include src="'views/admin/admin.html'"></div>
+<div id="page-wrapper" style="min-height: 670px;" ng-controller="activityCtrl" ng-init="init()">
+    <breadcrumb></breadcrumb>
+    <div class="container-fluid">
+        <!-- BreadCrumb Begin -->
+        <!--<div class="row breadcrumb-wrap">
+            <div class="col-lg-12 pad-lr-15">
+                <ul id="breadcrumbs-one">
+                    <li ng-repeat="list in breadcrumb.lists">
+                        <span ng-class="{'current': $last}" ng-click="breadcrumbLink(list.onClickFnc, $index)">
+                            <i class="glyphicon glyphicon-home" ng-if="$index === 0"></i>
+                            {{list.name}}
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>-->
+        <!-- BreadCrumb End -->
+        <div class="row">
+            <!-- <pre>Selected date is: <em>{{fromDate | date:'fullDate' }}</em></pre> -->
+            <!-- <h4>Popup</h4> -->
+            <div class="row">
+                <div class="col-lg-3 col-md-5 col-sm-5" style="display:inline-block;float:none;vertical-align:bottom;">
+                    <div class="input-group">
+                        <!-- <label for="fromDate">From:</label> -->
+                        <label for="fromDate">From</label>
+                        <input type="text" id="fromDate" class="form-control" datepicker-popup ng-model="fromDate" is-open="status.fromDateOpened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" style="vertical-align:bottom" />
+                        <span class="input-group-btn" style="vertical-align:bottom">
+                <button type="button" class="btn btn-default" ng-click="openFromDate($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-5 col-sm-5" style="display:inline-block;float:none;vertical-align:bottom">
+                    <div class="input-group">
+                        <label for="toDate">To</label>
+                        <input type="text" id="toDate" class="form-control" datepicker-popup ng-model="toDate" is-open="status.toDateOpened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" style="vertical-align:bottom" />
+                        <span class="input-group-btn" style="vertical-align:bottom">
+                <button type="button" class="btn btn-default" ng-click="openToDate($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2" style="display:inline-block;float:none;vertical-align:bottom;margin-bottom:10px">
+                    <button type="button" class="btn btn-primary" ng-click="fetchActivityByDates(fromDate, toDate, '')">Filter</button>
+                </div>
+            </div>
+            <!-- <div class="row">
+        <div class="col-md-6">
+            <label>Format:</label>
+            <select class="form-control" ng-model="format" ng-options="f for f in formats">
+                <option></option>
+            </select>
+        </div>
+    </div> -->
+            <!-- Activities Begin  -->
+            <div class="row col-md-12 pad-lr-15" ng-if="displayActivity">
+                <div class="panel panel-primary animated fadeIn" style="min-height: 0px;">
+                    <!--                     <div class="panel-heading" style="margin-bottom:0">
+                        <h4 class="panel-title">Recent Activity</h4>
+                    </div> -->
+                    <table class="table table-hover bordered-table" style="table-layout:fixed;">
+                        <thead>
+                            <tr style="font-weight:bold">
+                                <th class="col-md-10">Event</th>
+                                <th class="col-md-2">IP Address</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="(employeeActivities.length < 1 ? true: false)">
+                                <td colspan="6" class="no-records">No activities found within selected date range.</td>
+                            </tr>
+                            <tr ng-repeat="activity in employeeActivities" ng-class-odd="'odd'" ng-class-even="'even'" style="cursor:default">
+                                <td class="col-md-10">
+                                    <div class="row clearfix">
+                                        <div class="col-lg-12">
+                                            <div class="row" style="color:#333">
+                                                <div class="col-lg-2 pad-lr-0" style="width: 5%;">
+                                                    <div class="circle x-small" ng-class="activity.colorClass" style="width: 40px;margin-right: 10px;">{{activity.initials}}</div>
+                                                </div>
+                                                <div class="col-lg-11">
+                                                    <div class="animated slideInUp">
+                                                        {{activity.activitydescription}}
+                                                        <div class="row" style="color:#337ab7;font-style:italic">{{activity.formattedDate }}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="col-md-2" style="color:#333">
+                                    <div>{{activity.ipaddress}}</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- paginatiion begin -->
+            <div class="row col-md-12 text-center mr-b-15" ng-show="showPagination">
+                <button type="button" class="btn btn-primary disabled" style="font-size:16px" ng-show="disablePrevious">1</button>
+                <button type="button" class="btn btn-primary" style="font-size:16px" ng-hide="disablePrevious" aria-label="Previous" ng-disabled="disablePrevious" ng-click="fetchActivityByDates(fromDate, toDate, 'previous')"><span aria-hidden="true">&laquo;</span></button>
+                <button type="button" class="btn btn-primary" style="font-size:16px" aria-label="Next" ng-disabled="disableNext" ng-click="fetchActivityByDates(fromDate, toDate, 'next')"><span aria-hidden="true">&raquo;</span></button>
+            </div>
+            <!-- paginatiion end -->
+
+            <!--   <div class="col-md-12 pad-lr-15">
+                <pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" items-per-page="itemsPerPage" max-size="7" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                <pre>Page: {{currentPage}} / {{numPages}}</pre>
+            </div> -->
+            <!-- paginatiion end -->
+            <!-- Activities End  -->
+        </div>
+    </div>
+</div>

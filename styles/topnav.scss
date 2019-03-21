@@ -1,0 +1,336 @@
+@import "variables";
+
+.navbar-default {
+  //background-color: $brand-primary;
+  //background-color: #F3F3F4;
+  background-color: white;
+  margin-bottom:0px;
+}
+
+.brand-image {
+  margin-left:29%;
+  margin-top:15px;
+  margin-bottom: 8px;
+  width: 50%;
+}
+/*
+.topnav-dropdown {
+  h4{
+    margin-top:17px;
+    margin-right:10px;
+    margin-left: 10px;
+  }
+}
+.topnav-dropdown {
+  & > ul{
+    margin-top: 16px;
+    margin-bottom: 16px;
+    float:right;
+    & > li{
+      &:first-child{
+        padding-right: 15px;
+      }
+      &:last-child{
+        margin-right: 15px;
+      }
+    }
+  }
+ul{
+  padding: 0;
+  list-style: none;
+  //background: #f2f2f2;
+  background: white;
+}
+ul li{
+  display: inline-block;
+  position: relative;
+  line-height: 21px;
+  text-align: left;
+}
+ul li a{
+  display: block;
+  padding: 8px 17px;
+  color: #333;
+  text-decoration: none;
+}
+ul li a:hover{
+  color: #fff;
+  background: #939393;
+}
+ul li ul.dropdown{
+  //min-width: 125px; // Set width of the dropdown /
+  background: #f2f2f2;
+
+  position: absolute;
+  z-index: 999;
+  left: 0;
+}
+ul li:hover ul.dropdown{
+  display: block;	// Display the dropdown //
+}
+ul li ul.dropdown li{
+  display: block;
+}
+}
+//.dropdown-toggle {
+//  color: #fff;
+//  &.hover {
+//    background-color: lighten($brand-primary, 10%);
+//  }
+//}
+*/
+
+/* CSS Animations */
+@-webkit-keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInDown {
+  from {
+    -webkit-transform: translate3d(0, -50%, 0);
+    transform: translate3d(0, -50%, 0);
+    visibility: visible;
+  }
+
+  to {
+    -webkit-transform: translate3d(0, 0%, 0);
+    transform: translate3d(0, 0%, 0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    -webkit-transform: translate3d(0, 10%, 0);
+    transform: translate3d(0, 10%, 0);
+    visibility: visible;
+  }
+
+  to {
+    -webkit-transform: translate3d(0, 0%, 0);
+    transform: translate3d(0, 0%, 0);
+  }
+}
+
+@-webkit-keyframes flipInX {
+  from {
+    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+    opacity: 0;
+  }
+
+  40% {
+    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+  }
+
+  60% {
+    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
+    opacity: 1;
+  }
+
+  80% {
+    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
+  }
+
+  to {
+    -webkit-transform: perspective(400px);
+    transform: perspective(400px);
+  }
+}
+
+@keyframes flipInX {
+  from {
+    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+    opacity: 0;
+  }
+
+  40% {
+    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+  }
+
+  60% {
+    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
+    opacity: 1;
+  }
+
+  80% {
+    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
+  }
+
+  to {
+    -webkit-transform: perspective(400px);
+    transform: perspective(400px);
+  }
+}
+
+
+
+.nav_wrap
+{
+  margin-top:15px;
+  & > ul{
+    & > li{
+      margin-left: 2px !important;
+      padding-right: 10px !important;
+      padding-left: 10px !important;
+      &:first-child{
+        border-radius: 4px;
+        background-color: #777777;
+        color: #ffffff;
+        padding: 0px 10px 2px 10px;
+        line-height: 21px;
+      }
+      &:last-child{
+        padding: 1px 0px 2px 0px;
+        min-width: 130px;
+        span{
+          line-height: 20px;
+          display: inline-block;
+          width: 100%;
+        }
+        i{
+          vertical-align: text-top;
+          margin-left: 6px;
+        }
+       &:hover{
+         background-color: #C0C0C0 !important;
+         color: #000 !important;
+         border-radius: 3px !important;
+         transition: 0.5s;
+         cursor: pointer;
+         i{
+           color: #2a69aa;
+         }
+       }
+      }
+    }
+  }
+  ul{
+    list-style:none;
+    position:relative;
+    float:left;
+    margin:0;
+    padding:0;
+
+    ul{
+      display:none;
+      position:absolute;
+      top:100%;
+      right:0;
+      background-color : transparent;
+      background-color: rgba(255, 255, 255, 0.90);
+      padding:0;
+
+      ul{
+        top:0;
+        left:100%;
+      }
+      li{
+        float:none;
+        min-width:130px;
+        i{
+          font-size: 15px;
+          margin-left: 0px;
+          margin-right: 5px;
+          vertical-align: top;
+        }
+      }
+      a{
+
+        line-height:120%;
+        padding:10px 15px;
+      }
+    }
+    a{
+      display:block;
+      text-decoration:none;
+      font-weight:700;
+      font-size:12px;
+      line-height:32px;
+      padding:0 15px;
+      color: #333;
+      &:hover{
+        color: #111;
+      }
+    }
+
+    li{
+      position:relative;
+      float:left;
+      margin:0;
+      padding:0;
+      ul{
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+        width: 100%;
+        li{
+          //border-bottom: 1px solid #FCFCFC;
+          background: #FFFFFF;
+          color: #CCCCCC;
+          box-shadow: -6px 8px 20px #AAA;
+          a{
+            color: #333;
+            padding-top: 15px;
+            i{
+              color:  #2a69aa;
+            }
+          }
+          &:hover{
+            background:#2a69aa;
+            cursor: pointer;
+            box-shadow: -6px 8px 15px #444;
+            transition: 0.4s;
+            a{
+              color: #FFFFFF;
+              &:hover{
+                i{
+                  color: #FFFFFF !important;
+                }
+              }
+            }
+          }
+          &:last-child{
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+          }
+        }
+      }
+      &:hover > ul{
+        display: block;
+
+        /*-webkit-animation-name: slideInDown;
+        animation-name: slideInDown;*/
+        /*-webkit-animation-name: slideInUp;
+        animation-name: slideInUp;*/
+        -webkit-backface-visibility: visible !important;
+        backface-visibility: visible !important;
+        -webkit-animation-name: flipInX;
+        animation-name: flipInX;
+        -webkit-animation-duration: 0.4s;
+        animation-duration: 0.4s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+      }
+    }
+  }
+}

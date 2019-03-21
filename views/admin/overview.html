@@ -1,0 +1,337 @@
+<!-- overview.html -->
+<div ng-include src="'views/admin/admin.html'"></div>
+
+<div id="page-wrapper" style="min-height: 670px;">
+    <div class="row" ng-controller="OverviewCtrl">
+        <!-- Start Header -->
+        <div ng-include src="'views/admin/overview_header.html'"></div>
+        <!-- End Header -->
+        <!--<div class="col-lg-12 overview-header" style="">
+      <div class="col-lg-6">
+        <div class="row">
+          <div class="col-lg-5 userLogo">
+            <img src="" alt="" />
+          </div>
+          <div class="col-lg-7 title-text">
+            <h2>Hello, {{userName}}</h2>
+            <p>More details about the user...</p>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-lg-6">
+        <div class="col-lg-5 box">
+        </div>
+        <div class="col-lg-4 box txt-al-c">
+          <div class="single_service wow animated" style="visibility: visible;">
+            <div class="service_iconarea">
+                <span class="four_icon" ng-click="changePath('views/admin/new_project_wizard.html')">
+                  <i class="fa fa-plus"></i>
+                </span>
+            </div>
+          </div>
+          <p><span ng-click="changePath('views/admin/new_project_wizard.html')">New Project</span></p>
+        </div>
+        <div class="col-lg-3 box txt-al-c">
+          <div class="single_service wow animated" style="visibility: visible;">
+            <div class="service_iconarea">
+                <span class="four_icon" ng-click="changePath('views/admin/project_overview.html')">
+                  <i class="fa fa-book"></i>
+                </span>
+            </div>
+          </div>
+          <p><span ng-click="changePath('views/admin/project_overview.html')">View Projects</span></p>
+        </div>
+      </div>
+    </div>-->
+        <div class="container">
+            <div ng-repeat="team in teams" class="col-md-6 col-sm-12">
+                <div class="panel panel-primary animated fadeIn" ng-click="changeLocationPathAndSetTeamname($index)">
+                    <div class="panel-heading ">
+                        <div class="panel-title">{{team.teamname}}</div>
+                    </div>
+                    <div class="col-md-6" style="position:relative;text-align:center;font-size:16px">
+                        <!-- <donut-chart data="myData"></donut-chart> -->
+                        <h1 style="color:#6a6c6f">${{team.balance}}</h1>
+                        <h2 style="color:#62cb31">Balance</h3><br>
+                        <!-- <div style="text-align:left;color:inherited"> -->
+                            <span style="margin-right:20px;">Communities: {{team.numcommunities}}</span>
+                            <span>Users: {{team.numusers}}</span>
+                        <!-- </div> -->
+                    </div>
+                    <div class="col-md-6">
+                        <div class="panel-content" style="margin-top:30px;font-size:16px">
+                            <h4 style="font-weight:bold;padding-bottom:10px">Projects:</h4>
+                            <div style="margin-bottom:10px">
+                                <span style="font-size:inherited;">Approval required:</span>
+                                <span class="pull-right">{{team.approvalrequired}}</span>
+                            </div>
+<!--                             <div class="progress progress-small">
+                                <div style="width: {{team.approvalRequiredPercentage}}%" class="progress-bar progress-bar-info"></div>
+                            </div> -->
+                            <div style="margin-bottom:10px">
+                                <span style="font-size:inherited;">In field:</span>
+                                <span class="pull-right">{{team.inprogress}}</span>
+                            </div>
+<!--                             <div class="progress progress-small">
+                                <div style="width: 30%" class="progress-bar progress-bar-success"></div>
+                            </div> -->
+                            <div>
+                                <span style="font-size:inherited;">Completed:</span>
+                                <span class="pull-right">{{team.completed}}</span>
+                            </div>
+<!--                             <div class="progress progress-small">
+                                <div style="width: 30%" class="progress-bar progress-bar-warning"></div>
+                            </div> -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- The hardcoded overview begin -->
+        <div class="container">
+            <div class="col-lg-6">
+                <div class="panel panel-primary animated fadeIn" ng-click="changeLocationPathAndSetTeamname()">
+                    <div class="panel-heading">
+                        <div class="panel-title">Wealth Management</div>
+                    </div>
+                    <div class="row col-md-12">
+                    <div class="col-md-6">
+                        <div style="position:relative;color:#6a6c6f;font-size:16px">
+                        <!-- <donut-chart data="myData"></donut-chart> -->
+                        <span>Balance</span>
+                        <span>$130000</span>
+                        <!-- <div style="text-align:left;color:inherited"> -->
+<!--                             <span style="margin-right:20px;">Communities: {{team.numcommunities}}</span>
+                            <span>Users: {{team.numusers}}</span> -->
+                        <!-- </div> -->
+                        </div>
+                        <div id="chart1">
+                        <!-- Initialize and draw the chart -->
+                         <script type="text/javascript">
+                        var chart = c3.generate({
+                            bindto: '#chart1',
+                            size: {
+                                height: 200,
+                                width: 200
+                            },
+                            color: {
+                                pattern: ['#fb6e52', '#e75b8d', '#a0d468', '#ffce55', '#5db2ff']
+                            },
+                            data: {
+                                columns: [
+                                    ['DRAFT', 200000],
+                                    ['APPROVAL REQUIRED', 100300],
+                                    ['REQUIRES CHANGES', 142532],
+                                    ['APPROVED', 124576],
+                                    ['IN PROGRESS', 127479]
+                                ],
+                                type: 'donut'
+                            },
+                            // donut: {
+                            //     title: 'Credits($)'
+                            // },
+                            legend: {
+                                show: false
+                            }
+                        });
+                        </script></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="databox-cell cell-5 text-center no-padding-left padding-bottom-30">
+                            <div class="databox-row row-2 bordered-bottom border-ivory padding-10">
+                                <span style="font-weight:bold;padding-bottom:10px">Projects:</span>
+                            </div>
+
+
+                            <div class="databox-row row-2 bordered-bottom-1 bordered-ivory padding-10" style="margin-bottom:5px">
+                                <span class="badge badge-blue badge-empty pull-left margin-5"></span>
+                                <span class="databox-text darkgray pull-left no-margin hidden-xs">DRAFT</span>
+                                <span class="databox-text darkgray pull-right no-margin hidden-xs">21%</span>
+                            </div>                            
+                            <div class="databox-row row-2 bordered-bottom-1 bordered-ivory padding-10" style="margin-bottom:5px">
+                                <span class="badge badge-orange badge-empty pull-left margin-5"></span>
+                                <span class="databox-text darkgray pull-left no-margin hidden-xs">APPROVAL REQUIRED</span>
+                                <span class="databox-text darkgray pull-right no-margin hidden-xs">40%</span>
+                            </div>                            
+                            <div class="databox-row row-2 bordered-bottom-1 bordered-ivory padding-10" style="margin-bottom:5px">
+                                <span class="badge badge-pink badge-empty pull-left margin-5"></span>
+                                <span class="databox-text darkgray pull-left no-margin hidden-xs">REQUIRES CHANGES</span>
+                                <span class="databox-text darkgray pull-right no-margin hidden-xs">40%</span>
+                            </div>                            
+                            <div class="databox-row row-2 bordered-bottom-1 bordered-ivory padding-10" style="margin-bottom:5px">
+                                <span class="badge badge-palegreen badge-empty pull-left margin-5"></span>
+                                <span class="databox-text darkgray pull-left no-margin hidden-xs">APPROVED</span>
+                                <span class="databox-text darkgray pull-right no-margin hidden-xs">40%</span>
+                            </div>
+                            <div class="databox-row row-2 bordered-bottom-1 bordered-ivory padding-10">
+                                <span class="badge badge-yellow badge-empty pull-left margin-5"></span>
+                                <span class="databox-text darkgray pull-left no-margin hidden-xs">IN PROGRESS</span>
+                                <span class="databox-text darkgray pull-right no-margin hidden-xs">40%</span>
+                            </div>
+
+
+                            <!-- div style="margin-bottom:10px">
+                                <span style="font-size:inherited;">Approval required:</span>
+                                <span class="pull-right">{{team.approvalrequired}}</span>
+                            </div>
+<!--                             <div class="progress progress-small">
+                                <div style="width: {{team.approvalRequiredPercentage}}%" class="progress-bar progress-bar-info"></div>
+                            </div> -->
+<!--                             <div style="margin-bottom:10px">
+                                <span style="font-size:inherited;">In field:</span>
+                                <span class="pull-right">{{team.inprogress}}</span>
+                            </div> -->
+<!--                             <div class="progress progress-small">
+                                <div style="width: 30%" class="progress-bar progress-bar-success"></div>
+                            </div> -->
+<!--                             <div>
+                                <span style="font-size:inherited;">Completed:</span>
+                                <span class="pull-right">{{team.completed}}</span>
+                            </div> -->
+<!--                             <div class="progress progress-small">
+                                <div style="width: 30%" class="progress-bar progress-bar-warning"></div>
+                            </div> -->
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+                    <!-- The hardcoded overview begin -->
+            </div>
+
+        
+
+<!--                     <div class="col-sm-6" >
+                        <div class="panel-content">
+                            <h4 style="font-weight:bold;padding-bottom:10px">Projects:</h4>
+                            <div><span style="font-size:15px;">Approval required:</span>
+                                <small class="pull-right">0/12</small>
+                            </div>
+                            <div class="progress progress-small">
+                                <div style="width: 0%" class="progress-bar"></div>
+                            </div>
+                            <div><span style="font-size:15px;">In field:</span>
+                                <small class="pull-right">2/12</small>
+                            </div>
+                            <div class="progress progress-small">
+                                <div style="width: 20%" class="progress-bar"></div>
+                            </div>
+                            <div><span style="font-size:15px;">Completed:</span>
+                                <small class="pull-right">8/12</small>
+                            </div>
+                            <div class="progress progress-small">
+                                <div style="width: 70%" class="progress-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="panel panel-primary animated fadeIn">
+                    <div class="panel-heading color2">
+                        <div class="panel-title">Wealth Management Marketing</div>
+                    </div>
+                    <div class="col-sm-6"> 
+                        <donut-chart data="myData"></donut-chart>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="panel-content">
+                            <h4 style="font-weight:bold;padding-bottom:10px">Projects:</h4>
+                            <div>
+                                <span style="font-size:15px;">Approval required:</span>
+                                <small class="pull-right">4/10</small>
+                            </div>
+                            <div class="progress progress-small">
+                                <div style="width: 40%" class="progress-bar"></div>
+                            </div>
+                            <div><span style="font-size:15px;">In field:</span>
+                                <small class="pull-right">2/10</small>
+                            </div>
+                            <div class="progress progress-small">
+                                <div style="width: 20%" class="progress-bar"></div>
+                            </div>
+                            <div><span style="font-size:15px;">Completed:</span>
+                                <small class="pull-right">4/10</small>
+                            </div>
+                            <div class="progress progress-small">
+                                <div style="width: 40%" class="progress-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="panel panel-primary animated fadeIn">
+                    <div class="panel-heading color1">
+                        <div class="panel-title">P & C Marketing</div>
+                    </div>
+                    <div class="col-sm-6"> 
+                        <div id="chart3"></div> -->
+                        <!-- Initialize and draw the chart -->
+                         <script type="text/javascript">
+                        // var chart = c3.generate({
+                        //     bindto: '#chart3',
+                        //     size: {
+                        //         height: 200,
+                        //         width: 200
+                        //     },
+                        //     data: {
+                        //         columns: [
+                        //             ['Original', 200000],
+                        //             ['Available', 75000]
+                        //         ],
+                        //         type: 'donut'
+                        //     },
+                        //     donut: {
+                        //         title: 'Credits($)'
+
+                        //     },
+                        //     legend: {
+                        //         show: false
+                        //     }
+                        // });
+                        </script>
+<!--                     </div>
+                    <div class="col-sm-6">
+                        <div class="panel-content">
+                            <h4 style="font-weight:bold;padding-bottom:10px">Projects:</h4>
+                            <div><span style="font-size:15px;">Approval required:</span>
+                                <small class="pull-right">1/5</small>
+                            </div>
+                            <div class="progress progress-small">
+                                <div style="width: 20%" class="progress-bar"></div>
+                            </div>
+                            <div><span style="font-size:15px;" ;>In field:</span>
+                                <small class="pull-right">3/5</small>
+                            </div>
+                            <div class="progress progress-small">
+                                <div style="width: 55%" class="progress-bar"></div>
+                            </div>
+                            <div><span style="font-size:15px;">Completed:</span>
+                                <small class="pull-right">1/5</small>
+                            </div>
+                            <div class="progress progress-small">
+                                <div style="width: 20%" class="progress-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+<!-- The hardcoded overview end -->
+
+<!-- count down message
+<script>
+  $.sessionTimeout({
+      keepAliveUrl: '#',
+      logoutUrl: '#',
+      redirUrl: '#',
+      warnAfter: 3000,
+      redirAfter: 10000,
+      countdownMessage: 'Redirecting in {timer} seconds.'
+  });
+</script>
+-->

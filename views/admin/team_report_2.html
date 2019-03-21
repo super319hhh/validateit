@@ -1,0 +1,22 @@
+<div id="page-wrapper" style="min-height: 670px;">
+  <div class="col-lg-12">
+    <h2 class="page-header">Report</h2>
+  </div>
+  <div class="row">
+    <div class="col-left col-lg-3 col-xs-6">
+     <!-- <div ng-include src="'views/admin/admin_left_pane.html'"> </div> -->
+    </div>
+    <a ng-click="changePath('views/admin/project_overview.html')" href="">Back to Projects</a></a>
+    <div class="col-right col-lg-offset-0 col-lg-9 col-xs-6">
+      <div class="wrapper" ng-controller="AdminCtrl">
+        <!-- <ng-pdf template-url="/partials/viewer.html"></ng-pdf> -->
+        <button ng-click="prevPage()">&lt;</button>
+        <button ng-click="nextPage()">&gt;</button>
+        <br>
+        <span>{{currentPage}}/{{totalPages}}</span>
+        <br>
+        <pdfviewer src="docs/Creative_Test.pdf" on-page-load='pageLoaded(page,total)' id="viewer"></pdfviewer>
+      </div>
+    </div>
+  </div>
+</div>

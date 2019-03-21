@@ -1,0 +1,30 @@
+<div class="sidebar" role="navigation"  style="height:100%" >
+  <div class="sidebar-nav navbar-collapse dropdown">
+    <ul class="nav nav-sidebar" id="side-menu">
+      <li class="divider"></li>
+      <li>
+        <a ng-click="changePath('views/admin/team_overview.html')" class="nav-item active">
+          <i class="fa fa-bars fa-fw"></i>Overview
+        </a>
+      </li>
+      <li>
+        <a href="index.html" class="nav-item active">
+          <i class="fa fa-dollar fa-fw"></i>Billing
+        </a>
+      </li>
+      <li>
+        <a class="nav-item" data-toggle="collapse" data-target="#demo"> <i class="fa fa-users fa-fw"></i><i class="fa fa-plus-circle fa-fw navbar-right"></i>Teams
+        </a>
+        <div id="demo" class="collapse in">
+          <!-- <ul ng-repeat="objs in team_names" class="nav nav-second-level collapse in" aria-expanded="true"> -->
+          <ul  ng-repeat="objs in team_names" ng-click="changePathSideBar('overview', $index)" ng-class="{sel: $index == selected}" ></ul>
+               <!-- class="nav nav-second-level"> -->
+            <li>
+              <a >- {{objs.name}}</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+<!--</div>-->

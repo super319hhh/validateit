@@ -1,0 +1,129 @@
+<!-- <div class="fadeMe" ng-show="showOverlay">
+  <div class="overlayContentTop"><h1>Welcome Corrine </h1></div>
+  <div class="overlayContentCenter">
+    <h1>Click on More Info to continue</h1>
+    <button ng-click="overlayBtnClick()">Ok, Got It.</button>
+  </div>
+</div> -->
+<div id="wrapper" ng-controller="AdminCtrl">
+    <div growl></div>
+    <div class="navbar navbar-default navbar-static-top clearfix" id="nav-top" role="navigation">
+        <div class="navbar-header" style="float:left">
+            <img src="images/ValidateIt_cropped.png" class="img-responsive brand-image" ng-click="changePath('/#/employee_overview')">
+        </div>
+
+        <nav class="nav_wrap fl-r">
+            <ul>
+                <li class="current-menu-item" style="padding: 0px !important;"><span class="{{userRoleTagClass}} light-bg upper">{{userRole}}</span></li>
+                <li><span>{{userName}}<i class="fa fa-sort-desc fl-r"></i></span>
+                    <ul>
+                        <li><a href="" ng-click="prepareToLogOut()"><i class="fa fa-power-off"></i> &nbsp;Log Out</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <nav class="nav_wrap fl-r">
+            <button ng-click="addProject()" class="btn btn-primary newprojecttest" style="padding:1.5px 10px;margin-right:10px"><span class="glyphicon glyphicon-plus" style="padding-right:5px" analytics-on="click" analytics-category="New Project" analytics-event="New Project clicked"></span>NEW PROJECT</button>
+        </nav>
+        <div class="nav_wrap fl-r" id="search-bar" style="width: 20%;margin-right: 10px;">
+            <div class="" style="position: relative;" ng-if="showSearch">
+                <div class="input-group mr-b-0" style="width: 100%">
+                    <input type="text" class="form-control" placeholder="Search ..." ng-model="searchQuery" aria-describedby="basic-addon2" ng-keydown="searchOnKeypress(searchQuery)" ng-change="searchOnChange(searchQuery)" ng-blur="searchBlur(searchQuery)" />
+
+                    <!--<span class="input-group-addon" id="basic-addon2" style="font-size: 10px;">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </span>-->
+                </div>
+                <div class="dropdown open bounceInDown animated" id="showSearchResult" ng-if="showSearchResult">
+                    <div class="dropdown-menu">
+                        <div ng-repeat="item in searchResult">
+                            <a class="dropdown-item" ng-class="{'no-border': ($index<1 ? true:false) }" href="javascript:void(0)" ng-click="redirectTo(item.link)">
+                                <span class="disp-block">{{item.title}}</span>
+                                <span class="disp-block">{{item.shortDesc}}</span>
+                            </a>
+                        </div>
+                        <!--<div>
+                            <a class="dropdown-item" href="#">
+                                <span class="disp-block">Another action</span>
+                                <span class="disp-block">The point of using Lorl distribution ....</span>
+                            </a>
+                        </div>
+                        <div>
+                            <a class="dropdown-item" href="#">
+                                <span class="disp-block bold">Something else here</span>
+                                <span class="disp-block">making it look like readable. Many desktop....</span>
+                            </a>
+                        </div>-->
+                        <!--<div class="dropdown-divider"></div>-->
+                        <!--<div>
+                            <a class="dropdown-item" href="#">
+                                <span class="disp-block bold">Something else here</span>
+                                <span class="disp-block">Odfdsf it look like readable English. Many desktop....</span>
+                            </a>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="sidebar" role="navigation"style="height:100%; width: 200px; z-index: 999; position: absolute;top: 50px;left: 0px" ng-class="{true:'show animated slideInLeft',false:'hide'}[isHided]" ng-mouseleave="hideTheWholeSideBar()">
+    <div class="sidebar-nav navbar-collapse" ng-style="resizeSidebarHeight()" resize>
+        <!-- animated slideInLeft -->
+        <ul class="nav">
+            <div class="theme-box" ng-show="showSideBarFn()">
+                <img src="images/ValidateIt_Checkmark.png" class="img-responsive" style="max-width:50%;margin:0 auto">
+                <!-- <h1>{{teamShortName}}</h1> -->
+                <!-- <div class="font-normal txt-al-c col-wh">ValidateIt</div> -->
+            </div>
+            <li class="" ng-show="showSideBarFn()" ng-repeat="objs in sidebar_items" ng-click="changePath(objs.path, $index)" ng-class="{sel: objs.selected==true}">
+                <a>
+                    <i style="padding-right: 40px;" class="fa fa-fw {{objs.icon}}"></i>{{objs.name}}
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="sidebar-mobile" ng-mouseover="showTheWholeSideBar()" ng-class="{true:'hide',false:'show'}[isHided]" role="navigation" style="height:100%">
+    <div class="sidebar-nav navbar-collapse animated slideInLeft" ng-style="resizeSidebarHeight()" resize>
+        <ul class="nav">
+            <div class="theme-box" ng-show="showSideBarFn()">
+                <h2 style="color:white;padding-left:10px;padding-top:10px">M</h2></div>
+            <li class="" ng-show="showSideBarFn()" ng-repeat="objs in sidebar_items" ng-click="changePath(objs.path, $index)" ng-class="{sel: objs.selected==true}">
+                <a>
+                    <i style="padding-right: 10px; color:white" class="fa {{objs.icon}}" data-toggle="tooltip" data-placement="right" title={{objs.name}}></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+</div>
+<div style="height:2px; width:100%; background: #0083C7"></div>
+
+<!-- Notification -->
+<div growl></div>
+<!-- Notification -->
+<!-- Timeout Code Begin -->
+<div class="row">
+    <script type="text/ng-template" id="warning-dialog.html">
+        <div class="modal-header text-center" style="height:40px">
+            <span style="font-size:16px;line-height:40px">Are you still here?</span>
+        </div>
+        <div idle-countdown="countdown" ng-init="countdown=10" class="modal-body text-center" style="font-size:14px">
+            You'll be logged out in {{countdown}} second(s)
+        </div>
+    </script>
+    <script type="text/ng-template" id="timedout-dialog.html">
+        <div class="modal-header text-center" style="height:40px">
+            <span style="font-size:16px;line-height:40px">You've Timed Out!</span>
+        </div>
+        <div class="modal-body text-center" style="font-size:14px">
+            <p>Please Login again</p>
+        </div>
+    </script>
+</div>
+<!-- Timeout Code End -->
+<!--
+<div ng-include src="getFilePath()"></div>
+</div>
+</div> -->

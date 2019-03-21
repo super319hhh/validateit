@@ -1,0 +1,105 @@
+<!-- popup modal for new project options begin-->
+    <div>
+        <modal visible="showOptionModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" style="  color:#ffffff">&times;</span>
+                        </button>
+                        <div class="modal-title">New Project Options</div>
+                    </div>
+                    <div class="model-body clearfix">
+                        <!-- <div class="model-text">{{modal.text}}</div> -->
+                        <div class="col-md-offset-2 col-md-8" style="margin-bottom:20px">
+                            <button type="submit" ng-click="startNewProject()" class="btn btn-default btn-block">Start New Project</button>
+                        </div>
+                        <div class="col-md-offset-2 col-md-8" style="margin-bottom:10px">
+                            <button type="submit" ng-click="copyFromOldProject()" class="btn btn-default btn-block">Choose From Existing Projects</button>
+                        </div>
+                    </div>
+                    <!-- <div class="modal-footer" style="text-align:center"> -->
+                    <!--   <button type="submit" ng-click="deleteUser()" class="btn" style="width:90px;color:#ffffff;background-color:#337ab7">OK</button>
+                            <button type="submit" ng-click="cancelDeleteUser()" class="btn btn-default" style="width:90px">Cancel</button> -->
+                    <!-- </div> -->
+                </div>
+            </div>
+        </modal>
+    </div>
+    <!-- popup modal for new project options end-->
+    <!-- popup modal for new project options begin-->
+<!--     <div>
+        <modal visible="showCopyProjectModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" style="  color:#ffffff">&times;</span>
+                        </button>
+                        <div class="modal-title">Create New Project From Existing Projects</div>
+                    </div>
+                    <div class="model-body clearfix">
+                        <div class="col-md-6">
+                            <div class="list-group" style="max-height:400px;overflow:auto">
+                                <button type="button" class="list-group-item" ng-class="{active: $index==chosenProjectIndex}" ng-repeat="project in existingProjects" ng-style="myStyle" ng-click="clickedProject($index)">{{project.name}}</button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="text-left" style="font-weight:bold">Project Summary</p>
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td>Description:</td>
+                                        <td>{{chosenProject.description}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Community:</td>
+                                        <td>{{chosenProject.community}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom:15px">
+                        <div class="col-sm-offset-3 col-sm-6">
+                            <button type="submit" class="btn btn-primary btn-block">Copy</button>
+                        </div>
+                    </div>
+                    <!-- <div class="modal-footer" style="text-align:center">
+                    <!--   <button type="submit" ng-click="deleteUser()" class="btn" style="width:90px;color:#ffffff;background-color:#337ab7">OK</button>
+                            <button type="submit" ng-click="cancelDeleteUser()" class="btn btn-default" style="width:90px">Cancel</button> -->
+                    <!-- </div> -->
+<!--                 </div>
+            </div>
+        </modal>
+    </div> -->
+    <!-- popup modal for new project options end-->
+
+
+
+<!-- <form role="form" ng-show="showCopyProjectForm">
+                        <div class="col-lg-6">
+                            <h3>Copy Project From Existing Projects</h3>
+                        </div>
+    <div class="panel panel-primary-collapsible">
+        <table class="table table-hover bordered-table" style="table-layout:fixed;">
+            <thead>
+                <tr>
+                    <th>Project List</th>
+                    <th>Description</th>
+                    <th>Community</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="project in existingProjects" ng-click="clickProject($index)" ng-class-odd="'odd'" ng-class-even="'even'" style="cursor:pointer">
+                    <td>{{project.name}}</td>
+                    <td>{{project.description}}</td>
+                    <td>{{project.community}}</td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+        <div class="row text-center" style="margin-top:15px">
+            <button type="submit" class="btn btn-primary">Copy</button>
+        </div>
+</form> -->

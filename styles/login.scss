@@ -1,0 +1,145 @@
+@import "variables";
+@import "widgets/input-underline";
+
+.login-page {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	overflow: auto;
+
+ // background: $brand-primary;
+
+	text-align: center;
+	color: #fff;
+
+	padding: 3em;
+
+	h1 {
+		font-weight: 300;
+		small {
+			color: rgba(255,255,255,0.7);
+		}
+	}
+
+	.form-group {
+		padding: 8px 0;
+	}
+
+	.form-content {
+		padding: 20px 0;
+	}
+
+  	.login-error-title, .login-error {
+  	 //text-transform: uppercase;
+  	 //font-family: ff-clan-web-pro-wide, "Helvetica Neue", Helvetica, sans-serif;
+  	 color: lighten(#ed145b, 40%); }
+
+  	.login-error-title {
+  	 font-size: 20px; }
+
+  	.login-error {
+  	 font-size: 16px;}
+
+  	#login_admin {
+  		margin-top: 0;
+  		padding: 0;
+  		label{
+  			padding: 0;
+  			text-transform: none !important;
+  		}
+  	}
+
+  	.panel-footer {
+  			background-color: #fff;
+  	}
+
+}
+.btn-label {position: relative;left: -12px;display: inline-block;padding: 6px 12px;background: rgba(0,0,0,0.15);border-radius: 3px 0 0 3px;}
+.btn-labeled {padding-top: 0;padding-bottom: 0;}
+.input-group { margin-bottom:10px; }
+.separator { border-right: 1px solid #dfdfe0; }
+.facebook,.twitter { min-width:170px; }
+.facebook { background-color:#354E84;color:#fff; }
+.twitter { background-color:#00A5E3;color:#fff; }
+.facebook:hover,.twitter:hover { color:#fff; }
+
+
+/* *
+ * colored box with text
+ * */
+@mixin colored-box($backgroundColor:"", $textColor:"#00000", $cornerRadious:"", $displayProp:"", $margin:"", $padding:"") {
+	@if $cornerRadious != "" {
+		-moz-border-radius: $cornerRadious;
+		-ms-border-radius: $cornerRadious;
+		-o-border-radius: $cornerRadious;
+		-webkit-border-radius: $cornerRadious;
+		border-radius: $cornerRadious;
+	}
+	@if $backgroundColor != "" {
+		background-color: $backgroundColor;
+	} @else{
+		background-color: #ffffff;
+	}
+
+	@if $textColor != "" {
+		color: $textColor;
+	} @else {
+		color: #000000;
+	}
+
+	@if $displayProp != "" {
+		display: $displayProp;
+	}
+
+	@if $margin != "" {
+		margin: $margin;
+	}
+
+	@if $padding != "" {
+		padding: $padding;
+	}
+}
+
+//.userpage{
+	.box-success {
+		@include colored-box(#5cb85c, #ffffff, 4px, "","", 2px 10px 4px 10px);
+		letter-spacing: 1px;
+		&.light-bg{
+			&:hover{
+				background-color: lighten(#5cb85c, 10%) !important;
+			}
+		}
+		&.upper{
+			text-transform: uppercase !important;
+		}
+	}
+
+	.box-info {
+		@include colored-box(#5bc0de, #ffffff, 4px, "","", 2px 10px 4px 10px);
+		&.light-bg{
+			&:hover{
+				background-color: lighten(#5bc0de, 10%) !important;
+			}
+		}
+	}
+
+	.box-default{
+		@include colored-box(#777777, #ffffff, 4px, "","", 2px 10px 4px 10px);
+		&.light-bg{
+			&:hover{
+				background-color: lighten(#777777, 10%) !important;
+			}
+		}
+	}
+	.box-primary{
+		@include colored-box(#337ab7, #ffffff, 4px, "","", 2px 10px 4px 10px);
+		&.light-bg{
+			&:hover{
+				background-color: lighten(#337ab7, 10%) !important;
+			}
+		}
+	}
+//}
+

@@ -1,0 +1,225 @@
+@import "../variables";
+
+.circle{
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  background-color: $color-blue;
+  color: $color-white;
+
+  text-align: center;
+  line-height: 50px;
+  font-size: 16px;
+  font-weight: 700;
+
+  &.small{
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+  }
+  &.x-small{
+    width: 40px;
+    height: 40px;
+    font-size: $font-size-big !important;
+    font-weight: 400 !important;
+    line-height: 40px;
+  }
+  &.xx-small{
+    width: 30px;
+    height: 30px;
+    font-size: $font-size-x-small !important;
+    font-weight: 400 !important;
+    line-height: 30px;
+  }
+  &.blue{
+    background-color: $color-blue;
+  }
+  &.green{
+    background-color: $color-green;
+  }
+  &.light-green{
+    background-color: lighten($color-green, 20%);
+  }
+  &.dark-green{
+    background-color: darken($color-green, 20%);
+  }
+  &.orange {
+    background-color: $color-orange;
+  }
+  &.red {
+    background-color: lighten($color-red, 15%);
+  }
+  &.purple {
+    background-color: $color-purple;
+  }
+  &.light-purple {
+    background-color: lighten($color-purple,20%);
+  }
+  &.dark-gray {
+    background-color: $gray-dark;//#7F8C8D;
+  }
+  &.light-gray {
+    background-color: $gray-light;//#7F8C8D;
+  }
+  &.cayn{
+    background-color: $gray-dark;//#7F8C8D;
+  }
+  &.dark-cayn{
+    background-color: darken($gray-dark,20%);//#7F8C8D;
+  }
+  &.light-cayn{
+    background-color: lighten($gray-dark,20%);//#7F8C8D;
+  }
+  &.brown{
+    background-color: lighten($color-brown, 20%);
+  }
+  &.light-brown{
+    background-color: $color-brown;
+  }
+  &.dark-brown{
+    background-color: darken($color-brown, 20%);
+  }
+
+  &.large{
+    width: 100px;
+    height: 100px;
+  }
+  &-tile{
+    margin-bottom: 15px;
+    text-align: center;
+    border-radius: 25px;
+    border: 2px solid #8AC007;
+
+    &-heading{
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 100%;
+      color: #FFFFFF;
+      height: 80px;
+      margin: 0 auto -40px;
+      position: relative;
+      transition: all 0.3s ease-in-out 0s;
+      width: 80px;
+      .fa{
+        line-height: 80px;
+      }
+      &.dark-blue{
+        &:hover{
+          background-color: #2E4154;
+        }
+      }
+      &.green{
+        &:hover{
+          background-color: #138F77;
+        }
+      }
+      &.orange{
+        &:hover{
+          background-color: #DA8C10;
+        }
+      }
+      &.blue{
+        &:hover{
+          background-color: #2473A6;
+        }
+      }
+      &.red{
+        &:hover{
+          background-color: #CF4435;
+        }
+      }
+      &.purple{
+        &:hover{
+          background-color: #7F3D9B;
+        }
+      }
+    }
+    &-title {
+      font-size: 20px;
+      font-weight: 500;
+      line-height: 1;
+      padding: 10px 0 10px;
+      color: #fff;
+    }
+    &-line {
+      height: 0px;
+      margin: 0px;
+      border-bottom: 1px solid #FFF;
+      font-size: 1px;
+    }
+    &-number {
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 1;
+      padding: 10px 0 15px;
+    }
+    &-description {
+      text-transform: uppercase;
+    }
+    &-footer {
+      background-color: rgba(0, 0, 0, 0.1);
+      color: rgba(255, 255, 255, 0.5);
+      display: block;
+      padding: 5px;
+      transition: all 0.3s ease-in-out 0s;
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.2);
+        color: rgba(255, 255, 255, 0.5);
+        text-decoration: none;
+      }
+    }
+    &-brand-primary {
+      background-color: $brand-primary;
+      &-lighten {
+        background-color: lighten($brand-primary,10%);
+      }
+    }
+
+  } // end circle-tile
+
+  // --------------------------------
+  &-title{
+    &-content {
+      padding-top: 10px;
+    }
+  } // end circle-title
+
+
+}
+
+.tile-img {
+  text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.9);
+}
+
+.dark-blue {
+  background-color: darken($color-blue, 20%);//#34495E;
+}
+.green {
+  background-color: $color-green;
+}
+.blue {
+  background-color: $color-blue;
+}
+.orange {
+  background-color: $color-orange;
+}
+.red {
+  background-color: $color-red;
+}
+.purple {
+  background-color: $color-purple;
+}
+.dark-gray {
+  background-color: $gray-dark;//#7F8C8D;
+}
+.gray {
+  background-color: $gray; //#95A5A6;
+}
+.gray-light {
+  background-color: $gray-light;//#BDC3C7;
+}
+.yellow {
+  background-color: $color-yellow;
+}
+
+
+

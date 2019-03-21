@@ -1,0 +1,79 @@
+
+
+//growl-item alert ng-scope alert-success icon alert-dismissable
+.growl-container{
+  .growl-item{
+    position: relative;
+    background: #FFF;
+    border: 2px solid #2d6da3;
+
+    &.alert-info{
+      background: #FFFFFF !important;
+      .leftbar{
+        width: 30px;
+        background: #2d6da3;
+        float: left;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        height: 100%;
+        border-top-left-radius: 1px;
+        border-bottom-left-radius: 1px;
+      }
+    }
+    &.alert-success{
+      background: rgb(160, 160, 160) !important; /* The Fallback */
+      background: rgba(00, 00, 00, 0.8) !important;
+      color: #FFFFFF !important;
+      border-color: rgb(140, 140, 140) !important;;
+    }
+    .growl-message{
+      font-size: 14px;
+      padding: 10px 0px;
+      margin-left: 40px !important;
+      color: #337ab7 !important;
+      b{
+        font-weight: 800 !important;
+        color: darken(#337ab7, 5%) !important;
+      }
+    }
+    button{
+      &.close{
+        color: #777777 !important;
+        top: -10px !important;
+        opacity: 1 !important;
+        &:hover{
+          color: #222222 !important;
+          opacity: 1 !important;
+        }
+      }
+    }
+    &.alert-danger{
+      background: #FFFFFF !important;
+      color: #a94442 !important;
+      border: 2px solid #a94442 !important;
+      .leftbar{
+        width: 30px;
+        background: #a94442;
+        float: left;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        height: 100%;
+        border-top-left-radius: 1px;
+        border-bottom-left-radius: 1px;
+      }
+
+      .growl-message{
+        font-size: 14px;
+        padding: 10px 0px;
+        margin-left: 40px !important;
+        color: #a94442 !important;
+        b{
+          font-weight: 800 !important;
+          color: darken(#a94442, 5%) !important;
+        }
+      }
+    }
+  }
+}

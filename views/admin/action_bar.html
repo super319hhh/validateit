@@ -1,0 +1,27 @@
+<!-- Action Bar -->
+<div class="navbar navbar-fixed-bottom action-bar" ng-if="actionBar.display" ng-class="actionBar.width">
+    <div class="navbar-inner">
+        <div class="container">
+            <div class="row clearfix">
+                <div class="col-left" ng-if="actionBar.leftCol.display">
+                    <div class="action-box" ng-class="[action.bgColorClass,action.moreClass, action.isShadow, action.borderRight]" ng-click="actionBarOnClick(action.onClickFunc, 'leftCol', $index)" ng-repeat="action in actionBar.leftCol.actions">
+                        <i class="" ng-class="action.iconClass" ng-if="action.icon"></i>{{action.text}}
+                    </div>
+
+                    <!--<div class="action-box cblue shadow">Action 3</div>
+                    <div class="action-box brdr shadow">Action 4</div>
+                    <div class="action-box brdr shadow">Action 5</div>
+                    <div class="action-box brdr">text text text | <a href="#">Link</a></div>-->
+                </div>
+
+                <div class="col-right" ng-if="actionBar.rightCol.display">
+                    <div class="action-box" ng-class="[action.bgColorClass,action.moreClass, action.isShadow, action.borderRight]" ng-class="{'shadow' : action.isShadow, 'brdr' : action.borderRight}" ng-repeat="action in actionBar.rightCol.actions">
+                        <i class="" ng-class="action.iconClass" ng-if="action.icon"></i>{{action.text}}
+                    </div>
+                    <!--<div class="action-box cred shadow fl-r"><i class="fa fa-trash-o"></i>&nbsp;Delete</div>-->
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div> <!-- End Action Bar-->

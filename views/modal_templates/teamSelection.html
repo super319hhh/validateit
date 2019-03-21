@@ -1,0 +1,16 @@
+<div id="custom-modal">
+    <div id="overlay">
+        <div class="custom_modal_header text-center">
+            <span class="titleText font-large">Select Team</span>
+        </div>
+        <div class="custom_modal_body row">
+            <div ng-repeat="team in data.teamList">
+                <div class="col-md-offset-2 col-md-8 mr-t-15 mr-b-15">
+                    <button type="submit" ng-click="select(team)" class="btn btn-default btn-block" style="padding-top: 6px !important;padding-bottom:6px !important" analytics-on="click" analytics-category="Employee Overview" analytics-event="Select Team">{{team}}</button>
+                </div>
+                <div ng-hide="$last" class="col-sm-12 text-center" style="font-size:14px;color:#ccc">------------------------------------- or -------------------------------------</div>
+            </div>
+        </div>
+    </div>
+    <div id="custom_fade"></div>
+</div>

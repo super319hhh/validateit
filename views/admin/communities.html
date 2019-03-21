@@ -1,0 +1,145 @@
+<div ng-include src="'views/admin/admin.html'"></div>
+<div id="page-wrapper" style="min-height: 670px;" ng-init="init()" ng-controller="CommunitiesCtrl">
+    <breadcrumb></breadcrumb>
+    <div class="row">
+        <div class="col-lg-6"></div>
+        <div class="col-lg-6">
+            <div ng-show="showAddCommunity" class="txt-al-r pad-r-15">
+                <button ng-show="showCommunitiesTableFlag" ng-click="addNewCommunity()" class="btn btn-primary padded-btn mr-0"><span class="glyphicon glyphicon-plus" style="padding-right:5px;" analytics-on="click" analytics-category="Community" analytics-event="New Community clicked"></span>NEW COMMUNITY</button>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <!-- Breadcrum Nav and Add Button begin -->
+        <!--<div class="row breadcrumb-wrap" style="margin-bottom: 35px;">
+            <div class="col-lg-9">
+                <ul id="breadcrumbs-one">
+                    <li ng-repeat="list in breadcrumb.lists">
+                        <span ng-class="{'current': $last}" ng-click="breadcrumbLink(list.onClickFnc, $index)">
+                            <i class="glyphicon glyphicon-home" ng-if="$index === 0"></i>
+                            {{list.name}}
+                        </span>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-3">
+                <div ng-show="showAddCommunity" class="txt-al-r">
+                    <button ng-show="showCommunitiesTableFlag" ng-click="addNewCommunity()" class="btn btn-primary padded-btn mr-0"><span class="glyphicon glyphicon-plus" style="padding-right:5px;" analytics-on="click" analytics-category="Community" analytics-event="New Community clicked"></span>NEW COMMUNITY</button>
+                </div>
+            </div>
+        </div>-->
+        <!-- Breadcrum Nav and Add Button end -->
+        <!-- Filter begin -->
+        <div class="row" ng-show="showCommunitiesTableFlag">
+            <div class="col-sm-3 col-md-2">
+                <div class="form-group">
+                    <label>Filter by Country</label>
+                    <select class="form-control" ng-model="countries.selectedOption" ng-options="option.name for option in countries.availableOptions track by option.name" ng-change="filterByCountry()"></select>
+                </div>
+            </div>
+        </div>
+        <!-- Filter end -->
+        <!-- Show Communities List -->
+        <div class="row" ng-show="showCommunitiesTableFlag">
+            <div class="panel panel-primary-collapsible">
+                <div class="animated fadeIn" id="communitiesTable">
+                    <table class="table table-hover bordered-table">
+                        <thead>
+                            <tr>
+                                <th class="check-all" ng-class="npOptions.checkAllClass" ng-click="checkAllCommunities()" style="border-top: 1px solid #ddd;border-right: 1px solid #ddd;" ng-if="(showAddCommunity || createNewProjectFlag)">
+                                    <input type="checkbox" class="checkbox big mr-0" ng-model="npOptions.checkedAll" />
+                                </th>
+                                <th>Community</th>
+                                <th style="width: 30%;">Description</th>
+                                <th>Age</th>
+<!--                                 <th style="width: 16%;"><span style="display:inline-block;width:40%;text-align:center;margin-right:10px">Male (%)</span>
+                                    <span style="display:inline-block;width:45%;text-align:center;margin-right:0px">Female (%)</span></th> -->
+                                <th class="text-center">gender Ratio</th>
+                                <th>Country</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="(communitiesArray.length < 1 ? true: false)">
+                                <td colspan="6" class="no-records">No communities found.</td>
+                            </tr>
+                            <tr ng-repeat="community in communitiesArray" ng-class-odd="'odd'" ng-class-even="'even'">
+                                <td style="width: 30px;" ng-if="(showAddCommunity || createNewProjectFlag)">
+                                    <input type="checkbox" class="checkbox big mr-0" value="{{community.recordID}}" ng-model="community.checked" ng-click="communityCheckBoxOnClick(community.recordID)" />
+                                </td>
+                                <td ng-click="showSelectedCommunity(community.recordID)">{{community.communityname}}</td>
+                                <td ng-click="showSelectedCommunity(community.recordID)">{{community.communitydescription}}</td>
+                                <td ng-click="showSelectedCommunity(community.recordID)">
+                                    <span ng-show="community.ageselection['age_18_24']">18-24<br></span>
+                                    <span ng-show="community.ageselection['age_25_34']">25-34<br></span>
+                                    <span ng-show="community.ageselection['age_35_44']">35-44<br></span>
+                                    <span ng-show="community.ageselection['age_45_54']">45-54<br></span>
+                                    <span ng-show="community.ageselection['age_55_64']">55-64<br></span>
+                                    <span ng-show="community.ageselection['age_65_plus']">65+<br></span>
+                                    <span ng-show="community.ageselection['age_all']">All</span>
+                                </td>
+                                <td ng-click="showSelectedCommunity(community.recordID)">
+                                    <div>
+<!--                                         <span style="display:inline-block;width:40%;text-align:center;margin-right:10px">{{community.malePercentage}}</span>
+                                        <span style="display:inline-block;width:45%;text-align:center;margin-right:0px">{{community.femalePercentage}}</span> -->
+                                        <div google-chart chart="community.chartObject" style="width: 100px; height: 100px; margin:0 auto;"></div>
+                                    </div>
+                                </td>
+                                <td class="f32" ng-click="showSelectedCommunity(community.recordID)">
+                                    <div>
+                                        <span ng-show="community.isUS" class="flag us"></span>
+                                        <span ng-show="community.isCanada" class="flag ca"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- End Communities List -->
+        <!-- New Community Form -->
+        <add-new-community-form></add-new-community-form>
+        <!-- Selected Community Details Begin -->
+        <community-details></community-details>
+        <!-- Action Bar Directive -->
+        <action-bar></action-bar>
+        <!-- New Project -->
+        <div ng-include src="'views/admin/project_wizard.html'"></div>
+        <!-- popup modal begin -->
+        <div>
+            <modal visible="modal.show" id="modal-root" style="padding: 0px !important;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header text-center">
+                            <button type="button" class="close" data-dismiss="modal" ng-click="resetModal()" aria-label="Close">
+                                <span aria-hidden="true" style="  color:#ffffff">&times;</span>
+                            </button>
+                            <div class="modal-title font-large">{{modal.title}}</div>
+                        </div>
+                        <div class="model-body text-center clearfix">
+                            <div class="model-text mr-t-15" id="modalText"></div>
+                            <div class="modal-input mr-b-15" ng-if="modal.input.show">
+                                <textarea class="form-control" id="modalInput" style="height: 50px !important;" rows="2" ng-model="modal.input.value" placeholder="Details about the changes"></textarea>
+                            </div>
+                        </div>
+                        <div class="row" style="margin:15px">
+                            <div class="col-sm-offset-3 col-sm-6 text-center">
+                                <button type="submit" ng-show="modal.buttons.confirm.show" ng-click="modalAction(modal.buttons.confirm.fnc, modal.buttons.confirm.params)" ng-model="modal.buttons.confirm.params" class="btn btn-primary">{{modal.buttons.confirm.text}}</button>
+                                <button type="submit" ng-show="modal.buttons.delete.show" ng-click="modalAction(modal.buttons.delete.fnc, modal.buttons.delete.params)" ng-model="modal.buttons.delete.params" class="btn btn-primary">{{modal.buttons.delete.text}}</button>
+                                <button type="submit" ng-show="modal.buttons.cancel.show" ng-click="modalAction(modal.buttons.cancel.fnc)" class="btn btn-default">{{modal.buttons.cancel.text}}</button>
+                                <button type="submit" ng-show="modal.buttons.custom.show" ng-click="modalAction(modal.buttons.custom.fnc, modal.buttons.custom.params)" ng-model="modal.buttons.custom.params" class="btn btn-primary" ng-class="{disabled: modal.input.show && ( modal.input.required && modal.input.value =='') && modal.input.dependent == 'custom'}">{{modal.buttons.custom.text}}</button>
+                            </div>
+                        </div>
+                        <!-- <div class="modal-footer" style="text-align:center"> -->
+                        <!--   <button type="submit" ng-click="deleteUser()" class="btn" style="width:90px;color:#ffffff;background-color:#337ab7">OK</button>
+                                <button type="submit" ng-click="cancelDeleteUser()" class="btn btn-default" style="width:90px">Cancel</button> -->
+                        <!-- </div> -->
+                    </div>
+                </div>
+            </modal>
+        </div>
+        <!-- popup modal end -->
+    </div>
+    <!-- End Container-fluid -->
+</div>
+<!-- End page-wrapper -->

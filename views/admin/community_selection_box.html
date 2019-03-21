@@ -1,0 +1,104 @@
+<!-- [Start] Add Communities -->
+<!-- zoomIn animated -->
+<div class="row mr-b-15" ng-repeat="community in project.communityDetails" id="communityID_{{rowIndex}}" ng-init="rowIndex = $index">
+  <div class="panel panel-primary-collapsible">
+    <div class="panel-heading panel-heading-collapsible panel-heading-collapsible-style v-txt-u">
+      {{community.selected.community.name}}
+      <!--<i class="fa fa-pencil" ng-click="toggleCommunityContainer('{{community.recordID}}')" style="float: right; display: inline-block; padding: 0px 15px 0px 5px"></i>
+      <i class="fa fa-trash" ng-click="prepareToDelete('{{community.recordID}}')" style="float: right; display: inline-block; padding: 0px 5px;"></i>-->
+
+      <button class="btn btn-danger btn-xs fl-r" ng-class="community.disableDeleteBtn" ng-disabled="community.disableDeleteBtn" ng-if="community.showDeleteBtn" ng-click="prepareToDelete(community.recordID)" style="margin-top: 4px; margin-left: 5px;">
+        <i class="fa fa-trash-o fa-fw"></i>
+      </button>
+      <button class="btn btn-primary dark btn-xs fl-r" ng-class="community.disableEditBtn" ng-disabled="community.disableEditBtn" ng-if="community.showEditBtn" ng-click="toggleCommunityContainer(community.recordID)" style="margin-top: 4px; margin-left: 5px;">
+        <i class="fa fa-pencil fa-fw"></i>
+      </button>
+
+
+
+    </div>
+    <div class="summary clearfix" ng-click="toggleCommunityContainer(community.recordID)">
+      <div><span class="v-txt-u">Country:</span><span>{{community.selected.countries_text}}</span></div>
+      <div><span class="v-txt-u">Age Range:</span><span>{{community.selected.age_text}}</span></div>
+      <div><span class="v-txt-u">Respondents:</span><span>{{community.selected.respondents.number}}</span></div>
+      <div><span class="v-txt-u">Gender:</span><span>{{community.selected.gender_text}}</span></div>
+    </div>
+    <div class="progress-line clearfix">
+      <div class="fill" ng-class="community.progress.country"></div>
+      <div class="fill" ng-class="community.progress.age"></div>
+      <div class="fill" ng-class="community.progress.respondents"></div>
+      <div class="fill" ng-class="community.progress.gender"></div>
+    </div>
+    <div class="row mr-t-15" ng-show="community.showContainerFlag">
+      <div class="col-lg-12">
+        <div class="row" ng-show="community.showSuccessMessage">
+          <div class="alert alert-success" role="alert"> <strong>Well done!</strong> Successfully saved your community information. </div>
+        </div>
+        <div class="row" ng-show="community.showErrorFlag">
+          <div class="alert alert-danger" role="alert"> <strong>Error: </strong> {{community.errorMessage}}</div>
+        </div>
+        <div class="row">
+          <div class="col-lg-3 form-group form-group-sm country-wrap mr-b-15">
+            <label>Country:<i class="fa fa-question question-icon mr-l-10" style="font-size:1.5em;vertical-align:middle" tooltip-class="wd-x" tooltip="Select the country you are looking to access. Only one country can be selected at a time." tooltip-animation="true" tooltip-placement="right"></i></label>
+            <div ng-repeat="country in community.countries" class="radio f32 mr-tb-0">
+              <span class="flag {{country.flagCode}} country-flag" ng-click="checkCountry(community.recordID,$index)"></span>
+              <span class="country-input">
+                  <input type="radio" name="optcountryradio_{{rowIndex}}" id="comn_country_{{rowIndex}}{{$index}}" ng-model="community.selected.countries_text" ng-value="community.countries[$index].name" ng-click="prepareCountries(community.recordID, $index, '')"  style="margin-right: 5px;"/><span ng-click="checkCountry(community.recordID,$index)" >{{country.name}}</span>
+              </span>
+            </div>
+          </div>
+          <!--<div class="col-lg-10 pad-l-0">
+            <div class="row">-->
+              <div class="col-lg-3 mr-b-15"  ng-show="community.communityFlag">
+                <div class="row form-group form-group-sm mr-b-0">
+                  <label class="community-label">Community:<i class="fa fa-question question-icon mr-l-10" style="font-size:1.5em;vertical-align:middle" tooltip-class="wd-xx" tooltip="Select the community you are looking to target. More information on each community can be seen in the description below." tooltip-animation="true" tooltip-placement="right"></i></label>
+                  <select name="mySelect" id="mySelect" class="form-control"
+                          ng-options="option.name for option in community.communities track by option.returnDataListID"
+                          ng-model="community.selected.community"  ng-change="updateSelectedCommunities(community.recordID, $index)">
+                  </select>
+                </div>
+                <div class="row community-desc">
+                  <label>Description:</label>
+                  {{community.selected.community.description}}
+                </div>
+              </div>
+              <div class="col-lg-2 form-group form-group-sm age-range-wrap mr-b-15" ng-show="community.ageRangeFlag">
+                <label>Age:<i class="fa fa-question question-icon mr-l-10" tooltip-class="wd-xx" tooltip="Select the age you are looking to target. Age is specific to the community selected and will only appear if they are available." tooltip-animation="true" tooltip-placement="right"></i></label>
+                <div class="input-group">
+                <span ng-repeat="age in community.ages" ng-disabled="age.locked" ng-class="{'disabled': age.locked}">
+                  <input type="checkbox" aria-label="Checkbox for following text input" ng-model="age.checked" ng-click="prepareAges(community.recordID)" ng-disabled="age.locked"/>
+                  <span class="age-range-label" ng-click="ageChecked(community.recordID, $index,'')" ng-class="{'disabled': age.locked}" ng-disabled="age.locked">{{age.ageRange}}</span><br />
+                </span>
+                </div>
+              </div>
+              <div class="col-lg-2 form-group form-group-sm respondent-wrap mr-b-15" ng-show="community.respondentFlag">
+                <label>Number of respondents:<i class="fa fa-question question-icon mr-l-10" tooltip-class="wd-xx" tooltip="Select the number of respondents you are looking to target. The number of respondents is specific to the age selected. If you require more respondents, broaden your age range selected." tooltip-animation="true" tooltip-placement="bottom"></i></label>
+                <select name="mySelect2" id="mySelect2" class="form-control"
+                        ng-options="option.number for option in community.respondents track by option.uid"
+                        ng-model="community.selected.respondents" ng-change="respondentChanged(community.recordID, $index,'')">
+                </select>
+
+
+              </div>
+              <div class="col-lg-2 form-group form-group-sm gender-wrap pad-r-0 mr-b-15" ng-show="community.genderFlag">
+                <label>Gender:<i class="fa fa-question question-icon mr-l-10" tooltip-class="wd-x" tooltip="Select the gender you are looking to target." tooltip-animation="true" tooltip-placement="bottom"></i></label>
+                <div>
+                  <div class="input-group">
+                    <span ng-repeat="gender in community.gender" ng-disabled="gender.isLocked" ng-class="{'disabled': gender.isLocked}">
+                      <input type="checkbox" aria-label="Checkbox for following text input" ng-model="gender.selected" ng-click="prepareGender(community.recordID, $index, '')" ng-disabled="gender.isLocked" ng-class="{'disabled': gender.isLocked}" />
+                      <span class="gender-label" ng-click="genderChecked(community.recordID, $index,'')" ng-disabled="gender.isLocked" ng-class="{'disabled': gender.isLocked}">{{gender.name}}</span><br />
+                    </span>
+                  </div>
+                </div>
+              </div>
+            <!--</div>
+          </div>-->
+        </div>
+        <div class="row">
+          <button type="button" class="btn btn-success" ng-show="community.showSubmitBtn" ng-class="community.disableSubmitBtn" ng-disabled="community.disableSubmitBtn" ng-click="saveCommunityInfo(community.recordID)" style="margin: 0% 0% 1% 47%;">Save</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>  <!-- [End] Add Communities -->

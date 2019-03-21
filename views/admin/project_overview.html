@@ -1,0 +1,1003 @@
+<div ng-include src="'views/admin/admin.html'"></div>
+<div id="page-wrapper" ng-controller="ProjectsCtrl" ng-init="init()" style="min-height: 670px;">
+    <breadcrumb></breadcrumb>
+    <div class="container-fluid">
+
+        <div class="row" ng-hide="showProjectDetailsFlag">
+            <div class="col-lg-12 page-header  pad-tb-0" style="border: 0px;">
+                <div class="row project-tab">
+                    <div class="col-lg-2 summary-box color-blue pad-0" ng-class="projectStatus.draft.active" ng-click="displayProjectList('D')">
+                        <div class="arrow_down" ng-if="projectStatus.draft.active=='active'"></div>
+                        <div class="row">
+                            <div class="wrap">
+                                <div class="col-xs-3 pad-r-0">
+                                    <i class="fa fa-pencil-square-o fa-2x"></i>
+                                </div>
+                                <div class="col-xs-9 pad-l-0 text">
+                                    <div class="row"><span class="pstatus">Drafts</span></div>
+                                    <div class="row">
+                                        <h2>{{totalCount.draft}}</h2></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 summary-box color-blue pad-0" ng-class="projectStatus.approvalRequired.active" ng-click="displayProjectList('R')">
+                        <div class="arrow_down" ng-if="projectStatus.approvalRequired.active=='active'"></div>
+                        <div class="row">
+                            <div class="wrap">
+                                <div class="col-xs-3 pad-r-0">
+                                    <i class="fa fa-clock-o fa-2x"></i>
+                                </div>
+                                <div class="col-xs-9 pad-l-0 text">
+                                    <div class="row"><span class="pstatus">Approval Required</span></div>
+                                    <span><h2>{{totalCount.approvalRequired}}</h2></span>
+                                </div>
+                            </div>
+                            <span class="text-badge in-ptab small white">Internal</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 summary-box color-blue pad-0" ng-class="projectStatus.approved.active" ng-click="displayProjectList('A')">
+                        <div class="arrow_down" ng-if="projectStatus.approved.active=='active'"></div>
+                        <div class="row">
+                            <div class="wrap">
+                                <div class="col-xs-3 pad-r-0">
+                                    <i class="fa fa-check-square-o fa-2x"></i>
+                                </div>
+                                <div class="col-xs-9 pad-l-0 text">
+                                    <div class="row"><span class="pstatus">In Review</span></div>
+                                    <span><h2>{{totalCount.approved}}</h2></span>
+                                </div>
+                            </div>
+                            <span class="text-badge in-ptab small white">Validator</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 summary-box color-blue pad-0" ng-class="projectStatus.inProgress.active" ng-click="displayProjectList('P')">
+                        <div class="arrow_down" ng-if="projectStatus.inProgress.active=='active'"></div>
+                        <div class="row">
+                            <div class="wrap">
+                                <div class="col-xs-3 pad-r-0">
+                                    <i class="fa fa-cog fa-2x"></i>
+                                </div>
+                                <div class="col-xs-9 pad-l-0 text">
+                                    <div class="row"><span class="pstatus">Launched</span></div>
+                                    <div class="row">
+                                        <h2>{{totalCount.inProgress}}</h2></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 summary-box color-blue pad-0" ng-class="projectStatus.completed.active" ng-click="displayProjectList('C')">
+                        <div class="arrow_down" ng-if="projectStatus.completed.active=='active'"></div>
+                        <div class="row">
+                            <div class="wrap">
+                                <div class="col-xs-3 pad-r-0">
+                                    <i class="fa fa-check-square fa-2x"></i>
+                                </div>
+                                <div class="col-xs-9 pad-l-0 text">
+                                    <div class="row"><span class="pstatus">Completed</span></div>
+                                    <div class="row">
+                                        <h2>{{totalCount.completed}}</h2></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- [End] Header -->
+        <!--<div class="col-md-12" ng-show="showBreadcrumbNav" style="padding-bottom:20px">
+            <ol class="breadcrumb" style="font-size:20px;margin-bottom:0">
+                <li><a ng-click="showAllProjects()" style="text-decoration:underline;cursor:pointer">Projects</a></li>
+                <li class="active">{{activeProjectName}}</li>
+            </ol>
+        </div>-->
+        <!-- [End] Breadcrumbs navigation-->
+        <!-- Project Lists -->
+        <!-- [Start] Projects in Draft -->
+        <div class="row" ng-show="projectStatus.draft.show">
+            <div class="row pad-lr-15 mr-b-10" ng-if="(countRequireChanges+countAssignedToYou > 0 ? true: false)">
+                <div class="col-lg-12 icon-hint" style="padding: 7px 0px; background: #fff;">
+                    <span ng-if="countAssignedToYou"><span class="circle" style="margin-left: 30px; margin-right: 2px;"><i class="fa fa-user" style="vertical-align: text-top;"></i></span> = <span>Assigned to you</span> &nbsp;&nbsp;</span>
+                    <span ng-if="countRequireChanges"><i class="fa fa-bell-o alarm" style="margin-left: 30px;vertical-align: text-top;"></i> = <span>Changes Required</span></span>
+                </div>
+            </div>
+            <div class="panel panel-primary-collapsible">
+                                 <!--<div class="panel-heading panel-heading-collapsible panel-heading-collapsible-style color-default">Draft
+                    <i class="fa fa-chevron-down fa-fw" style="float:right;" data-toggle="collapse" data-target="#draftProjectTable"></i>
+                </div>
+                <div class="panel-bottom-border color-pending"></div>-->
+                <div class="animated fadeIn" id="draftProjectTable">
+                    <table class="table table-hover bordered-table">
+                        <thead>
+                            <tr>
+                                <th>Project</th>
+                                <th>Community</th>
+                                <th>Created By</th>
+                                <th>Created</th>
+                                <!--<th class="txt-al-c"  ng-if="upDel">Action</th>-->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="(draftProjects.length < 1 ? true: false)">
+                                <td colspan="4" class="no-records">No projects found in draft stage.</td>
+                            </tr>
+                            <tr ng-repeat="project in draftProjects" ng-class-odd="'odd'" ng-class-even="'even'" ng-class="{ 'assignedTo': project.assignedToYou, 'reqChanges': project.requireschanges }">
+                                <td style="line-height:32px; padding-right: 0px;" ng-click="projectDetails(project.projectID, 'draftProjects',{requireChanges: project.requireschanges})">
+                                    <table class="no-border" style="width: 100%;">
+                                        <tr>
+                                            <td class="projectName">
+                                                {{project.name}}
+                                            </td>
+                                            <td style="padding-right: 30px;" class="tags txt-al-r">
+                                                <span class="circle"><i class="fa fa-user" ng-if="project.assignedToYou" tooltip="This project is assigned to you" tooltip-animation="true" tooltip-placement="top"></i></span>
+                                                <i class="fa fa-bell-o alarm" ng-if="project.requireschanges" tooltip="This project require changes" tooltip-animation="true" tooltip-placement="top"></i>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td ng-click="displayProjectDetails(project.projectID, 'draftProjects',{requireChanges: project.requireschanges})">
+                                    <ul class="pad-l-15">
+                                        <li ng-repeat="communityName in project.communityAr track by $index">{{communityName}}</li>
+                                    </ul>
+                                </td>
+                                <td ng-click="displayProjectDetails(project.projectID, 'draftProjects',{requireChanges: project.requireschanges})">{{project.createdBy}}</td>
+                                <td ng-click="displayProjectDetails(project.projectID, 'draftProjects',{requireChanges: project.requireschanges})">{{project.createdDate}}</td>
+                                <!--<td class="txt-al-r" ng-if="upDel">
+                                <button class="btn btn-primary btn-xs" ng-click="updateProject(project.projectID, 'Draft')">
+                                    <span>Update </span><i class="fa fa-pencil fa-fw"></i>
+                                </button>
+                                <button class="btn btn-danger btn-xs" ng-click="prepareToDeleteProject({projectID: project.projectID, name: project.name}, 'Draft')">
+                                    <span>Delete </span><i class="fa fa-trash-o fa-fw"></i>
+                                </button>
+                            </td>-->
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- [End] Projects in Draft -->
+        <!-- [Start] Projects pending for Approval -->
+        <div class="row" ng-show="projectStatus.approvalRequired.show">
+            <div class="row pad-lr-15 mr-b-10" ng-if="countAssignedToYou > 0 ? true: false">
+                <div class="col-lg-12 icon-hint" style="padding: 7px 0px; background: #fff;">
+                    <span ng-if="countAssignedToYou" class="mr-r-15"><span class="circle" style="margin-left: 30px;margin-right: 2px;"><i class="fa fa-user " style="vertical-align: text-top;"></i></span> = <span>Assigned to you</span> &nbsp;&nbsp;</span>
+                </div>
+            </div>
+
+            <div class="panel panel-primary-collapsible">
+                <!--                 <div class="panel-heading panel-heading-collapsible color-default" style="color:white;font-weight:bold;font-size:18px;">Approval Required
+                    <i class="fa fa-chevron-down fa-fw" data-toggle="collapse" data-target="#approvalRequiredTable" style="float:right;"></i>
+                </div>
+                <div class="panel-bottom-border color-blue"></div> -->
+                <div class="animated fadeIn" id="approvalRequiredTable">
+                    <table class="table table-hover bordered-table">
+                        <thead>
+                            <tr>
+                                <th>Project</th>
+                                <th>Community</th>
+                                <th>Approval Required By</th>
+                                <th>Submitted</th>
+                                <!-- <th></th>-->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="(approvalRequiredProjects.length < 1 ? true: false)">
+                                <td colspan="4" class="no-records">No projects found in approval required stage.</td>
+                            </tr>
+                            <tr ng-repeat="project in approvalRequiredProjects" ng-class-odd="'odd'" ng-class-even="'even'" ng-class="{ 'assignedTo': project.assignedToYou}">
+                                <td style="line-height:32px; padding-right: 0px;" ng-click="projectDetails(project.projectID, 'approvalRequiredProjects')">
+                                    <table class="no-border" style="width: 100%;">
+                                        <tr>
+                                            <td class="projectName">
+                                                {{project.name}}
+                                            </td>
+                                            <td style="padding-right: 30px;" class="tags txt-al-r">
+                                                <span class="circle"><i class="fa fa-user" ng-if="project.assignedToYou" tooltip="This project is assigned to you" tooltip-animation="true" tooltip-placement="top"></i></span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td ng-click="projectDetails(project.projectID, 'approvalRequiredProjects')">
+                                    <ul class="pad-l-15">
+                                        <li ng-repeat="communityName in project.communityAr track by $index">{{communityName}}</li>
+                                    </ul>
+                                </td>
+                                <td ng-click="projectDetails(project.projectID, 'approvalRequiredProjects')">{{project.actionRequiredBy}}</td>
+                                <td ng-click="projectDetails(project.projectID, 'approvalRequiredProjects')">{{project.createdDate}}</td>
+                                <!--<td class="txt-al-r" ng-if="upDel">
+                                    <button class="btn btn-primary btn-xs" ng-click="updateProject(project.projectID, 'ApprovalRequired')">
+                                        <span>Update </span><i class="fa fa-pencil fa-fw"></i>
+                                    </button>
+                                    <button class="btn btn-danger btn-xs" ng-click="prepareToDeleteProject({projectID: project.projectID, name: project.name}, 'approvalRequiredProjects')">
+                                        <span>Delete </span><i class="fa fa-trash-o fa-fw"></i>
+                                    </button>
+                                </td>-->
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- [End] Projects pending for Approval -->
+        <!-- [Start] Approved Projects -->
+        <div class="row" ng-show="projectStatus.approved.show">
+            <div class="panel panel-primary-collapsible">
+                <!--                 <div class="panel-heading panel-heading-collapsible color-default" style="color:white;font-weight:bold;font-size:18px;"> {{projectStatus.approved.displayName}}
+                    <i class="fa fa-chevron-down fa-fw" data-toggle="collapse" data-target="#approvedTable" style="float:right;"></i>
+                </div>
+                <div class="panel-bottom-border color-blue"></div> -->
+                <div class="animated fadeIn" id="approvedTable">
+                    <table class="table table-hover bordered-table">
+                        <thead>
+                            <tr>
+                                <th>Project</th>
+                                <th>Community</th>
+                                <th>Approved By</th>
+                                <th>Approved</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="(approvedProjects.length < 1 ? true: false)">
+                                <td colspan="4" class="no-records">No projects found in review stage.</td>
+                            </tr>
+                            <tr ng-repeat="project in approvedProjects" ng-class-odd="'odd'" ng-class-even="'even'">
+                                <td style="line-height:32px" ng-click="projectDetails(project.projectID, 'approvedProjects')">{{project.name}}</td>
+                                <td ng-click="projectDetails(project.projectID, 'approvedProjects')">
+                                    <ul class="pad-l-15">
+                                        <li ng-repeat="communityName in project.communityAr track by $index">{{communityName}}</li>
+                                    </ul>
+                                </td>
+                                <td ng-click="projectDetails(project.projectID, 'approvedProjects')">{{project.approvedBy}}</td>
+                                <td ng-click="projectDetails(project.projectID, 'approvedProjects')">{{project.approveDate}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- [End] Approved Projects -->
+        <!-- [Start] In Progress Projects -->
+        <div class="row" ng-show="projectStatus.inProgress.show">
+            <div class="panel panel-primary-collapsible">
+                <!--                 <div class="panel-heading panel-heading-collapsible panel-heading-collapsible-style color-default">In Progress
+                    <i class="fa fa-chevron-down fa-fw" style="float:right;" data-toggle="collapse" data-target="#inProgressTable"></i>
+                </div>
+                <div class="panel-bottom-border color-progress"></div> -->
+                <div class="animated fadeIn" id="inProgressTable">
+                    <table class="table table-hover bordered-table">
+                        <thead>
+                            <tr>
+                                <th>Project</th>
+                                <th>Community</th>
+                                <th>Approved By</th>
+                                <th>Launched</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="(inProgressProjects.length < 1 ? true: false)">
+                                <td colspan="4" class="no-records">No projects found in Launched stage.</td>
+                            </tr>
+                            <tr ng-repeat="project in inProgressProjects" ng-click="projectDetails(project.projectID, 'inProgressProjects')" ng-class-odd="'odd'" ng-class-even="'even'">
+                                <td style="line-height:32px">{{project.name}}</td>
+                                <td>
+                                    <ul class="pad-l-15">
+                                        <li ng-repeat="communityName in project.communityAr track by $index">{{communityName}}</li>
+                                    </ul>
+                                </td>
+                                <td ng-click="projectDetails(project.projectID, 'approvedProjects')">{{project.createdBy}}</td>
+                                <td ng-click="projectDetails(project.projectID, 'approvedProjects')">{{project.createdDate}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- [End] In Progress Projects -->
+        <!-- [Start] Completed Projects -->
+        <div class="row" ng-show="projectStatus.completed.show">
+            <div class="panel panel-primary-collapsible">
+                <!--                 <div class="panel-heading panel-heading-collapsible color-default" style="color:white;font-weight:bold;font-size:18px;">Completed
+                    <i class="fa fa-chevron-down fa-fw" style="float:right;" data-toggle="collapse" data-target="#completedTable"></i></div>
+                <div class="panel-bottom-border color-success"></div> -->
+                <div class="animated fadeIn" id="completedTable">
+                    <table class="table table-hover bordered-table">
+                        <thead>
+                            <tr>
+                                <th>Project</th>
+                                <th>Community</th>
+                                <!--<th>Submitted By</th>
+                                <th>Submitted Date</th>
+                                <th>Questions</th>
+                                <th>Reports</th>
+                                <th>Data</th>
+                                <th>Created By</th>-->
+                                <th>Launched</th>
+                                <th>Completed</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="(completedProjects.length < 1 ? true: false)">
+                                <td colspan="5" class="no-records">No projects found in completed stage.</td>
+                            </tr>
+                            <tr ng-repeat="project in completedProjects" ng-click="projectDetails(project.projectID, 'completedProjects')" ng-class-odd="'odd'" ng-class-even="'even'">
+                                <td style="line-height:32px">{{project.name}}</td>
+                                <td>
+                                    <ul class="pad-l-15">
+                                        <li ng-repeat="communityName in project.communityAr track by $index">{{communityName}}</li>
+                                    </ul>
+                                </td>
+                                <!--<td>{{project.submittedBy}}</td>
+                                <td>{{project.submittedDate}}</td>
+                                <td ng-click="changePath('views/admin/team_question_templates.html')"><a href=""> Question</a></td>
+                                <td ng-click="changePath('views/admin/team_report_1.html')"><a class="fa fa-fw fa-file-pdf-o" href="">Report</a>
+                                </td>
+                                <td ng-click="changePath('views/admin/project_detail.html')"><a href="">Data</a>
+                                </td>-->
+                                <!-- <td><a class="fa fa-fw fa-file-excel-o" href="docs/Creative_Test.xls" target="_self"></a></td> -->
+                                <!--<td ng-click="displayProjectDetails(project.projectID, 'approvedProjects')">{{project.createdBy}}</td>-->
+                                <td ng-click="projectDetails(project.projectID, 'completedProjects')">{{project.createdDate}}</td>
+                                <td ng-click="projectDetails(project.projectID, 'completedProjects')">{{project.completeDate}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- [End] Completed Projects-->
+        <!-- [Start] project details -->
+        <div class="row project-details-wrap" id="project-details-wrap" ng-hide="!showProjectDetailsFlag" style="position: relative;">
+            <!-- Start New Design -->
+            <div class="row" style="margin-bottom: 5px;">
+                <div class="col-lg-10">
+                    <div ng-if="upDel">
+                        <button class="btn btn-xs" ng-class="selectedProject.buttons.edit.btnClass" ng-if="selectedProject.buttons.edit.show" ng-click="updateProject(selectedProject.projectId, selectedProject.projectState)">
+                            <i class="fa fa-pencil fa-fw"></i> <span>{{selectedProject.buttons.edit.btnText}} </span>
+                        </button>
+                        <button class="btn btn-xs" ng-class="selectedProject.buttons.delete.btnClass" ng-if="selectedProject.buttons.delete.show" ng-click="prepareToDeleteProject({projectID: selectedProject.projectId, name: selectedProject.name}, selectedProject.projectState)">
+                            <i class="fa fa-trash-o fa-fw"></i> <span>{{selectedProject.buttons.delete.btnText}} </span>
+                        </button>
+                        <button class="btn btn-xs" ng-class="selectedProject.buttons.approve.btnClass" ng-if="selectedProject.buttons.approve.show" ng-click="prepareToApprove({projectID: selectedProject.projectId, name: selectedProject.name}, selectedProject.projectState)">
+                            <i class="fa fa-thumbs-o-up fa-fw"></i> <span>{{selectedProject.buttons.approve.btnText}} </span>
+                        </button>
+                        <button class="btn btn-xs" ng-class="selectedProject.buttons.requireChanges.btnClass" ng-if="selectedProject.buttons.requireChanges.show" ng-click="prepareToRequireChanges({projectID: selectedProject.projectId, name: selectedProject.name}, selectedProject.projectState)">
+                            <i class="fa fa-pencil-square-o fa-fw"></i> <span>{{selectedProject.buttons.requireChanges.btnText}} </span>
+                        </button>
+                        <button class="btn btn-xs" ng-class="selectedProject.buttons.startSurvey.btnClass" ng-if="selectedProject.buttons.startSurvey.show" ng-click="prepareToStartSurvey({projectID: selectedProject.projectId, name: selectedProject.name}, selectedProject.projectState)">
+                            <i class="fa fa-play-circle fa-fw"></i> <span>{{selectedProject.buttons.startSurvey.btnText}} </span>
+                        </button>
+                        <button class="btn btn-xs" ng-class="selectedProject.buttons.complete.btnClass" ng-if="selectedProject.buttons.complete.show" ng-click="prepareToComplete({projectID: selectedProject.projectId, name: selectedProject.name}, selectedProject.projectState)">
+                            <i class="fa fa-check-square fa-fw"></i> <span>{{selectedProject.buttons.complete.btnText}} </span>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-lg-2 txt-al-r">
+                    <button class="btn btn-primary arrow to-left small" ng-click="backToProjectList()">Back</button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Left Col -->
+                    <div class="row">
+                        <div class="card-wh project mr-b-15">
+                            <div class="title blue row mr-b-0 clearfix">
+                                <div class="col-lg-8">
+                                    {{selectedProject.projectname}}
+                                    <span ng-if="selectedProject.custom.requireChanges" class="text-badge red mr-l-15">Changes Required</span>
+                                </div>
+                                <div class="col-lg-4 pad-r-0 font-xx-small fw-600">
+                                    <div class="txt-al-r text-gray-light">
+                                        <i class="fa fa-clock-o"></i> {{selectedProject.updateddate}}
+                                    </div>
+                                    <div class="txt-al-r text-gray-light">
+                                        Assigned to: {{selectedProject.assignedtoname}}
+                                    </div>
+                                    <div class="txt-al-r text-gray-light" ng-if="(selectedProject.approvedby.length>0 ? true:false)">
+                                        Approved by: {{selectedProject.approvedby}}
+                                    </div>
+                                </div>
+                                <!--<div class="col-l fl-l pad-tb-10">
+                                    {{selectedProject.projectname}}
+                                    <span ng-if="selectedProject.custom.requireChanges" class="text-badge red mr-l-15">Changes Required</span>
+                                </div>
+                                <div class="col-r fl-r txt-al-r text-gray-light">
+                                    <i class="fa fa-clock-o"></i> {{selectedProject.updateddate}}
+                                </div>
+                                <div class="col-r fl-r txt-al-r text-gray-light mr-t-10">
+                                    Assigned to: {{selectedProject.assignedtoname}}
+                                </div>
+                                <div class="col-r fl-r txt-al-r text-gray-light mr-t-10" ng-if="(selectedProject.approvedby.length>0 ? true:false)">
+                                    Assigned to: {{selectedProject.approvedby}}
+                                </div>-->
+                            </div>
+                            <div class="subtitle row pad-lr-15 text-gray-light"><span>{{selectedProject.description}}</span></div>
+                            <div class="content row text-gray">
+                                <div class="row pad-tb-10" style="border-top: 1px solid #eee;border-bottom: 1px solid #eee;">
+                                    <div class="col-lg-5 mr-b-5">
+                                        <div class="card two-col clearfix" style="display: table;">
+                                            <div class="lcol gray">
+                                                <div><i class="fa fa-question fa-2x" style="padding-bottom:3px"></i></div>
+                                                <div>Questions</div>
+                                            </div>
+                                            <div class="rcol gray">{{selectedProject.questions}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5 mr-b-5">
+                                        <div class="card two-col clearfix">
+                                            <div class="lcol green">
+                                                <i class="fa fa-users fa-2x" style="padding-bottom:3px"></i>
+                                                <div>Respondents</div>
+                                            </div>
+                                            <div class="rcol green">{{selectedProject.totalRespondents}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="row font-large fw-700" style="margin-bottom: 5px; padding-bottom: 5px;border-bottom: 1px solid #eee; font-size: 13px !important;">Documents</div>
+                                        <div class="row">
+                                            <div class="mr-b-10">
+                                                <div class="row mr-b-5" ng-if="(selectedProject.questionnaireDocuments.length > 0) ? true: false">
+                                                    <div class="col-lg-11 pad-l-0 text-gray">Questionnarie</div>
+                                                </div>
+                                                <div class="row" ng-if="(selectedProject.questionnaireDocuments.length > 0) ? true: false">
+                                                    <div class="col-lg-12 text-gray-light">
+                                                        <a href="{{selectedProject.questionnaireDocuments[0].link}}" target="_blank">
+                                                            <i class="fa fa-file-text-o fa-2x" style="margin-right:15px;vertical-align:middle"></i>
+                                                            <span>{{selectedProject.questionnaireDocuments[0].name}}</span>
+                                                        </a>
+                                                        <div class="text-gray-light text-ellipsis l2" style="padding-left:40px">{{selectedProject.questionnaireDocuments[0].description}}</div>
+                                                        <button class="btn btn-danger" ng-click="removeQDoc()" ng-if="authorization.changeQuestionnaire" style="margin-top: 5px; margin-left: 40px;">Remove</button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row" ng-if="(selectedProject.questionnaireDocuments.length < 1 && authorization.changeQuestionnaire === true) ? true: false">
+                                                    <div class="row mr-b-5" ng-if="(selectedProject.questionnaireDocuments.length < 1) ? true: false">
+                                                        <div class="col-lg-11 pad-l-0 text-gray">Upload Questionnarie</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <form name="qDocForm" ng-if="(selectedProject.questionnaireDocuments.length == 0 && authorization.changeQuestionnaire)" style="padding:0">
+                                                            <fieldset>
+                                                                <div id="loading_uploadDoc"></div>
+                                                                <!-- loading_Background -->
+                                                                <!--<div class="mr-b-5">df asdfdsf</div>-->
+                                                                <input type="file" class="custom" ngf-select ng-model="questionnaireDoc" id="questionnaireDoc" accept=".doc,.dot,.docx,.docm,.dotx,.dotm,.docb,.txt,.pdf,.ppt,.pot,.pps,.pptx,.pptm,.pptm,.potx,.potm,.ppam,.ppsx,.ppsm,.sldx,.sldm" ngf-change="qDocChanged($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event, 'questionnaireDoc')" required ngf-model-invalid="errorFiles" ngf-max-size="10MB" ng-class="{disabled: (authorization.changeQuestionnaire === false ? true: false)}" ng-disabled="(authorization.changeQuestionnaire === false ? true: false)">
+                                                                <div class="row" ng-if="uploadOption.questionnaireDoc.qDocDesc">
+                                                                    <div class="form-group">
+                                                                        <label>Description:</label>
+                                                                        <textarea class="form-control" rows="5" ng-model="uploadOption.questionnaireDoc.description" placeholder="Questionnaire Description..."></textarea>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="mr-tb-10">
+                                                                    <button class="btn btn-primary" ng-if="uploadOption.questionnaireDoc.submitBtn" ng-class="{'disabled': (((authorization.changeQuestionnaire === false ? true: (qDocForm.$valid === false ? true:false)) || (uploadOption.error===true ? false:true))===false)}" ng-disabled="((authorization.changeQuestionnaire === false ? true: (qDocForm.$valid === false ? true:false)) || uploadOption.error)" ng-click="uploadQDoc(questionnaireDoc, selectedProject.projectState)">Submit</button>
+                                                                    <button class="btn btn-danger" ng-if="uploadOption.questionnaireDoc.removeBtn" ng-click="removeQDocAttachment()">Remove</button>
+                                                                </div>
+                                                                <div class="mr-t-10" ng-if="uploadOption.error">
+                                                                    <div class="alert alert-danger fade in mr-t-15">{{uploadOption.errorMessage}}</div>
+                                                                </div>
+
+                                                            </fieldset>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <div class="row mr-t-10 mr-b-5" ng-if="(selectedProject.images.length > 0) ? true: false">
+                                                    <div class="col-lg-11 pad-l-0 text-gray">Images</div>
+                                                </div>
+                                                <div class="row mr-b-5" ng-repeat="image in selectedProject.images" ng-if="(selectedProject.images.length > 0) ? true: false">
+                                                    <div class="col-lg-11 pad-lr-0">
+                                                        <a href="{{image.link}}" class="text-ellipsis">
+                                                            <i class="fa fa-file-image-o fa-2x" style="margin-right:15px;vertical-align:middle"></i>
+                                                            <span>{{image.name}}</span>
+                                                        </a>
+
+                                                    </div>
+                                                    <div class="col-lg-1 pad-lr-0 txt-al-r"  ng-if="authorization.changeQuestionnaire">
+                                                        <!--<button class="btn btn-danger" ng-click="removeImage()" ng-if="authorization.changeQuestionnaire">Remove</button>-->
+                                                        <i class="fa fa-times" ng-click="prepareToRemoveUploadedImage(image.recordID, image.file)" alt="Delete image ?"></i>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mr-t-10" ng-if="authorization.changeQuestionnaire">
+                                                    <div class="row mr-b-5">
+                                                        <div class="col-lg-11 pad-l-0 text-gray">Upload Image</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <form name="imgForm" ng-if="authorization.changeQuestionnaire" style="padding:0">
+                                                            <fieldset>
+                                                                <div id="loading_uploadDoc"></div>
+                                                                <!-- loading_Background -->
+                                                                <!--<div class="mr-b-5">df asdfdsf</div>-->
+                                                                <input type="file" class="custom" ngf-select ng-model="imageFile" id="imageFile" accept=".jpg, .jpeg, .png, .bmp, .gif, .tiff, .tif" ngf-change="qDocChanged($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event, 'imageFile')" required ngf-model-invalid="errorFiles" ngf-max-size="10MB" ng-class="{disabled: (authorization.changeQuestionnaire === false ? true: false)}" ng-disabled="(authorization.changeQuestionnaire === false ? true: false)">
+                                                                <div class="mr-tb-10">
+                                                                    <button class="btn btn-primary" ng-if="uploadOption.imageFile.submitBtn" ng-class="{'disabled': (((authorization.changeQuestionnaire === false ? true: (imgForm.$valid === false ? true:false)) || (uploadOption.error===true ? false:true))===false)}" ng-disabled="((authorization.changeQuestionnaire === false ? true: (imgForm.$valid === false ? true:false)) || uploadOption.error)" ng-click="uploadImage(imageFile, selectedProject.projectState)">Submit</button>
+                                                                    <button class="btn btn-danger" ng-if="uploadOption.imageFile.removeBtn" ng-click="imageFile = null; removeImgAttachment()">Remove</button>
+                                                                </div>
+                                                                <div class="mr-t-10" ng-if="uploadOption.error">
+                                                                    <div class="alert alert-danger fade in mr-t-15">{{uploadOption.errorMessage}}</div>
+                                                                </div>
+
+                                                            </fieldset>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Begin: Upload Report Document and Excel Document(Survey response). Only visible in inprogress projects ny VI administrator -->
+                                    <!-- Only display in details page of a selected project that in inprogress status-->
+
+
+                                    <div class="col-lg-6 pad-l-0" ng-if="(showDocExcelUploadForms && (authorization.changeReportAndSurveyData === false ? ((selectedProject.hasReportdocObj === true || selectedProject.hasSurveyResponseDataObj === true) ? true:false):true))">
+                                        <div class="row font-large fw-700 mr-l-15 text-gray" style="margin-bottom: 5px; padding-bottom: 5px;border-bottom: 1px solid #eee; font-size: 13px !important;">Final Report</div>
+                                        <div ng-show="showDocExcelUploadForms" class="pad-l-15" style="border-left: 1px solid #eee;">
+                                            <div class="row">
+                                                <form name="docForm" ng-if="(showUploadDocForm && authorization.changeReportAndSurveyData)" style="padding:0">
+                                                    <fieldset>
+                                                        <div id="loading_uploadDoc"></div>
+                                                        <!-- loading_Background -->
+                                                        <!-- <legend>{{DocFormTitle}}</legend> -->
+                                                        <div class="mr-b-5">{{DocFormTitle}}</div>
+                                                        <!--<div class="" style=" position: relative; height: 30px;">
+                                                            <div class="" style="position: absolute;top: 0px;">
+                                                                <div style="/* display: inline-block; */padding: 5px 5px 5px 5px;/* border: 1px solid #ccc; */border-top-left-radius: 3px;border-bottom-left-radius: 3px;background: #aaa;color: #FFF;height: 30px;float: left;border: 1px solid #ccc;">Choose File</div>
+                                                                <div style="color: #999;padding: 5px 5px 5px 5px;border: 1px solid #ccc;border-top-right-radius: 3px;border-bottom-right-radius: 3px;margin-left: -2px !important;border-left: 0px;width: 240px;height: 30px;float: left;">{{reportDoc}}</div>
+                                                            </div>
+                                                            <input type="file" ngf-select="" ng-model="reportDoc" accept=".doc,.docx,.txt,.pdf" required="" ngf-model-invalid="errorFiles" class="ng-pristine ng-invalid ng-invalid-required ng-touched" tabindex="0" aria-required="true" aria-invalid="true" style="opacity: 0.1;border: 1px solid;top: 0px;height: 30px;width: 315px;">
+                                                        </div>-->
+                                                        <input type="file" class="custom" ngf-select ng-model="reportDoc" accept=".doc,.dot,.docx,.docm,.dotx,.dotm,.docb,.txt,.pdf,.ppt,.pot,.pps,.pptx,.pptm,.pptm,.potx,.potm,.ppam,.ppsx,.ppsm,.sldx,.sldm" ngf-change="surveyFileChanged($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event, 'reportDoc')" required ngf-model-invalid="errorFiles" ngf-max-size="10MB" ng-class="{disabled: (authorization.changeReportAndSurveyData === false ? true: false)}" ng-disabled="(authorization.changeReportAndSurveyData === false ? true: false)">
+                                                        <!-- <i ng-show="docForm.file.$error.required">*required</i> -->
+                                                        <div class="mr-tb-10">
+                                                            <button class="btn btn-primary" ng-disabled="((authorization.changeReportAndSurveyData === false ? true: (docForm.$valid === false ? true:false)) || uploadOption.error)" ng-click="uploadDoc(reportDoc, selectedProject.projectState)">Submit</button>
+                                                            <button class="btn btn-danger" ng-click="reportDoc = null; selectedProject.buttons.complete.show = false" ng-show="reportDoc" ng-disabled="((authorization.changeReportAndSurveyData === false ? true: (docForm.$valid === false ? true:false)))">Remove</button>
+                                                        </div>
+                                                        <div class="mr-t-10" ng-if="((uploadOption.reportDoc.valid===false ? true:false) && uploadOption.error)">
+                                                            <div class="alert alert-danger fade in mr-t-15">{{uploadOption.errorMessage}}</div>
+                                                        </div>
+
+                                                    </fieldset>
+                                                </form>
+                                                <form ng-hide="showUploadDocForm" style="padding:0">
+                                                    <fieldset>
+                                                        <div id="loading_uploadedDoc"></div>
+                                                        <!-- loading_Background -->
+                                                        <!-- <legend>{{DocFormTitle}}</legend> -->
+                                                        <div class="mr-b-5">{{DocFormTitle}}</div>
+                                                        <a href="{{selectedProject.reportdocObj.url}}"><i class="fa fa-file-pdf-o fa-2x" style="margin-right:15px;vertical-align:middle"></i><span>{{selectedProject.reportdocObj.name}}</span></a>
+                                                        <div class="mr-tb-10">
+                                                            <button class="btn btn-danger" ng-if="authorization.changeReportAndSurveyData" ng-click="showDeleteReportDocModal(selectedProject.reportdocObj.name)">Delete</button>
+                                                        </div>
+                                                        <div>{{reportDocErrorMsg}}</div>
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+                                            <div class="row">
+                                                <form name="excelForm" ng-if="(showUploadExcelForm && authorization.changeReportAndSurveyData)" style="padding:0">
+                                                    <fieldset>
+                                                        <div id="loading_uploadExcel"></div>
+                                                        <!-- loading_Background -->
+                                                        <!-- <legend>{{ExcelFormTitle}}</legend> -->
+                                                        <div class="mr-b-5">{{ExcelFormTitle}}</div>
+                                                        <input type="file" class="custom" ngf-select ng-model="reportExcel" accept=".xls,.xlsx" ngf-change="surveyFileChanged($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event, 'reportExcel')" required ngf-max-size="10MB" ngf-model-invalid="errorFiles" ng-class="{disabled: (authorization.changeReportAndSurveyData === false ? true: false)}" ng-disabled="(authorization.changeReportAndSurveyData === false ? true: false)">
+                                                        <!-- <i ng-show="excelForm.file.$error.required">*required</i> -->
+                                                        <div class="mr-tb-10">
+                                                            <button class="btn btn-primary" ng-disabled="((authorization.changeReportAndSurveyData === false ? true: (excelForm.$valid === false ? true:false)) || uploadOption.error)" ng-click="uploadExcel(reportExcel, selectedProject.projectState)">Submit</button>
+                                                            <button class="btn btn-danger" ng-click="reportExcel = null; selectedProject.buttons.complete.show = false" ng-show="reportExcel" ng-disabled="(authorization.changeReportAndSurveyData === false ? true: (excelForm.$valid === false ? true:false))">Remove</button>
+                                                        </div>
+                                                        <div class="mr-t-10" ng-if="((uploadOption.reportExcel.valid===false ? true:false) && uploadOption.error)">
+                                                            <div class="alert alert-danger fade in mr-t-15">{{uploadOption.errorMessage}}</div>
+                                                        </div>
+                                                    </fieldset>
+                                                </form>
+                                                <form ng-hide="showUploadExcelForm" style="padding:0px;">
+                                                    <fieldset>
+                                                        <div id="loading_uploadedExcel"></div>
+                                                        <!-- loading_Background -->
+                                                        <!-- <legend>{{ExcelFormTitle}}</legend> -->
+                                                        <div class="mr-b-5">{{ExcelFormTitle}}</div>
+                                                        <a href="{{selectedProject.surveyResponseDataObj.url}}"><i class="fa fa-file-excel-o fa-2x" style="margin-right:15px;vertical-align:middle"></i><span>{{selectedProject.surveyResponseDataObj.name}}</span></a>
+                                                        <div class="mr-tb-10">
+                                                            <button class="btn btn-danger" ng-if="authorization.changeReportAndSurveyData" ng-click="showDeleteSurveyResponseModal(selectedProject.surveyResponseDataObj.name)">Delete</button>
+                                                        </div>
+                                                        <div>{{reportExcelErrorMsg}}</div>
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="moreInfo clearfix" style="">
+                            <div class="row" ng-class="selectedProject.detailsBoxClass" style="margin-bottom: 15px; border-bottom: 1px solid #dddddd;">
+                                <div class="col-lg-12 community-title" style="border: 0px; margin-bottom: 0px; padding-left: 15px !important;">Communities</div>
+                            </div>
+                            <div class="row mr-b-15 pad-lr-15">
+                                <div class="box-project-details community fl-l mr-b-15" ng-class="selectedProject.detailsBoxClass" ng-repeat="community in selectedProject.community">
+                                    <div class="content shadow">
+                                        <div class="row mr-b-10"><span class="label link pad-l-0" ng-click="redirectedToCommunities(community.name)">{{community.name}}</span></div>
+                                        <div class="row items clearfix">
+                                            <div style="width: 25px; float: left; font-size: 24px; margin-right: 10px;"> <i class="fa fa-globe"></i></div>
+                                            <div class="fl-l" style="margin-top: 8px;"><span>Country</span>: <span>{{community.country}}</span></div>
+                                        </div>
+                                        <div class="row items clearfix">
+                                            <div style="width: 25px; float: left; font-size: 24px; margin-right: 10px;"><i class="fa fa-bar-chart"></i></div>
+                                            <div class="fl-l" style="margin-top: 8px;"><span>Age Range</span>: <span>{{community.age}}</span></div>
+                                        </div>
+                                        <div class="row items clearfix">
+                                            <div style="width: 25px; float: left; font-size: 24px; margin-right: 10px;"><i class="fa fa-users"></i></div>
+                                            <div class="fl-l" style="margin-top: 8px;"><span>Respondents</span>: <span>{{community.respondents}}</span></div>
+                                        </div>
+                                        <div class="row items clearfix">
+                                            <div style="width: 25px; float: left; font-size: 24px; margin-right: 10px;"><i class="fa fa-venus-mars"></i></div>
+                                            <div class="fl-l" style="margin-top: 8px;"><span>Gender</span>: <span>{{community.gender}}</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Left Col. -->
+                <div class="col-lg-4">
+                    <!-- Right Col. -->
+                    <div class="card-project-note project mr-b-15">
+                        <div class="title mr-b-0"><i class="fa fa-comments"></i>Project Notes<span class="note-count">{{projectNote.list.length}}</span></div>
+                        <div class="content scroll-y no-track mr-t-0 mr-b-0">
+                            <div class="no-note" ng-if="projectNote.list.length==0 ? true:false">There is no note in this project.</div>
+                            <div class="lists" id="lists">
+                                <div class="row note" ng-repeat="note in projectNote.list" style="position: relative;">
+                                    <div class="time" style="position: absolute;top: 11px;right: 0px;min-width: 90px;"><i class="fa fa-clock-o" style="margin-right:3px"></i>{{note.date}}</div>
+                                    <div class="loading" style="display: none;">
+                                        <div class="loading-icon"></div>
+                                    </div>
+                                    <!-- loading_Background -->
+                                    <div style="width: 46px;float: left;margin-left: 15px;">
+                                        <div class="circle x-small {{note.colorClass}}">{{note.text}}</div>
+                                    </div>
+                                    <div class="details" style="float: left;width: 78%;">
+                                        <div class="row">
+                                            <div class="col-lg-9 user">{{note.name}}</div>
+                                            <!--<div class="col-lg-3 time"><i class="fa fa-clock-o" style="margin-right:3px"></i>{{note.date}}</div>-->
+                                            <div class="col-lg-12 ntext">{{note.note}}</div>
+                                        </div>
+                                    </div>
+
+                                    <!--<div class="col-lg-2 pad-r-0">
+                                        <div class="circle x-small {{note.colorClass}}">{{note.text}}</div>
+                                    </div>
+                                    <div class="col-lg-10 details">
+                                        <div class="row">
+                                            <div class="col-lg-9 user">{{note.name}}</div>
+                                            <div class="col-lg-3 time"><i class="fa fa-clock-o" style="margin-right:3px"></i>{{note.date}}</div>
+                                            <div class="col-lg-12 ntext">{{note.note}}</div>
+                                        </div>
+                                    </div>-->
+                                    <div class="delete" ng-click="prepareToDeleteNote(note.id)"><i class="fa fa-times"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="inputbox">
+                            <div class="input-group mr-b-0">
+                                <input type="text" class="form-control" ng-model="newNote" placeholder="New Note">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" ng-click="addNewNote()" ng-keydown="$event.which === 13 && addNewNote()" >Add</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Right Col. -->
+                <!--<div class="new">
+                    <div class="row animated fadeIn">
+                        <div class="col-lg-4 border-r eqh" ng-style="resizeHeight('eqh')" resize>
+                            <div class="font-large fw-700">{{selectedProject.name}} <i class="fa fa-sticky-note-o"></i></div>
+                            <div class="description  text-ellipsis l10">{{selectedProject.description}}</div>
+                            <div class="text-dark-gray font-small"><i class="fa fa-clock-o"> August 22, 2015</i></div>
+                        </div>
+                        <div class="col-lg-4 border-r eqh" ng-style="resizeHeight('eqh')" resize>
+                            <div class="font-large fw-700">Uploaded Document</div>
+                            <div class="mr-b-10 text-gray">
+                                <div class="row">
+                                    <div class="col-lg-11 pad-l-0">Questionnarie</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12 pad-l-15">
+                                        <a href="{{selectedProject.questionnaireDocuments[0].link}}" target="_blank">
+                                            {{selectedProject.questionnaireDocuments[0].name}}
+                                        </a>
+                                        <div class="text-gray-light text-ellipsis l2">{{selectedProject.questionnaireDocuments[0].description}}</div>
+                                        <a href="{{selectedProject.questionnaireDocuments[0].link}}" style="position: absolute; top: 0px; right: 3px;"><i class="fa fa-download"></i></a>
+                                    </div>
+                                </div>
+                                <div class="row mr-t-10">
+                                    <div class="col-lg-11 pad-l-0">Images</div>
+                                </div>
+                                <div class="row" ng-repeat="image in selectedProject.images">
+                                    <div class="col-lg-12 pad-l-15">
+                                        <a href="{{image.link}}" class="text-ellipsis">{{image.name}}</a>
+                                        <a href="{{image.link}}" style="position: absolute; top: 0px; right: 3px;"><i class="fa fa-download"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 pad-r-0">
+                            <div class="row">
+                                <div class="col-lg-12 pad-l-0" ng-style="resizeHeight('eqh')" resize>
+                                    <div class="row question">
+                                        <div class="col-lg-12">
+                                            <span># Questions</span> <span>{{selectedProject.questions}}</span><i class="fa fa-question-circle"></i>
+                                        </div>
+                                    </div>
+                                    <div class="row respondents mr-t-10">
+                                        <div class="col-lg-12">
+                                            <span># Respondents</span> <span>{{selectedProject.totalRespondents}}</span><i class="fa fa-users"></i>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top: 35px;">
+                                        <div class="col-lg-3 pad-l-0">Created By:</div>
+                                        <div class="col-lg-9">
+                                            <span class="disp-block">{{selectedProject.createdbyusername}}</span>
+                                            <span class="disp-block font-small text-gray-light text-ellipsis" style="margin-top: -5px;">{{selectedProject.createdbyemail}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top: 3px;">
+                                        <div class="col-lg-3 pad-l-0">Assigned To:</div>
+                                        <div class="col-lg-9">
+                                            <span class="disp-block">{{selectedProject.assignedtoname}}</span>
+                                            <span class="disp-block font-small text-gray-light text-ellipsis" style="margin-top: -5px;">{{selectedProject.assignedtoemail}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top: 3px;">
+                                        <div class="col-lg-3 pad-l-0">Updated By:</div>
+                                        <div class="col-lg-9">
+                                            <span class="disp-block">{{selectedProject.updatedbyusername}}</span>
+                                            <span class="disp-block font-small text-gray-light text-ellipsis" style="margin-top: -5px;">{{selectedProject.updatedbyemail}}</span>
+                                        </div>
+                                    </div>
+                                    <div ng-click="projectNoteSlider()" style="position: absolute; bottom: 0px; right: 20px; cursor: pointer;">
+                                        <i class="fa fa-plus-square"></i> Project Note
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+            </div>
+            <!-- <div class="row mr-t-10 mr-b-15">
+                <div class="col-lg-9"></div>
+                <div class="col-lg-3 txt-al-r">
+                    <button class="btn btn-primary arrow to-left" ng-click="backToProjectList()">Back</button>
+                </div>
+            </div> -->
+            <!-- End New Design -->
+            <div class="panel panel-primary-collapsible" style="display: none !important;">
+                <div class="panel-heading color-default">
+                    <div class="row">
+                        <div class="col-lg-10 panel-title default">{{selectedProject.name}}</div>
+                        <div class="col-lg-2">
+                            <div class="font-small txt-al-r" ng-class="projectNote.handleClass" ng-click="projectNoteSlider()">Project Note</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="panel-bottom-border color-success"></div> -->
+                <div class="animated fadeIn pad-lrb-15">
+                    <!--<table class="table table-hover bordered-table">
+                        <thead>
+                            <tr>
+                                <th>Project Name</th>
+                                <th>Target Communities</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{selectedProject.name }}</td>
+                                <td>{{selectedProject.community}}</td>
+                            </tr>
+                        </tbody>
+                    </table>-->
+                    <div class="row mr-b-15">
+                        <div class="col-lg-4 pad-l-0">
+                            <label class="disp-block" style="border-bottom: 3px solid #CCC;">Project Name:</label>
+                            <div>{{selectedProject.name}}</div>
+                        </div>
+                        <div class="col-lg-4">
+                            <label class="disp-block" style="border-bottom: 3px solid #CCC;">Project Description:</label>
+                            <div>{{selectedProject.description}}</div>
+                        </div>
+                        <div class="col-lg-4">
+                            <label class="disp-block" style="border-bottom: 3px solid #CCC;">Number of Question:</label>
+                            {{selectedProject.questions}}
+                        </div>
+                    </div>
+                    <div class="row mr-b-15">
+                        <div class="col-lg-2 pad-l-0">
+                            <label style="border-bottom: 3px solid #CCC;">Communities:</label>
+                        </div>
+                        <div class="col-lg-12" style="padding-left: 15px;border: 1px solid #999;margin: 0px 15px 15px 0px;padding: 15px 5px 15px 10px;border-radius: 2px;padding-left: 15px; border: 1px solid #999; background: #FBFBFB;">
+                            <!-- [Start] Add Communities -->
+                            <div class="row mr-b-15" ng-repeat="community in selectedProject.community">
+                                <div class="panel panel-primary-collapsible" style="margin-left: 0px;">
+                                    <div class="panel-heading panel-heading-collapsible panel-heading-collapsible-style color-default" style="line-height: 10px;">
+                                        {{community.name}}
+                                    </div>
+                                    <div class="summary clearfix">
+                                        <div><span>Country</span>: {{community.country}}</div>
+                                        <div><span>Age Range</span>: {{community.age}}</div>
+                                        <div><span>Respondents</span>: {{community.respondents}}</div>
+                                        <div><span>Gender</span>: {{community.gender}}</div>
+                                    </div>
+                                    <div class="progress-line clearfix">
+                                        <div class="fill verified"></div>
+                                        <div class="fill verified"></div>
+                                        <div class="fill verified"></div>
+                                        <div class="fill verified"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- [End] Add Communities -->
+                        </div>
+                    </div>
+                    <div class="row mr-b-15">
+                        <div class="col-lg-12 pad-l-0">
+                            <label style="display: block;border-bottom: 3px solid #CCC;">Uploaded Document:</label>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="row" ng-repeat="qDocement in selectedProject.questionnaireDocuments">
+                                <div class="col-lg-2 thumg-doc-wrap">
+                                    <div class="thumg-doc-content">
+                                        <i class="fa fa-file-word-o" style="font-size: 5em;"></i>
+                                    </div>
+                                    <div class="label-text text-ellipsis"><a href="{{qDocement.link}}">{{qDocement.name}}</a></div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label>Questionnaire Note:</label>
+                                        <div>{{qDocement.description}}</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label>Document Type:</label>
+                                        <div class="text-ellipsis">{{qDocement.docType}}</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-1">
+                                    <div class="form-group">
+                                        <label>Version:</label>
+                                        <div>{{qDocement.version}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mr-b-15">
+                        <div class="col-lg-12 pad-l-0">
+                            <label style="display: block;border-bottom: 3px solid #CCC;">Uploaded Image:</label>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="row custom_thumb_image_wrap pad-l-0">
+                                <div class="col-lg-2 pad-l-0" ng-repeat="image in selectedProject.images">
+                                    <div class="thumbnail_container">
+                                        <div class="thumbnail">
+                                            <img ng-src="{{image.link}}" alt="{{image.name}}" />
+                                        </div>
+                                    </div>
+                                    <div class="file_name text-ellipsis" style="line-height:20px; max-height: 20px;">{{image.name}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mr-b-15">
+                        <div class="col-lg-3 pad-l-0">
+                            <label class="disp-block" style="border-bottom: 3px solid #CCC;">Total Respondents:</label>
+                            {{selectedProject.totalRespondents}}
+                        </div>
+                        <div class="col-lg-3">
+                            <label class="disp-block" style="border-bottom: 3px solid #CCC;">Project Cost:</label>
+                            {{selectedProject.cost}}
+                        </div>
+                    </div>
+                    <div class="row mr-b-15">
+                        <div class="col-lg-3 pad-l-0">
+                            <label class="disp-block" style="border-bottom: 3px solid #CCC;">Organization:</label>
+                            <div>{{selectedProject.organizationname}}</div>
+                        </div>
+                        <div class="col-lg-3">
+                            <label class="disp-block" style="border-bottom: 3px solid #CCC;">Team:</label>
+                            <div>{{selectedProject.teamname}}</div>
+                        </div>
+                        <div class="col-lg-3">
+                            <label class="disp-block" style="border-bottom: 3px solid #CCC;">Assigned To:</label>
+                            <div>{{selectedProject.assignedtoname}}</div>
+                        </div>
+                        <div class="col-lg-3">
+                            <label class="disp-block" style="border-bottom: 3px solid #CCC;">User Email:</label>
+                            <div>{{selectedProject.assignedtoemail}}</div>
+                        </div>
+                    </div>
+                    <div class="row mr-b-15">
+                        <div class="col-lg-3 pad-l-0">
+                            <label class="disp-block" style="border-bottom: 3px solid #CCC;">Created By:</label>
+                            <div>{{selectedProject.createdbyusername}}</div>
+                        </div>
+                        <div class="col-lg-3">
+                            <label class="disp-block" style="border-bottom: 3px solid #CCC;">Creator Email:</label>
+                            <div>{{selectedProject.createdbyemail}}</div>
+                        </div>
+                        <div class="col-lg-3">
+                            <label class="disp-block" style="border-bottom: 3px solid #CCC;">Date Created:</label>
+                            <div>{{selectedProject.createdate}}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3 pad-l-0">
+                            <label class="disp-block" style="border-bottom: 3px solid #CCC;">Updated By </label>
+                        </div>
+                        <div class="col-lg-3">
+                            <label class="disp-block" style="border-bottom: 3px solid #CCC;">Email</label>
+                        </div>
+                        <div class="col-lg-3">
+                            <label class="disp-block" style="border-bottom: 3px solid #CCC;">Update Time</label>
+                        </div>
+                    </div>
+                    <div class="row mr-b-10">
+                        <div class="col-lg-3 pad-l-0">{{selectedProject.updatedbyusername}}</div>
+                        <div class="col-lg-3">{{selectedProject.updatedbyemail}}</div>
+                        <div class="col-lg-3">{{selectedProject.updateddate}}</div>
+                    </div>
+                    <!--<div class="row mr-t-15 mr-b-10">
+                        <div class="col-lg-12 mr-t-15 txt-al-c">
+                            <button class="btn btn-primary" ng-if="selectedProject.buttons.approve.show" ng-click="selectedProject.buttons.approve.onClickFnc">{{selectedProject.buttons.approve.btnText}}</button>
+                            <button class="btn btn-primary mr-l-10" ng-if="selectedProject.buttons.edit.show">{{selectedProject.buttons.edit.btnText}}</button>
+                        </div>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+        <div ng-include src="'views/admin/project_completed_result.html'"></div>
+        <!--<div ng-include src="'views/admin/update_project.html'"></div>-->
+        <div ng-include src="'views/admin/project_wizard.html'"></div>
+    </div>
+    <!-- popup modal begin -->
+    <div>
+        <modal visible="modal.show" id="modal-root">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <button type="button" class="close" ng-click="resetModal()" data-dismiss="modal" aria-label="Close">
+                            <span class="fontColor" aria-hidden="true">&times;</span>
+                        </button>
+                        <div class="modal-title font-large">{{modal.title}}</div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-text" id="modalText"></div>
+                        <div class="modal-input mr-b-15" ng-if="modal.input.show">
+                            <textarea class="form-control" id="modalInput" style="height: 50px !important;" rows="2" ng-if="modal.input.textarea.show" ng-model="modal.input.textarea.value" placeholder="Details about the changes"></textarea>
+                            <div class="row" ng-if="modal.input.select.show">
+                                <div class="col-lg-12 mr-tb-10">
+                                    <span style="display: inline-block;margin-bottom: 10px;font-weight: 700;color: #777;">Assign To:</span>
+                                    <select name="mySelect" id="mySelect" class="form-control" ng-options="option.fullName for option in modal.input.select.listData track by option.recordID" ng-model="modal.input.select.value" ng-change="reqChangeAssignToUpdated($index)">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" ng-show="modal.buttons.confirm.show" ng-click="modalAction(modal.buttons.confirm.fnc, modal.buttons.confirm.params)" ng-model="modal.buttons.confirm.params" class="btn btn-primary" style="padding-top: 6px !important;padding-bottom: 6px !important">{{modal.buttons.confirm.text}}</button>
+                        <button type="submit" ng-show="modal.buttons.delete.show" ng-click="modalAction(modal.buttons.delete.fnc, modal.buttons.delete.params)" ng-model="modal.buttons.delete.params" class="btn btn-primary" style="padding-top: 6px !important;padding-bottom: 6px !important" analytics-on="click" analytics-category="Projects" analytics-event="Delete Project">{{modal.buttons.delete.text}}</button>
+                        <button type="submit" ng-show="modal.buttons.custom.show" ng-click="modalAction(modal.buttons.custom.fnc, modal.buttons.custom.params)" ng-model="modal.buttons.custom.params" class="btn btn-primary" ng-class="{disabled: ( modal.input.show === false ? false: (( modal.input.textarea.dependent == 'custom' ? ( modal.input.textarea.value == '' ? true:false):false) ||  ( modal.input.select.dependent == 'custom' ? ( modal.input.select.value == '' ? true:false):false)) ) }" ng-diabled="( modal.input.show === false ? false: (( modal.input.textarea.dependent == 'custom' ? ( modal.input.textarea.value == '' ? true:false):false) ||  ( modal.input.select.dependent == 'custom' ? ( modal.input.select.value == '' ? true:false):false)) )" style="padding-top: 6px !important;padding-bottom: 6px !important">{{modal.buttons.custom.text}}</button>
+                        <button type="submit" ng-show="modal.buttons.cancel.show" ng-click="modalAction(modal.buttons.cancel.fnc)" class="btn btn-default" style="padding-top: 6px !important;padding-bottom: 6px !important">{{modal.buttons.cancel.text}}</button>
+                    </div>
+                    <!-- <div class="modal-footer" style="text-align:center"> -->
+                    <!--   <button type="submit" ng-click="deleteUser()" class="btn" style="width:90px;color:#ffffff;background-color:#337ab7">OK</button>
+                            <button type="submit" ng-click="cancelDeleteUser()" class="btn btn-default" style="width:90px">Cancel</button> -->
+                    <!-- </div> -->
+                </div>
+            </div>
+        </modal>
+    </div>
+    <!-- popup modal end -->
+    <!-- End Container-fluid -->
+</div>

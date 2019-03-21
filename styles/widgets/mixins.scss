@@ -1,0 +1,137 @@
+//Different radius each side
+@mixin border-radius($top-left, $top-right, $bottom-left, $bottom-right)
+{
+  -moz-border-top-left-radius: $top-left;
+  -moz-border-top-right-radius: $top-right;
+  -moz-border-bottom-right-radius: $bottom-right;
+  -moz-border-bottom-left-radius: $bottom-left;
+  -o-border-top-left-radius: $top-left;
+  -o-border-top-right-radius: $top-right;
+  -o-border-bottom-right-radius: $bottom-right;
+  -o-border-bottom-left-radius: $bottom-left;
+  -khtml-border-top-left-radius: $top-left;
+  -khtml-border-top-right-radius: $top-right;
+  -khtml-border-bottom-right-radius: $bottom-right;
+  -khtml-border-bottom-left-radius: $bottom-left;
+  -webkit-border-top-left-radius: $top-left;
+  -webkit-border-top-right-radius: $top-right;
+  -webkit-border-bottom-right-radius: $bottom-right;
+  -webkit-border-bottom-left-radius: $bottom-left;
+  border-top-left-radius: $top-left;
+  border-top-right-radius: $top-right;
+  border-bottom-right-radius: $bottom-right;
+  border-bottom-left-radius: $bottom-left;
+}
+
+// Source: bootstrap mixin
+// Button variants
+//
+// Easily pump out default styles, as well as :hover, :focus, :active,
+// and disabled options for all buttons
+
+@mixin button-variant($color, $background, $border) {
+  color: $color;
+  background-color: $background;
+  border-color: $border;
+
+  &:focus,
+  &.focus {
+    color: $color;
+    background-color: darken($background, 10%);
+    border-color: darken($border, 25%);
+  }
+  &:hover {
+    color: $color;
+    background-color: darken($background, 10%);
+    border-color: darken($border, 12%);
+  }
+  &:active,
+  &.active,
+  .open > &.dropdown-toggle {
+    color: $color;
+    background-color: darken($background, 10%);
+    border-color: darken($border, 12%);
+
+    &:hover,
+    &:focus,
+    &.focus {
+      color: $color;
+      background-color: darken($background, 17%);
+      border-color: darken($border, 25%);
+    }
+  }
+  &:active,
+  &.active,
+  .open > &.dropdown-toggle {
+    background-image: none;
+  }
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    &,
+    &:hover,
+    &:focus,
+    &.focus,
+    &:active,
+    &.active {
+      background-color: $background;
+      border-color: $border;
+    }
+  }
+
+  .badge {
+    color: $background;
+    background-color: $color;
+  }
+}
+
+// Button sizes
+@mixin button-size($padding-vertical, $padding-horizontal, $font-size, $line-height, $border-radius) {
+  padding: $padding-vertical $padding-horizontal;
+  font-size: $font-size;
+  line-height: $line-height;
+  border-radius: $border-radius;
+}
+
+@mixin transition($property:all, $duration: 1s, $time-function:ease, $delay:null){
+    -webkit-transition: $property $duration $time-function;
+    -moz-transition: $property $duration $time-function;
+    -ms-transition: $property $duration $time-function;
+    -o-transition: $property $duration $time-function;
+    transition: $property $duration $time-function;
+
+  @if($delay){
+    -webkit-transition-delay: $delay;
+    -moz-transition-delay: $delay;
+    -ms-transition-delay: $delay;
+    -o-transition-delay: $delay;
+    transition-delay: $delay;
+  }
+}
+
+@mixin boxShadow($inset:null, $offset-x:3px, $offset-y:3px ,$blur-radius:3px, $spread-radius:5px, $color: #999999, $none: null){
+  @if($none){
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    -ms-box-shadow: none;
+    -o-box-shadow: none;
+    box-shadow: none;
+  }
+  @else{
+    @if($inset){
+      -webkit-box-shadow: $inset $offset-x $offset-y $blur-radius $spread-radius $color;
+      -moz-box-shadow: $inset $offset-x $offset-y $blur-radius $spread-radius $color;
+      -ms-box-shadow: $inset $offset-x $offset-y $blur-radius $spread-radius $color;
+      -o-box-shadow: $inset $offset-x $offset-y $blur-radius $spread-radius $color;
+      box-shadow: $inset $offset-x $offset-y $blur-radius $spread-radius $color;
+    }
+    @else{
+      -webkit-box-shadow: $offset-x $offset-y $blur-radius $spread-radius $color;
+      -moz-box-shadow: $offset-x $offset-y $blur-radius $spread-radius $color;
+      -ms-box-shadow: $offset-x $offset-y $blur-radius $spread-radius $color;
+      -o-box-shadow: $offset-x $offset-y $blur-radius $spread-radius $color;
+      box-shadow: $offset-x $offset-y $blur-radius $spread-radius $color;
+    }
+  }
+
+}

@@ -1,0 +1,104 @@
+<div class="row mr-t-15" ng-show="showNewUserFormFlag">
+    <div class="col-lg-12">
+        <div class="col-lg-12 form-group" style="margin-bottom:-5px">
+            <form name="newUserForm" style="padding:0">
+                <div class="panel panel-primary-collapsible">
+                    <div class="panel-heading panel-heading-collapsible panel-heading-collapsible-style color-default">{{tableHeader}}</div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <!-- Alert Message -->
+                                <div class="row">
+                                    <div ng-show="showNewUserFormErrorFlag" class="alert alert-danger animate-show" role="alert" style="text-align:center">{{newUserFailure}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="userFirstName" class="required-field">First Name</label>
+                                            <input type="text" name="first_name" class="form-control" id="userFirstName" ng-model="newUserData.firstName" placeholder="First Name" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="userLastName" class="required-field">Last Name</label>
+                                            <input type="text" name="last_name" class="form-control" id="userLastName" ng-model="newUserData.lastName" placeholder="Last Name" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="userEmail" class="required-field">Email</label>
+                                            <input name="email" class="form-control" id="userEmail" ng-model="newUserData.email" placeholder="User Email" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="userStatus" class="required-field">Status</label>
+                                            <select name="status" class="form-control" id="userStatus" ng-model="newUserData.status.selectedOption" ng-options="option.name for option in newUserData.status.availableOptions track by option.name">
+<!--                                                 <option value="Active">Active</option>
+                                                <option value="Inactive">Inactive</option> -->
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="userlanguage" class="required-field">Language</label>
+                                            <select name="language" class="form-control" id="userLanguage" ng-model="newUserData.language.selectedOption" ng-options="option.name for option in newUserData.language.availableOptions track by option.name">
+                                                <!-- <option value="English">English</option> -->
+                                                <!-- <option value="French">French</option> -->
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6" ng-hide="newUserData.teamrole === 'Manager'">
+                                        <div class="form-group">
+                                            <label for="userManager" class="required-field">Manager</label>
+                                            <select name="usermManager" class="form-control" id="userManager" ng-model="newUserData.manageremail">
+                                                <option ng-repeat="manager in managers" value="{{manager.email}}">{{manager.name.firstname}} {{manager.name.lastname}} ({{manager.email}})</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label style="display: block;" class="required-field">Role</label>
+                                            <div style="display:inline-block" class="pad-r-5">
+                                                <label class="radio-inline" tooltip="This is option Manager" tooltip-animation="true" tooltip-placement="bottom">
+                                                    <input type="radio" name="userRole" value="Manager" ng-model="newUserData.teamrole" ng-click="isManagerNewUserForm()">
+                                                    <span class="box-success" style="display:inline-block;vertical-align:middle;margin-left:3px">Manager</span>
+                                                </label>
+                                            </div>
+                                            <div style="display:inline-block" class="pad-r-5">
+                                                <label class="radio-inline" tooltip="This is option User" tooltip-animation="true" tooltip-placement="bottom">
+                                                    <input type="radio" name="userRole" value="User" ng-model="newUserData.teamrole" ng-click="isManagerNewUserForm()">
+                                                    <span class="box-default" style="display:inline-block;vertical-align:middle;margin-left:3px">User</span>
+                                                </label>
+                                            </div>
+                                            <div style="display:inline-block">
+                                                <label class="radio-inline" tooltip="This is option Reviewer" tooltip-animation="true" tooltip-placement="bottom">
+                                                    <input type="radio" name="userRole" value="Reviewer" ng-model="newUserData.teamrole" ng-click="isManagerNewUserForm()">
+                                                    <span class="box-info" style="display:inline-block;vertical-align:middle;margin-left:3px">Reviewer</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12 mr-t-15" style="text-align:center">
+                                        <!--                                             <input type="hidden" name="userArrayIndex" value="{{selectedUserForUpdate.arIndex}}" /> -->
+                                        <button ng-click="submitNewUser()" type="submit" class="btn btn-primary" analytics-on="click" analytics-category="User" analytics-event="Create User">Submit</button>
+                                        <button ng-click="cancelNewUser()" type="button" class="btn btn-danger">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

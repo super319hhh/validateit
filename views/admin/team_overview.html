@@ -1,0 +1,222 @@
+<div ng-include src="'views/admin/admin.html'"></div>
+<div id="page-wrapper" class="userpage" style="min-height: 670px;" ng-controller="UsersCtrl" data-ng-init="init()">
+    <breadcrumb></breadcrumb>
+    <div class="row">
+        <div class="col-lg-6"></div>
+        <div class="col-lg-6">
+            <div ng-show="showNewUserButtonFlag" class="txt-al-r pad-r-15">
+                <button ng-click="addNewUser()" class="btn btn-primary padded-btn mr-0"><span class="glyphicon glyphicon-plus" style="padding-right:5px;" analytics-on="click" analytics-category="User" analytics-event="New User clicked"></span>NEW USER</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <!-- Breadcrumb Nav and Add Button begin -->
+        <!--<div class="row breadcrumb-wrap">
+            <div class="col-lg-9">
+                <ul id="breadcrumbs-one">
+                    <li ng-repeat="list in breadcrumb.lists">
+                        <span ng-class="{'current': $last}" ng-click="breadcrumbLink(list.onClickFnc, $index)">
+                            <i class="glyphicon glyphicon-home" ng-if="$index === 0"></i>
+                            {{list.name}}
+                        </span>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-3">
+                <div ng-show="showNewUserButtonFlag" class="txt-al-r">
+                    <button ng-click="addNewUser()" class="btn btn-primary padded-btn mr-0"><span class="glyphicon glyphicon-plus" style="padding-right:5px;" analytics-on="click" analytics-category="User" analytics-event="New User clicked"></span>NEW USER</button>
+                </div>
+            </div>
+        </div>-->
+        <!-- Breadcrumb Nav and Add Button end -->
+        <div class="col-lg-12">
+            <!-- <div class="col-lg-12">
+            <div class="page-header">
+                <div class="row">
+                    <h3>Users</h3>
+                </div>
+                <div class="row">
+                    <button ng-show="showNewUserButtonFlag" ng-click="addNewUser()" class="btn btn-primary padded-btn" style="margin: 15px;"><span class="glyphicon glyphicon-plus" style="padding-right:5px;"></span>NEW USER</button>
+                </div>
+            </div>
+        </div> -->
+            <!-- Breadcrumbs -->
+            <!--         <div class="col-md-12" ng-show="showBreadcrumbNav">
+            <ol class="breadcrumb" style="font-size:20px;margin-bottom:0">
+                <li><a ng-click="showUsers()" style="text-decoration:underline;cursor:pointer">Users</a></li>
+                <li class="active">{{activeForm}}</li>
+            </ol>
+        </div> -->
+            <!--         <button ng-show="showNewUserButtonFlag" ng-click="addNewUser()" class="btn btn-primary padded-btn" style="margin: 15px;"><span class="glyphicon glyphicon-plus" style="padding-right:5px;"></span>NEW USER</button> -->
+            <!-- Error Message -->
+            <div class="row" ng-show="showErrorMsg">
+                <div class="alert alert-danger" role="alert" style="text-align:center">{{errorMsg}}</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-lg-12">
+                    <!--         <div class="panel panel-primary-collapsible"> -->
+                    <div id="usersTable" ng-show="showUserTableFlag">
+                        <!-- <ul ng-repeat="objs in team_names" class="nav nav-second-level collapse in" aria-expanded="true"> -->
+                        <!-- <div class="panel panel-primary-collapsible"> -->
+                        <div class="panel panel-primary-collapsible">
+                            <!--                         <div class="panel-heading panel-heading-collapsible panel-heading-collapsible-style color-default">Users
+                        </div> -->
+                            <table class="table table-hover bordered-table" style="table-layout:fixed;">
+                                <thead>
+                                    <tr>
+                                        <th>User</th>
+                                        <th>Email Address</th>
+                                        <th>Permission Level</th>
+                                        <th>Created</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-if="noRecords">
+                                        <td colspan="5" ng-class="{'no-records': noRecords}">{{noRecordsText}}</td>
+                                    </tr>
+                                    <tr ng-repeat="user in users" ng-class-odd="'odd'" ng-class-even="'even'" style="cursor:default">
+                                        <td style="line-height:32px">{{user.name['firstname']}} {{user.name['lastname']}}</td>
+                                        <td>{{user.email}}</td>
+                                        <td><span class="label {{user.label}}">{{user.teamrole}}</span></td>
+                                        <td>{{user.createddate | date:'MMM dd, yyyy'}}</td>
+                                        <td>
+                                            <button ng-click="editUser($index)" class="btn btn-primary mr-r-15">
+                                                <i class="fa fa-pencil fa-fw" style="font-size:1.5em"></i>
+                                            </button>
+                                            <button ng-hide="user.disableDelete" ng-click="showDeleteUserModal($index)" class="btn btn-danger">
+                                                <!-- <button ng-click="displayUserForm($index)"> -->
+                                                <i class="fa fa-trash-o fa-fw" style="font-size:1.5em"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Edit User Form Started -->
+        <div ng-include="'views/admin/user_edit.html'"></div>
+        <!-- Edit User Form Ends -->
+        <!-- New User Form Started -->
+        <div ng-include="'views/admin/user_create.html'"></div>
+        <!-- New User Form Started -->
+        <!-- popup modal for User Delete begin -->
+        <div>
+            <modal visible="showModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" style="color:#337ab7" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" style="  color:#ffffff">&times;</span></button>
+                            <div class="modal-title">Delete {{users[selectedIndex].name.firstname}} {{users[selectedIndex].name.lastname}}</div>
+                        </div>
+                        <div class="model-body" style="padding:15px;text-align:center;backgronud-color:#e7e7e7">
+                            <div class="model-text">You are about to delete {{users[selectedIndex].name.firstname}} {{users[selectedIndex].name.lastname}}'s account. This action cannot be reverted.</div>
+                            <button type="submit" ng-click="deleteUser()" class="btn btn-primary" analytics-on="click" analytics-category="User" analytics-event="Delete User">Delete</button>
+                            <button type="submit" ng-click="cancelDeleteUser()" class="btn btn-default">Cancel</button>
+                        </div>
+                        <!-- <div class="modal-footer" style="text-align:center"> -->
+                        <!--   <button type="submit" ng-click="deleteUser()" class="btn" style="width:90px;color:#ffffff;background-color:#337ab7">OK</button>
+                        <button type="submit" ng-click="cancelDeleteUser()" class="btn btn-default" style="width:90px">Cancel</button> -->
+                        <!-- </div> -->
+                    </div>
+                </div>
+            </modal>
+        </div>
+        <!-- popup modal for User Delete end -->
+        <!-- popup modal for Password Reset Confirm begin -->
+        <div>
+            <modal visible="showConfirmResetModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" style="color:#337ab7" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true" style="color:#ffffff">&times;</span>
+                            </button>
+                            <div class="modal-title">Reset Password Confirm</div>
+                        </div>
+                        <div class="model-body" style="padding:15px;text-align:center;backgronud-color:#e7e7e7">
+                            <div class="model-text">Are you sure to reset the password of user {{selectedUser.email}}</div>
+                            <button type="submit" ng-click="resetPassword()" class="btn btn-danger" analytics-on="click" analytics-category="User" analytics-event="Reset Password">Yes</button>
+                            <button type="submit" ng-click="toggleConfirmResetModal()" class="btn btn-default">No</button>
+                        </div>
+                        <!-- <div class="modal-footer" style="text-align:center"> -->
+                        <!--   <button type="submit" ng-click="deleteUser()" class="btn" style="width:90px;color:#ffffff;background-color:#337ab7">OK</button>
+                        <button type="submit" ng-click="cancelDeleteUser()" class="btn btn-default" style="width:90px">Cancel</button> -->
+                        <!-- </div> -->
+                    </div>
+                </div>
+            </modal>
+        </div>
+        <!-- popup modal for Password Reset confirm end -->
+        <!-- popup modal for Password Reset result begin -->
+        <div>
+            <modal visible="showResetpasswordModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true" style="color:#ffffff">&times;</span>
+                            </button>
+                            <div class="modal-title">Reset Password</div>
+                        </div>
+                        <div class="model-body" style="padding:15px;text-align:center;backgronud-color:#e7e7e7">
+                            <div class="model-text">{{resetPasswordMsg}}</div>
+                            <button type="submit" ng-click="toggleResetPasswordModal()" class="btn btn-default" style="width:90px">OK</button>
+                        </div>
+                        <!-- <div class="modal-footer" style="text-align:center"> -->
+                        <!--   <button type="submit" ng-click="deleteUser()" class="btn" style="width:90px;color:#ffffff;background-color:#337ab7">OK</button>
+                        <button type="submit" ng-click="cancelDeleteUser()" class="btn btn-default" style="width:90px">Cancel</button> -->
+                        <!-- </div> -->
+                    </div>
+                </div>
+            </modal>
+        </div>
+        <!-- popup modal for Password Reset result end -->
+    </div>
+</div>
+<!-- New User Form Ends --->
+</div>
+<!--       //  the old "New User" form
+    <div class="col-lg-12">
+      <div class="panel panel-primary-collapsible" ng-show="showNewUserFlag">
+        <div class="panel-heading panel-heading-collapsible panel-heading-collapsible-style color-default">New User
+          <i class="fa fa-chevron-down fa-fw" style="float:right;" data-toggle="collapse"
+             data-target="#addUserForm"></i>
+          <div>
+            <form id="addUserForm" class="color1" data-toggle="false">
+              <div class="form-group">
+                <label for="exampleInputName1">Name</label>
+                <input type="name" class="form-control" id="exampleInputName1" placeholder="Name">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+              </div>
+              <div class="form-group">
+                <label for="exampleRole">Role</label>
+                <select id="exampleRole" class="form-control">
+                  <option>Manager</option>
+                  <option>User</option>
+                  <option>Reviewer</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <button ng-click="submitNewUserBtn()" type="submit" class="btn btn-success">Submit</button>
+                <button ng-click="cancelNewUserBtn()" type="reset" class="btn btn-danger">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      </div> -->

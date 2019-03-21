@@ -1,0 +1,15 @@
+<div ng-repeat="objs in team_overview" ng-mouseenter="hover(objs)" ng-mouseleave="hover(objs)"
+     class="info-box bg-brand-primary" ng-class="{'active': objs.active == true}" ng-click="boxClick(objs, $index)">
+  <div class="info-box-icon">
+    <!--<i class="fa fa-user"></i> -->
+    <i class="fa {{objs.icon}}"></i>
+  </div>
+  <div class="info-box-content">
+    <!--<span class="info-box-text">Users</span>
+    <span class="info-box-number">10</span> -->
+    <span class="info-box-text">{{objs.title}}</span>
+    <span class="info-box-number">{{objs.number}}</span>
+  </div>
+  <div ng-show="showArrow[$index]" class="info-box-arrow"></div>
+  <!-- <a href="#" class="small-box-footer"> More Info></a> -->
+</div>
